@@ -191,6 +191,14 @@
                     "interactions": "Tap"
                 },
                 {
+                    "name": "LB",
+                    "type": "Button",
+                    "id": "2a375c39-99bf-4dab-88e6-573048b49b68",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Critical Attack",
                     "type": "Button",
                     "id": "90f2e406-5c4f-4862-b1ff-ff1819758dda",
@@ -361,7 +369,7 @@
                 {
                     "name": "",
                     "id": "c8fd1df5-2654-4332-98bf-15624b121c6f",
-                    "path": "<Keyboard>/q",
+                    "path": "<Keyboard>/v",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -399,6 +407,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "LT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59a612ab-f7e3-4e58-9da3-5d5d588c26d1",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d22e7539-3969-48c5-9fa8-ca250d550198",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "LB",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

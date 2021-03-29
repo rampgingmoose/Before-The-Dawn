@@ -8,6 +8,7 @@ namespace ST
     {
         AnimatorHandler animatorHandler;
         PlayerManager playerManager;
+        PlayerEquipmentManager playerEquipmentManager;
         InputHandler inputHandler;
         WeaponSlotManager weaponSlotManager;
         PlayerStats playerStats;
@@ -29,6 +30,7 @@ namespace ST
             playerStats = GetComponentInParent<PlayerStats>();
             playerManager = GetComponentInParent<PlayerManager>();
             playerInventory = GetComponentInParent<PlayerInventory>();
+            playerEquipmentManager = GetComponentInChildren<PlayerEquipmentManager>();
         }
 
         public void HandleWeaponCombo(WeaponItem weapon)
@@ -95,6 +97,11 @@ namespace ST
             {
                 PerformRBMagicAction(playerInventory.rightWeapon);
             }
+        }
+
+        public void HandleLBAction()
+        {
+            PerformLBBlockAction();
         }
 
         public void HandleLTAction()
@@ -167,6 +174,23 @@ namespace ST
         {
             playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
         }
+        #endregion
+
+        #region Defense Actions
+
+        private void PerformLBBlockAction()
+        {
+            if (playerManager.isInteracting)
+                return;
+
+            if (playerManager.isBlocking)
+                return;
+
+            animatorHandler.PlayTargetAnimation("Block", false, true);
+            playerEquipmentManager.OpenBlockingCollider();
+            playerManager.isBlocking = true;
+        }
+
         #endregion
 
         public void AttemptBackStabOrRiposte()

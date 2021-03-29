@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
-  currentWeaponDamage: 25
+  currentWeaponDamage: 0
 --- !u!1 &6214103398943627036
 GameObject:
   m_ObjectHideFlags: 0

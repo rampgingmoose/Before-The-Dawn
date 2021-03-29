@@ -17,6 +17,7 @@ namespace ST
         public bool canBeRiposted;
         public bool isParrying;
         public bool canBeParried;
+        public bool isBlocking;
 
         //Damage will be inflicted during an animation event
         //Happens during backstab or riposte animations

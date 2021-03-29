@@ -7,6 +7,7 @@ namespace ST
     public class EnemyStats : CharacterStats
     {
         Animator animator;
+        EnemyAnimatorHandler enemyAnimatorHandler;
         WeaponSlotManager weaponSlotManager;
 
         public EnemyHealthBar enemyHealthBar;
@@ -15,6 +16,7 @@ namespace ST
         private void Awake()
         {
             animator = GetComponentInChildren<Animator>();
+            enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
             weaponSlotManager = GetComponent<WeaponSlotManager>();
             enemyHealthBar = GetComponentInChildren<EnemyHealthBar>();
         }
@@ -46,7 +48,7 @@ namespace ST
             }
         }
 
-        public void TakeDamage(int damage)
+        public void TakeDamage(int damage, string damageAnimation = "Damage_01")
         {
             if (isDead)
                 return;
@@ -56,14 +58,19 @@ namespace ST
             enemyHealthBarUI.SetActive(true);
             enemyHealthBar.SetCurrentHealth(currentHealth);
 
-            animator.Play("Damage_01");
+            enemyAnimatorHandler.PlayTargetAnimation(damageAnimation, true);
 
             if(currentHealth <= 0)
             {
-                currentHealth = 0;
-                animator.Play("Death_01");
-                isDead = true;
+                HandleDeath();
             }
+        }
+
+        private void HandleDeath()
+        {
+            currentHealth = 0;
+            enemyAnimatorHandler.PlayTargetAnimation("Death_01", true);
+            isDead = true;
         }
     }
 }

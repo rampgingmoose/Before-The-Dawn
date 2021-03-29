@@ -17,6 +17,7 @@ namespace ST
         public bool a_Input;
         public bool rb_Input;
         public bool rt_Input;
+        public bool lb_Input;
         public bool lt_Input;
         public bool critical_Attack_Input;
         public bool jump_Input;
@@ -45,6 +46,7 @@ namespace ST
         PlayerInventory playerInventory;
         PlayerManager playerManager;
         PlayerStats playerStats;
+        BlockingCollider blockingCollider;
         UIManager uiManager;
         AnimatorHandler animatorHandler;
 
@@ -58,6 +60,7 @@ namespace ST
             playerManager = GetComponent<PlayerManager>();
             playerStats = GetComponent<PlayerStats>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            blockingCollider = GetComponentInChildren<BlockingCollider>();
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
         }
@@ -71,6 +74,8 @@ namespace ST
                 inputActions.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
                 inputActions.PlayerActions.RB.performed += i => rb_Input = true;
                 inputActions.PlayerActions.RT.performed += i => rt_Input = true;
+                inputActions.PlayerActions.LB.performed += i => lb_Input = true;
+                inputActions.PlayerActions.LB.canceled += i => lb_Input = false;
                 inputActions.PlayerActions.LT.performed += i => lt_Input = true;
                 inputActions.QuickSlots.DPadRight.performed += i => d_Pad_Right = true;
                 inputActions.QuickSlots.DPadLeft.performed += i => d_Pad_Left = true;
@@ -98,7 +103,7 @@ namespace ST
         {
             HandleMoveInput(delta);
             HandleRollInput(delta);
-            HandleAttackInput(delta);
+            HandleCombatInput(delta);
             HandleQuickSlotsInput();
             HandleInventoryInput();
             HandleLockOnInput();
@@ -144,7 +149,7 @@ namespace ST
             }
         }
 
-        private void HandleAttackInput(float delta)
+        private void HandleCombatInput(float delta)
         {
             //RB Input handles the RIGHT hand weapon's light attack
             if (rb_Input)
@@ -169,6 +174,20 @@ namespace ST
 
                     animatorHandler.anim.SetBool("isUsingRightHand", true);
                     playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
+                }
+            }
+
+            if (lb_Input)
+            {
+                playerAttacker.HandleLBAction();
+            }
+            else
+            {
+                playerManager.isBlocking = false;
+
+                if (blockingCollider.blockingCollider.enabled)
+                {
+                    blockingCollider.DisableBlockingCollider();
                 }
             }
 

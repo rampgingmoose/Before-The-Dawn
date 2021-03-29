@@ -14,6 +14,9 @@ namespace ST
         public int baseDamage = 25;
         public int CriticalDamageMultiplier = 4;
 
+        [Header("Absoption")]
+        public float physicalDamageAbsoption;
+
         [Header("Idle Animations")]
         public string right_Hand_Idle;
         public string left_Hand_Idle;
