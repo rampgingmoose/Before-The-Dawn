@@ -29,8 +29,11 @@ namespace ST
         //The higher, and lower, respectively these angles are, the greater detection FIELD OF VIEW (basically like eye sight)
         public float maximumDetectionAngle = 50;
         public float minimumDetectionAngle = -50;
-
         public float currentRecoveryTime = 0;
+
+        [Header("AI Combat Settings")]
+        public bool allowAIToPerformCombos;
+        public float comboLikelyHood;
 
         private void Awake()
         {
