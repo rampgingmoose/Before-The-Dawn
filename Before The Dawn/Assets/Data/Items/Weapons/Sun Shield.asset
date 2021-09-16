@@ -18,7 +18,7 @@ MonoBehaviour:
   isUnarmed: 0
   baseDamage: 0
   CriticalDamageMultiplier: 0
-  physicalDamageAbsoption: 99
+  physicalDamageAbsoption: 90
   right_Hand_Idle: Right_Arm_Idle_01
   left_Hand_Idle: Left_Arm_Idle_01
   OH_Light_Attack_01: 

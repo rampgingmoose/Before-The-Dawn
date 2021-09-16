@@ -96,6 +96,31 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &-8376066094633190949
+AnimatorStateTransition:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: isBlocking
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 5486669044552750727, guid: 4a5938382560f1c42a7628eac2635d65, type: 2}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 0.78571427
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!206 &-8210748138775469367
 BlendTree:
   m_ObjectHideFlags: 1
@@ -113,7 +138,7 @@ BlendTree:
     m_DirectBlendParameter: Vertical
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: a86a84f5445f38347802fbad1abded6c, type: 3}
+    m_Motion: {fileID: 7400000, guid: 91cd408b447dd6c47ac75d9e56819403, type: 3}
     m_Threshold: 0.075
     m_Position: {x: 0, y: 0.5}
     m_TimeScale: 1
@@ -137,58 +162,58 @@ BlendTree:
     m_DirectBlendParameter: Vertical
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: b5b60bcb079acf6498bd2d20e7c9667b, type: 3}
+    m_Motion: {fileID: 7400000, guid: 1ce6178f580970141b5ae8f4b1099a73, type: 3}
     m_Threshold: 0.3
-    m_Position: {x: 0, y: -1}
-    m_TimeScale: 1.15
+    m_Position: {x: 0, y: -0.5}
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: f4988d5f85529cd4fa4f2d02209f2afe, type: 3}
+    m_Motion: {fileID: 7400000, guid: a023c3065474b1f43bc2ad959fd40f5e, type: 3}
     m_Threshold: 0.375
-    m_Position: {x: -1, y: -1}
-    m_TimeScale: 1.15
+    m_Position: {x: -0.5, y: -0.5}
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: b9c70d69d9987554fa9e312b9f94d745, type: 3}
+    m_Motion: {fileID: 7400000, guid: 5d08d12dae75ba946b93320fd50a09fe, type: 3}
     m_Threshold: 0.45000002
-    m_Position: {x: 1, y: -1}
-    m_TimeScale: 1.15
+    m_Position: {x: 0.5, y: -0.5}
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 2b6ea549c86e83a4ebc4a3696d53df60, type: 3}
+    m_Motion: {fileID: 7400000, guid: c1c53814cda6b6e46a80acfe3b92cddf, type: 3}
     m_Threshold: 0.525
-    m_Position: {x: -1, y: 1}
-    m_TimeScale: 1.15
+    m_Position: {x: -0.5, y: 0.5}
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: d360c3d73579a13469aa24b3bc9d6730, type: 3}
+    m_Motion: {fileID: 7400000, guid: 4c5548ee19b42744e98be74e204738df, type: 3}
     m_Threshold: 0.6
-    m_Position: {x: 1, y: 1}
-    m_TimeScale: 1.15
+    m_Position: {x: 0.5, y: 0.5}
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 208691d28dbf5ab43b3cef4512568b3a, type: 3}
+    m_Motion: {fileID: 7400000, guid: 9e33500effd86fe4b8b58d048eb082e7, type: 3}
     m_Threshold: 0.67499995
-    m_Position: {x: -1, y: 0}
-    m_TimeScale: 1.15
+    m_Position: {x: -0.5, y: 0}
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: e14c381eba99bec488a65b27a80596d0, type: 3}
+    m_Motion: {fileID: 7400000, guid: 763a2875e42b011489a2dbf7c01354da, type: 3}
     m_Threshold: 0.75
-    m_Position: {x: 1, y: 0}
-    m_TimeScale: 1.15
+    m_Position: {x: 0.5, y: 0}
+    m_TimeScale: 1
     m_CycleOffset: 0
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
@@ -275,28 +300,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1101 &-7304467880289760288
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions: []
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 1632370107154212436}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.78571427
-  m_HasExitTime: 1
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1102 &-7256832564891024163
 AnimatorState:
   serializedVersion: 5
@@ -358,18 +361,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &-6348528596014265465
 AnimatorState:
   serializedVersion: 5
@@ -409,18 +408,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!114 &-5866273699589699862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -433,18 +428,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1101 &-5843590758255851267
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -470,6 +461,33 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &-5487723746858282922
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Turn_Behind
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -3613515701695995271}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 1
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 6ab30fc9a77b0564ebd562091be58ddf, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-5326996043314354665
 AnimatorState:
   serializedVersion: 5
@@ -496,6 +514,28 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &-4954117186433244698
+AnimatorStateTransition:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -4425312589022524121, guid: 4a5938382560f1c42a7628eac2635d65, type: 2}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.75
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &-4862236900119753621
 AnimatorState:
   serializedVersion: 5
@@ -562,18 +602,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &-4425312589022524121
 AnimatorState:
   serializedVersion: 5
@@ -640,18 +676,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &-3996468934340519680
 AnimatorState:
   serializedVersion: 5
@@ -680,33 +712,6 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-3850239316693678215
-AnimatorState:
-  serializedVersion: 5
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Block
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions:
-  - {fileID: -7304467880289760288}
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a5e393a7dea13f14eaafaa7ca25166c6, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1101 &-3671426856222220698
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
@@ -724,6 +729,28 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.765625
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &-3613515701695995271
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -4425312589022524121}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.95
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -821,18 +848,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1101 &-2864563948481841516
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -933,6 +956,18 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -2994051127422289624}
     m_Position: {x: 520, y: -530, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 1744472027491791533}
+    m_Position: {x: 690, y: -60, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 3269232209268108734}
+    m_Position: {x: -180, y: -110, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -804819284429884469}
+    m_Position: {x: -190, y: -60, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -5487723746858282922}
+    m_Position: {x: -180, y: 10, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -943,6 +978,33 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -4425312589022524121}
+--- !u!1102 &-2289070392282401141
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Block
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: 3117585281627296929}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 2f49e91af45dee1489012495924d7292, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!114 &-2236356191487561570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -955,18 +1017,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: isInteracting
-  targetBool1: canDoCombo
-  targetBool2: isUsingRightHand
-  targetBool3: isUsingLeftHand
-  targetBool4: isInvulnerable
-  targetBool5: canRotate
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &-2221023033194340639
 AnimatorState:
   serializedVersion: 5
@@ -1020,6 +1078,31 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &-1903135133210956939
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: isBlocking
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2700066340576541453}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 0.9375
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-1869365456006142728
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1036,7 +1119,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.9175824
+  m_ExitTime: 0.95
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1090,18 +1173,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &-1266696905485613522
 AnimatorState:
   serializedVersion: 5
@@ -1141,18 +1220,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1101 &-1163679681320494977
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1191,7 +1266,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.7580645
+  m_ExitTime: 0.85
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1209,18 +1284,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &-805814650865319944
 AnimatorState:
   serializedVersion: 5
@@ -1248,6 +1319,33 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-804819284429884469
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Turn_Left
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: 3381039082884205946}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 1
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 2949c7c7568cfa34084ebe4e2b98a438, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!114 &-649382743209746556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1260,18 +1358,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!114 &-572933699569143066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1284,18 +1378,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &-491088333898798149
 AnimatorState:
   serializedVersion: 5
@@ -1335,18 +1425,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1101 &-281478480889467621
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1486,6 +1572,30 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: isBlocking
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: isParrying
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: isFiringSpell
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: isRotatingWithRootMotion
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1559,18 +1669,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1101 &467692880781881533
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
@@ -1642,6 +1748,28 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &686176802215214508
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -4425312589022524121}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.85
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &872184282469147334
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
@@ -1660,6 +1788,31 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0.7115385
   m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &1054598091821628645
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isBlocking
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -2289070392282401141}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 0.9375
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -1754,18 +1907,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!114 &1553367547677039471
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1780,27 +1929,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetBool: 
   status: 0
---- !u!1102 &1632370107154212436
+--- !u!1102 &1744472027491791533
 AnimatorState:
   serializedVersion: 5
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Empty
+  m_Name: Parry
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: 686176802215214508}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: ef09f90dfe7b9e34682b24be5c5c34c1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -1849,7 +1999,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.7115385
+  m_ExitTime: 0.85
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1867,18 +2017,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!114 &2154828579679859974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1891,18 +2037,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1101 &2160284619424341487
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1919,7 +2061,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.7115385
+  m_ExitTime: 0.85
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1937,18 +2079,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1101 &2387864404296835275
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -1966,9 +2104,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.039235353
+  m_TransitionDuration: 0.01
   m_TransitionOffset: 0
-  m_ExitTime: 0.9874781
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1986,18 +2124,142 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
+--- !u!1102 &2700066340576541453
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Empty
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 0}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &2891753105561907725
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Weapon Idle
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -1903135133210956939}
+  - {fileID: 1054598091821628645}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 9e8800c1931169b47bcb8555db47573e, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1101 &3117585281627296929
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: isBlocking
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2700066340576541453}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 0.78571427
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1102 &3269232209268108734
+AnimatorState:
+  serializedVersion: 5
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Turn_Right
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: 8866288450201125183}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 1
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 3cb6209f1df7d894e8ba468088251333, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1101 &3381039082884205946
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -4425312589022524121}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.95
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!114 &3415202110866251297
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -2010,18 +2272,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!114 &4236778569771821568
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2034,18 +2292,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &4305661035114908189
 AnimatorState:
   serializedVersion: 5
@@ -2083,11 +2337,14 @@ AnimatorStateMachine:
   m_Name: Upper Body
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 1632370107154212436}
-    m_Position: {x: 310, y: 60, z: 0}
+    m_State: {fileID: 2700066340576541453}
+    m_Position: {x: 220, y: -20, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -3850239316693678215}
-    m_Position: {x: 391.73996, y: 218.93295, z: 0}
+    m_State: {fileID: -2289070392282401141}
+    m_Position: {x: 450, y: 100, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: 2891753105561907725}
+    m_Position: {x: 330, y: 270, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -2097,7 +2354,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 610, y: 30, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 1632370107154212436}
+  m_DefaultState: {fileID: 2700066340576541453}
 --- !u!1101 &4782363104157535162
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -2185,9 +2442,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.041636944
-  m_TransitionOffset: 0.0016911863
-  m_ExitTime: 0.9867116
+  m_TransitionDuration: 0.01
+  m_TransitionOffset: 0
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2258,9 +2515,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.01
   m_TransitionOffset: 0
-  m_ExitTime: 0.92105263
+  m_ExitTime: 1
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2329,18 +2586,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!1102 &6661789516585286367
 AnimatorState:
   serializedVersion: 5
@@ -2430,6 +2683,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetBool: 
   status: 0
+--- !u!1101 &8037498627825954886
+AnimatorStateTransition:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: isBlocking
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 5486669044552750727, guid: 4a5938382560f1c42a7628eac2635d65, type: 2}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 0.9375
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &8076380683782173432
 AnimatorStateTransition:
   m_ObjectHideFlags: 3
@@ -2545,18 +2823,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
 --- !u!114 &8647191074979043821
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2569,15 +2843,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetBool0: 
-  targetBool1: 
-  targetBool2: 
-  targetBool3: 
-  targetBool4: 
-  targetBool5: 
-  status0: 0
-  status1: 0
-  status2: 0
-  status3: 0
-  status4: 0
-  status5: 0
+  isInteractingBool: isInteracting
+  isInteractingStatus: 0
+  isFiringSpellBool: isFiringSpell
+  isFiringSpellStatus: 0
+  isRotatingWithRootMotion: isRotatingWithRootMotion
+  isRotatingWithRootMotionStatus: 0
+  canRotateBool: canRotate
+  canRotateStatus: 1
+--- !u!1101 &8866288450201125183
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -4425312589022524121}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.95
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1

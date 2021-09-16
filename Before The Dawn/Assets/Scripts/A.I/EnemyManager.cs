@@ -7,7 +7,6 @@ namespace ST
 {
     public class EnemyManager : CharacterManager
     {
-        EnemyLocomotionManager enemyLocomotionManager;
         EnemyAnimatorHandler enemyAnimatorHandler;
         EnemyStats enemyStats;
 
@@ -19,7 +18,7 @@ namespace ST
         public bool isPerformingAction;
         public bool isInteracting;
         public float rotationSpeed = 15;
-        public float maximumAttackRange = 1.5f;
+        public float maximumAggroRadius = 1.5f;
 
         [Header("Combat Flags")]
         public bool canDoCombo;
@@ -37,7 +36,6 @@ namespace ST
 
         private void Awake()
         {
-            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
             enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
             enemyStats = GetComponent<EnemyStats>();
             enemyRigidBody = GetComponent<Rigidbody>();
@@ -56,8 +54,10 @@ namespace ST
             HandleRecoveryTimer();
             HandleStateMachine();
 
+            isRotatingWithRootMotion = enemyAnimatorHandler.anim.GetBool("isRotatingWithRootMotion");
             isInteracting = enemyAnimatorHandler.anim.GetBool("isInteracting");
             canDoCombo = enemyAnimatorHandler.anim.GetBool("canDoCombo");
+            canRotate = enemyAnimatorHandler.anim.GetBool("canRotate");
             enemyAnimatorHandler.anim.SetBool("isDead", enemyStats.isDead);
         }
 

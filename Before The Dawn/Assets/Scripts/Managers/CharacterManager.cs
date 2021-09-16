@@ -18,6 +18,14 @@ namespace ST
         public bool isParrying;
         public bool canBeParried;
         public bool isBlocking;
+        public bool isAttacking;
+
+        [Header("Movement Flags")]
+        public bool isRotatingWithRootMotion;
+        public bool canRotate;
+
+        [Header("Spells")]
+        public bool isFiringSpell;
 
         //Damage will be inflicted during an animation event
         //Happens during backstab or riposte animations

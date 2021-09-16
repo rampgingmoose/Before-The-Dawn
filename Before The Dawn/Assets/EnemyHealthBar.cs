@@ -16,6 +16,7 @@ namespace ST
         private void Update()
         {
             slider.transform.position = transform.parent.position + offset;
+            transform.rotation = Camera.main.transform.rotation;
         }
 
         public void SetMaxHealth(int maxHealth)

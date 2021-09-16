@@ -5,26 +5,24 @@ using UnityEngine;
 public class ResetAnimatorBool : StateMachineBehaviour
 {
 
-    public string targetBool0;
-    public string targetBool1;
-    public string targetBool2;
-    public string targetBool3;
-    public string targetBool4;
-    public string targetBool5;
-    public bool status0;
-    public bool status1;
-    public bool status2;
-    public bool status3;
-    public bool status4;
-    public bool status5;
+    public string isInteractingBool = "isInteracting";
+    public bool isInteractingStatus = false;
+
+    public string isFiringSpellBool = "isFiringSpell";
+    public bool isFiringSpellStatus = false;
+
+    public string isRotatingWithRootMotion = "isRotatingWithRootMotion";
+    public bool isRotatingWithRootMotionStatus = false;
+
+    public string canRotateBool = "canRotate";
+    public bool canRotateStatus = true;
+    
     public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.SetBool(targetBool0, status0);
-        animator.SetBool(targetBool1, status1);
-        animator.SetBool(targetBool2, status2);
-        animator.SetBool(targetBool3, status3);
-        animator.SetBool(targetBool4, status4);
-        animator.SetBool(targetBool5, status5);
+        animator.SetBool(isInteractingBool, isInteractingStatus);
+        animator.SetBool(isFiringSpellBool, isFiringSpellStatus);
+        animator.SetBool(isRotatingWithRootMotion, isRotatingWithRootMotionStatus);
+        animator.SetBool(canRotateBool, canRotateStatus);
     }
 
 }

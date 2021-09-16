@@ -23,12 +23,12 @@ namespace ST
         [TextArea]
         public string spellDescription;
 
-        public virtual void AttemptToCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats)
+        public virtual void AttemptToCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats, WeaponSlotManager weaponSlotManager)
         {
             Debug.Log("You Attempt To Cast a Spell");
         }
 
-        public virtual void SuccessfullyCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats)
+        public virtual void SuccessfullyCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats, CameraHandler cameraHandler, WeaponSlotManager weaponSlotManager)
         {
             Debug.Log("You successfully cast a spell");
             playerStats.DrainFocusPoints(focusCost);

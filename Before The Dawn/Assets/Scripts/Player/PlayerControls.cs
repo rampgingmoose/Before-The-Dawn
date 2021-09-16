@@ -109,8 +109,19 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""f3a4161a-2662-4e9b-85f7-ba41b050eb4e"",
+                    ""path"": ""<SwitchProControllerHID>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""fef90495-6edf-46a0-b2ca-bb2bcfe10307"",
-                    ""path"": ""<Gamepad>/rightStick"",
+                    ""path"": ""<SwitchProControllerHID>/rightStick"",
                     ""interactions"": """",
                     ""processors"": ""StickDeadzone"",
                     ""groups"": """",
@@ -132,7 +143,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7b185c8c-e0c4-44af-9ce9-13239b09db80"",
-                    ""path"": ""<Gamepad>/rightStick/right"",
+                    ""path"": ""<SwitchProControllerHID>/rightStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -154,7 +165,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""2da3df30-8cbd-4238-9fde-fbea2053dd32"",
-                    ""path"": ""<iOSGameController>/rightStick/left"",
+                    ""path"": ""<SwitchProControllerHID>/rightStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -213,7 +224,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Critical Attack"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""90f2e406-5c4f-4862-b1ff-ff1819758dda"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -272,7 +283,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""58c79ec9-c04a-4447-9a49-682ac6d7bf25"",
-                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""path"": ""<SwitchProControllerHID>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -305,7 +316,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""71335847-3ab8-46eb-a7fe-dcaf6aac3eeb"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -326,8 +337,30 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""190409f9-d6bc-4d79-b11e-1e18265e7c53"",
+                    ""path"": ""<SwitchProControllerHID>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RT"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""b38abdb2-9b3a-4a34-9ca1-9fc5f293cd81"",
                     ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""A"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4004317-7148-4681-87ca-c5ed137c8ea5"",
+                    ""path"": ""<SwitchProControllerHID>/buttonEast"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -348,8 +381,19 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""64dadb3f-4aed-409b-8550-79ef24e78c87"",
+                    ""path"": ""<SwitchProControllerHID>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""7a6730e3-d002-4fed-bd94-5b0430974f4e"",
-                    ""path"": ""<Gamepad>/start"",
+                    ""path"": ""<SwitchProControllerHID>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -381,6 +425,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""ae1867b4-21fa-453f-a0af-c8a7f41f3271"",
+                    ""path"": ""<SwitchProControllerHID>/rightStickPress"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Lock On"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""c8fd1df5-2654-4332-98bf-15624b121c6f"",
                     ""path"": ""<Keyboard>/v"",
                     ""interactions"": """",
@@ -403,8 +458,19 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""a3257280-12ae-4d07-8ff5-38ade64c288b"",
+                    ""path"": ""<SwitchProControllerHID>/rightShoulder"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Critical Attack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""63761f24-2a1e-4189-b607-a4029a11eb89"",
-                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""path"": ""<SwitchProControllerHID>/leftTrigger"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -437,7 +503,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d22e7539-3969-48c5-9fa8-ca250d550198"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<SwitchProControllerHID>/leftShoulder"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -499,7 +565,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""8c2b8b82-e3ad-4dd0-9932-7096a7a4413e"",
-                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""path"": ""<SwitchProControllerHID>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -521,7 +587,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""6ce0cccf-ec20-4444-9d3d-aa2e543e7a06"",
-                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""path"": ""<SwitchProControllerHID>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -543,7 +609,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""a7c72863-83bd-4c7d-95ea-9e09704880a5"",
-                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""path"": ""<SwitchProControllerHID>/dpad/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -565,7 +631,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""859cd237-c63c-4ebd-9d5d-8cfb268550f0"",
-                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""path"": ""<SwitchProControllerHID>/dpad/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

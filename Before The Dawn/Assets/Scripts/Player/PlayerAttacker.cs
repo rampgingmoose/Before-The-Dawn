@@ -13,6 +13,7 @@ namespace ST
         WeaponSlotManager weaponSlotManager;
         PlayerStats playerStats;
         PlayerInventory playerInventory;
+        CameraHandler cameraHandler;
 
         public string lastAttack;
 
@@ -31,6 +32,7 @@ namespace ST
             playerManager = GetComponentInParent<PlayerManager>();
             playerInventory = GetComponentInParent<PlayerInventory>();
             playerEquipmentManager = GetComponentInChildren<PlayerEquipmentManager>();
+            cameraHandler = FindObjectOfType<CameraHandler>();
         }
 
         public void HandleWeaponCombo(WeaponItem weapon)
@@ -64,6 +66,7 @@ namespace ST
             weaponSlotManager.attackingWeapon = weapon;
             animatorHandler.PlayTargetAnimation(weapon.OH_Light_Attack_01, true);
             lastAttack = weapon.OH_Light_Attack_01;
+            //EndAttack();
         }
 
         public void HandleHeavyAttack(WeaponItem weapon)
@@ -82,6 +85,10 @@ namespace ST
             animatorHandler.PlayTargetAnimation(weapon.OH_Special_Attack, true);
             lastAttack = weapon.OH_Special_Attack;
         }
+        //public void EndAttack()
+        //{
+        //    animatorHandler.anim.SetBool("isAttacking", false);
+        //}
 
         #region Input Actions
         public void HandleRBAction()
@@ -145,7 +152,21 @@ namespace ST
                 {
                     if (playerStats.currentFocus >= playerInventory.currentSpell.focusCost)
                     {
-                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats);
+                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
+                    }
+                    else
+                    {
+                        animatorHandler.PlayTargetAnimation("Shrug", true);
+                    }
+                }
+            }
+            else if (weapon.isPryroCaster)
+            {
+                if (playerInventory.currentSpell != null && playerInventory.currentSpell.isPyroSpell)
+                {
+                    if (playerStats.currentFocus >= playerInventory.currentSpell.focusCost)
+                    {
+                        playerInventory.currentSpell.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
                     }
                     else
                     {
@@ -172,7 +193,8 @@ namespace ST
 
         private void SuccessfullyCastSpell()
         {
-            playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats);
+            playerInventory.currentSpell.SuccessfullyCastSpell(animatorHandler, playerStats, cameraHandler, weaponSlotManager);
+            animatorHandler.anim.SetBool("isFiringSpell", true);
         }
         #endregion
 

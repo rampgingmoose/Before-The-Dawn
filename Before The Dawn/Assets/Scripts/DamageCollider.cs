@@ -10,6 +10,8 @@ namespace ST
         Collider damageCollider;
         EnemyStats enemyStats;
 
+        public bool enabledDamageColliderOnStartUp = false;
+
         public int currentWeaponDamage = 25;
 
         private void Awake()
@@ -18,7 +20,7 @@ namespace ST
             enemyStats = GetComponentInParent<EnemyStats>();
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
-            damageCollider.enabled = false;
+            damageCollider.enabled = enabledDamageColliderOnStartUp;
         }
 
         public void EnableDamageCollider()
@@ -68,6 +70,7 @@ namespace ST
             if (collision.tag == "Enemy")
             {
                 EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
+                AttackState attackState = collision.GetComponent<AttackState>();
                 CharacterManager enemyCharacterManager = collision.GetComponent<CharacterManager>();
                 BlockingCollider shield = collision.transform.GetComponentInChildren<BlockingCollider>();
 
@@ -76,6 +79,7 @@ namespace ST
                     if (enemyCharacterManager.isParrying)
                     {
                         characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
+                        attackState.willDoComboOnNextAttack = false;
                         return;
                     }
                     else if (shield != null && enemyCharacterManager.isBlocking)

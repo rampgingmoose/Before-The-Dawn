@@ -9,17 +9,17 @@ namespace ST
     {
         public int healAmount;
 
-        public override void AttemptToCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats)
+        public override void AttemptToCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats, WeaponSlotManager weaponSlotManager)
         {
-            base.AttemptToCastSpell(animatorHandler, playerStats);
+            base.AttemptToCastSpell(animatorHandler, playerStats, weaponSlotManager);
             GameObject instantiatedWarmUpSpellFX = Instantiate(spellWarmUpFX, animatorHandler.transform);
             animatorHandler.PlayTargetAnimation(spellAnimation, true);
             Debug.Log("Attempting To Cast Spell");
         }
 
-        public override void SuccessfullyCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats)
+        public override void SuccessfullyCastSpell(AnimatorHandler animatorHandler, PlayerStats playerStats, CameraHandler cameraHandler, WeaponSlotManager weaponSlotManager)
         {
-            base.SuccessfullyCastSpell(animatorHandler, playerStats);
+            base.SuccessfullyCastSpell(animatorHandler, playerStats, cameraHandler, weaponSlotManager);
             GameObject instantiatedSpellFX = Instantiate(spellCastFX, animatorHandler.transform);
             playerStats.HealPlayer(healAmount);
             Debug.Log("Successfully Casted Spell");           

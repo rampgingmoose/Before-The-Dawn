@@ -19,5 +19,10 @@ namespace ST
         public float currentFocus;
 
         public bool isDead;
+
+        public virtual void TakeDamage(int damage, string damageAnimation = "Damage_01")
+        {
+
+        }
     }
 }

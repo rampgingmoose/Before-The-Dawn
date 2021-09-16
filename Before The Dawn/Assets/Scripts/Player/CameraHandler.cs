@@ -97,7 +97,7 @@ namespace ST
                 Quaternion targetRotation = Quaternion.LookRotation(dir);
                 transform.rotation = targetRotation;
 
-                dir = currentLockOnTarget.transform.position - cameraPivotTransform.position;
+                dir = currentLockOnTarget.lockOnTransform.transform.position - cameraPivotTransform.position;
                 dir.Normalize();
 
                 targetRotation = Quaternion.LookRotation(dir);

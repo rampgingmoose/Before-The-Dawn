@@ -58748,7 +58748,7 @@ AnimationClip:
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 1
+    m_LoopTime: 0
     m_LoopBlend: 0
     m_LoopBlendOrientation: 1
     m_LoopBlendPositionY: 1
@@ -116579,6 +116579,13 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.4
+    functionName: isAttacking
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.41666666
     functionName: OpenDamageCollider
     data: 
@@ -116595,6 +116602,13 @@ AnimationClip:
     messageOptions: 0
   - time: 0.48333332
     functionName: CloseDamageCollider
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.5
+    functionName: DisableIsAttacking
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

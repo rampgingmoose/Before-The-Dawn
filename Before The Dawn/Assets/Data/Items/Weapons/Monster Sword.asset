@@ -16,6 +16,9 @@ MonoBehaviour:
   itemName: Monster Sword
   modelPrefab: {fileID: 5058235855034222896, guid: 30f74dba448cda24ca71f680c06debec, type: 3}
   isUnarmed: 0
+  baseDamage: 25
+  CriticalDamageMultiplier: 4
+  physicalDamageAbsoption: 0
   right_Hand_Idle: Right_Arm_Idle_01
   left_Hand_Idle: Left_Arm_Idle_01
   OH_Light_Attack_01: OH_Light_Attack_01
@@ -23,6 +26,7 @@ MonoBehaviour:
   OH_Light_Attack_02: OH_Light_Attack_02
   OH_Heavy_Attack_02: OH_Heavy_Attack_02
   OH_Special_Attack: OH_Special_Attack
+  weapon_Art: 
   baseStamina: 25
   lightAttackMultiplier: 1
   heavyAttackMultiplier: 2
@@ -30,3 +34,4 @@ MonoBehaviour:
   isFaithCaster: 0
   isPryroCaster: 0
   isMeleeWeapon: 1
+  isShieldWeapon: 0

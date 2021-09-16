@@ -50,7 +50,9 @@ namespace ST
             isUsingRightHand = anim.GetBool("isUsingRightHand");
             isUsingLeftHand = anim.GetBool("isUsingLeftHand");
             isInvulnerable = anim.GetBool("isInvulnerable");
+            isFiringSpell = anim.GetBool("isFiringSpell");
             anim.SetBool("isBlocking", isBlocking);
+            anim.SetBool("isAttacking", isAttacking);
             anim.SetBool("isInAir", isInAir);
             anim.SetBool("isDead", playerStats.isDead);            
 
@@ -135,6 +137,18 @@ namespace ST
                     itemInteractableGameObject.SetActive(false);
                 }
             }
+        }
+
+        public void PassThroughFogWallInteraction(Transform fogWallEntrance)
+        {
+            playerLocomotion.rigidBody.velocity = Vector3.zero; //Stops the player from moving
+
+            Vector3 rotationDirection = fogWallEntrance.transform.forward;
+            Quaternion turnRotation = Quaternion.LookRotation(rotationDirection);
+            transform.rotation = turnRotation;
+            //Rotate over time so it does not look as rigid
+
+            animatorHandler.PlayTargetAnimation("Pass Through Fog", true);
         }
     }
 }

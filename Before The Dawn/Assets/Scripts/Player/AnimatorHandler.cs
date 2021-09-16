@@ -10,6 +10,7 @@ namespace ST
         PlayerStats playerStats;
         InputHandler inputHandler;
         PlayerLocomotion playerLocomotion;
+        BlockCharacterCollision blockCharacterCollision;
         int vertical;
         int horizontal;
         public GameObject[] effect;
@@ -22,6 +23,7 @@ namespace ST
             anim = GetComponent<Animator>();
             inputHandler = GetComponentInParent<InputHandler>();
             playerLocomotion = GetComponentInParent<PlayerLocomotion>();
+            blockCharacterCollision = GetComponent<BlockCharacterCollision>();
             vertical = Animator.StringToHash("Vertical");
             horizontal = Animator.StringToHash("Horizontal");
         }
@@ -138,10 +140,32 @@ namespace ST
             playerManager.canBeRiposted = false;
         }
 
+        public void isAttacking()
+        {
+            playerManager.isAttacking = true;
+        }
+
+        public void DisableIsAttacking()
+        {
+            playerManager.isAttacking = false;
+        }
+
         public override void TakeCriticalDamageAnimationEvent()
         {
             playerStats.TakeDamageNoAnimation(playerManager.pendingCriticalDamage);
             playerManager.pendingCriticalDamage = 0;
+        }
+
+        public void DisableCollision()
+        {
+            blockCharacterCollision.characterCollider.enabled = false;
+            blockCharacterCollision.characterCollisionBlocker.enabled = false;
+        }
+
+        public void EnableCollision()
+        {
+            blockCharacterCollision.characterCollider.enabled = true;
+            blockCharacterCollision.characterCollisionBlocker.enabled = true;
         }
 
         public void EnableSpell(int number)

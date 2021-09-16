@@ -11,8 +11,8 @@ namespace ST
 
         public WeaponItem attackingWeapon;
 
-        WeaponHolderSlot leftHandSlot;
-        WeaponHolderSlot rightHandSlot;
+        public WeaponHolderSlot leftHandSlot;
+        public WeaponHolderSlot rightHandSlot;
 
         public DamageCollider leftHandDamageCollider;
         public DamageCollider rightHandDamageCollider;
