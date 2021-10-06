@@ -8,6 +8,7 @@ namespace ST
     {
         WeaponSlotManager weaponSlotManager;
 
+        public ConsumableItem currentConsumableItem;
         public SpellItem currentSpell;
         public WeaponItem rightWeapon;
         public WeaponItem leftWeapon;

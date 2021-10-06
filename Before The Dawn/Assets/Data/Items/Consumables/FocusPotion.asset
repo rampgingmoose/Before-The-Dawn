@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7f7ee93cb2fa54cacbb53a929be351, type: 3}
+  m_Name: FocusPotion
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 0}
+  itemName: Focus Potion
+  maxItemAmount: 10
+  currentItemAmount: 10
+  itemModel: {fileID: 6445922532400814143, guid: fbcf9dbd630bf5b4e88f79fd7e2ec41b, type: 3}
+  isHealthPotion: 0
+  isFocusPotion: 1
+  consumeAnimation: Potion_Drink
+  isInteracting: 1
+  healthPotion: 0
+  FocusPotion: 1
+  healthRecoveryAmount: 50
+  focusRecoveryAmount: 0
+  recoveryFX: {fileID: 1800972780968652, guid: 205d983549fba2a47a7808abf228f4be, type: 3}

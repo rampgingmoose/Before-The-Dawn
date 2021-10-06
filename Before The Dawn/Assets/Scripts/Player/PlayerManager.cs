@@ -27,7 +27,6 @@ namespace ST
         public bool canDoCombo;
         public bool isUsingRightHand;
         public bool isUsingLeftHand;
-        public bool isInvulnerable;
 
         private void Awake()
         {
@@ -102,6 +101,8 @@ namespace ST
             }
         }
 
+        #region Player Interactions
+
         public void CheckForInteractableObject()
         {
             RaycastHit hit;
@@ -139,6 +140,13 @@ namespace ST
             }
         }
 
+        public void OpenChestInteraction(Transform playerStandsHereWhenOpeningChest)
+        {
+            playerLocomotion.rigidBody.velocity = Vector3.zero; //Stops the player from ice skating
+            transform.position = playerStandsHereWhenOpeningChest.transform.position;
+            animatorHandler.PlayTargetAnimation("Open Chest", true);
+        }
+
         public void PassThroughFogWallInteraction(Transform fogWallEntrance)
         {
             playerLocomotion.rigidBody.velocity = Vector3.zero; //Stops the player from moving
@@ -150,6 +158,8 @@ namespace ST
 
             animatorHandler.PlayTargetAnimation("Pass Through Fog", true);
         }
+
+        #endregion
     }
 }
 

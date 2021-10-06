@@ -142,5 +142,10 @@ namespace ST
 
             focusBar.SetCurrentFocus(currentFocus);
         }
+
+        public void AddSouls(int souls)
+        {
+            soulCount = soulCount + souls;
+        }
     }
 }

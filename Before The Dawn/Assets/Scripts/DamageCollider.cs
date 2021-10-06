@@ -12,6 +12,11 @@ namespace ST
 
         public bool enabledDamageColliderOnStartUp = false;
 
+        [Header("Poise")]
+        public float poiseBreak;
+        public float offensivePoiseBonus;
+
+        [Header("Damage")]
         public int currentWeaponDamage = 25;
 
         private void Awake()
@@ -63,7 +68,18 @@ namespace ST
 
                 if (playerStats != null)
                 {
-                    playerStats.TakeDamage(currentWeaponDamage);
+                    playerStats.poiseResetTimer = playerStats.totalPoiseResetTime;
+                    playerStats.totalPoiseDefense = playerStats.totalPoiseDefense - poiseBreak;
+
+                    if (playerStats.totalPoiseDefense > poiseBreak)
+                    {
+                        playerStats.TakeDamageNoAnimation(currentWeaponDamage);
+                        Debug.Log("Player Poise is currently " + playerStats.totalPoiseDefense);
+                    }
+                    else
+                    {
+                        playerStats.TakeDamage(currentWeaponDamage);
+                    }
                 }
             }
 
@@ -96,8 +112,26 @@ namespace ST
 
                 if (enemyStats != null)
                 {
-                    enemyStats.TakeDamage(currentWeaponDamage);
+                    enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime;
+                    enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense - poiseBreak;
+
+                    if (enemyStats.totalPoiseDefense > poiseBreak)
+                    {
+                        enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
+                        Debug.Log("Enemy Poise is currently " + enemyStats.totalPoiseDefense);
+                    }
+                    else
+                    {
+                        enemyStats.TakeDamage(currentWeaponDamage);
+                    }
                 }
+            }
+
+            if(collision.tag == "Illusionary Wall")
+            {
+                IllusionaryWall illusionaryWall = collision.GetComponent<IllusionaryWall>();
+
+                illusionaryWall.wallHasBeenHit = true;
             }
         }
     }

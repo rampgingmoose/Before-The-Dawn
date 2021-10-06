@@ -17,8 +17,8 @@ namespace ST
 
         public bool isPerformingAction;
         public bool isInteracting;
-        public float rotationSpeed = 15;
-        public float maximumAggroRadius = 1.5f;
+        public float rotationSpeed = 10;
+        public float maximumAggroRadius = 5f;
 
         [Header("Combat Flags")]
         public bool canDoCombo;
@@ -32,6 +32,7 @@ namespace ST
 
         [Header("AI Combat Settings")]
         public bool allowAIToPerformCombos;
+        public bool isPhaseShifting;
         public float comboLikelyHood;
 
         private void Awake()
@@ -56,6 +57,8 @@ namespace ST
 
             isRotatingWithRootMotion = enemyAnimatorHandler.anim.GetBool("isRotatingWithRootMotion");
             isInteracting = enemyAnimatorHandler.anim.GetBool("isInteracting");
+            isPhaseShifting = enemyAnimatorHandler.anim.GetBool("isPhaseShifting");
+            isInvulnerable = enemyAnimatorHandler.anim.GetBool("isInvulnerable");
             canDoCombo = enemyAnimatorHandler.anim.GetBool("canDoCombo");
             canRotate = enemyAnimatorHandler.anim.GetBool("canRotate");
             enemyAnimatorHandler.anim.SetBool("isDead", enemyStats.isDead);
@@ -69,6 +72,11 @@ namespace ST
 
         private void HandleStateMachine()
         {
+            if (enemyStats.isDead)
+            {
+                currentState = null;
+            }
+
             if (currentState != null)
             {
                 State nextState = currentState.Tick(this, enemyStats, enemyAnimatorHandler);

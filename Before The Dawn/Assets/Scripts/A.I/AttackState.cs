@@ -7,7 +7,6 @@ namespace ST
     public class AttackState : State
     {
         public RotateTowardsTargetState rotateTowardsTargetState;
-        public CombatStanceState combatStanceState;
         public PursueTargetState pursueTargetState;
         public EnemyAttackAction currentAttack;
 
@@ -17,8 +16,8 @@ namespace ST
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorHandler enemyAnimatorHandler)
         {
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            
-            RotateTowardsTargetWhileAttacking(enemyManager);
+
+            RotateTowardsTargetWhilstAttacking(enemyManager);
 
             if (distanceFromTarget > enemyManager.maximumAggroRadius)
             {
@@ -38,7 +37,7 @@ namespace ST
 
             if (willDoComboOnNextAttack && hasPerformedAttack)
             {
-                return this; //goes back up to perform the combo
+                return this; //GOES BACK UP TO PERFORM THE COMBO
             }
 
             return rotateTowardsTargetState;
@@ -59,7 +58,7 @@ namespace ST
             currentAttack = null;
         }
 
-        private void RotateTowardsTargetWhileAttacking(EnemyManager enemyManager)
+        public void RotateTowardsTargetWhilstAttacking(EnemyManager enemyManager)
         {
             //Rotate manually
             if (enemyManager.canRotate && enemyManager.isInteracting)
@@ -75,7 +74,7 @@ namespace ST
 
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
                 enemyManager.transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime);
-            }           
+            }
         }
 
         private void RollForComboChance(EnemyManager enemyManager)

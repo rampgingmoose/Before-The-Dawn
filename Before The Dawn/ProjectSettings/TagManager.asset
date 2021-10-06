@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Interactable
   - Fire
+  - Illusionary Wall
   layers:
   - Default
   - TransparentFX
@@ -26,7 +27,7 @@ TagManager:
   - BackStab
   - Cape
   - Riposte
-  - 
+  - Player Projectile
   - 
   - 
   - 

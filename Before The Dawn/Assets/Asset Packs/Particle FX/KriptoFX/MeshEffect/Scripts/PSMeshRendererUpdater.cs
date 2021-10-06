@@ -108,7 +108,7 @@ public class PSMeshRendererUpdater : MonoBehaviour
         }
 
 
-        renderers = MeshObject.GetComponentsInChildren<Renderer>(true);
+        renderers = MeshObject.GetComponentsInParent<Renderer>(true);
         foreach (var rend in renderers)
         {
             var mats = rend.materials;
@@ -118,7 +118,7 @@ public class PSMeshRendererUpdater : MonoBehaviour
             }
         }
 
-        skinRenderers = MeshObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+        skinRenderers = MeshObject.GetComponentsInParent<SkinnedMeshRenderer>(true);
         foreach (var rend in skinRenderers)
         {
             var mats = rend.materials;
@@ -161,7 +161,7 @@ public class PSMeshRendererUpdater : MonoBehaviour
             }
         }
 
-        renderers = MeshObject.GetComponentsInChildren<Renderer>(true);
+        renderers = MeshObject.GetComponentsInParent<Renderer>(true);
         foreach (var rend in renderers)
         {
             var mats = rend.materials;
@@ -171,7 +171,7 @@ public class PSMeshRendererUpdater : MonoBehaviour
             }
         }
 
-        skinRenderers = MeshObject.GetComponentsInChildren<Renderer>(true);
+        skinRenderers = MeshObject.GetComponentsInParent<Renderer>(true);
         foreach (var rend in skinRenderers)
         {
             var mats = rend.materials;
@@ -233,7 +233,10 @@ public class PSMeshRendererUpdater : MonoBehaviour
             if (mat.HasProperty(prop))
             {
                 var key = rendName + materialNumber + prop.ToString();
-                if (!startAlphaColors.ContainsKey(key))                startAlphaColors.Add(rendName + materialNumber + prop.ToString(), mat.GetColor(prop).a);
+                if (!startAlphaColors.ContainsKey(key))
+                { 
+                    startAlphaColors.Add(rendName + materialNumber + prop.ToString(), mat.GetColor(prop).a); 
+                }
             }
         }
     }
@@ -287,8 +290,8 @@ public class PSMeshRendererUpdater : MonoBehaviour
         if (startParticleParameters == null) InitStartParticleParameters();
 
         var ps = GetComponentsInChildren<ParticleSystem>();
-        var meshRend = go.GetComponentInChildren<MeshRenderer>();
-        var skinMeshRend = go.GetComponentInChildren<SkinnedMeshRenderer>();
+        var meshRend = go.GetComponentInParent<MeshRenderer>();
+        var skinMeshRend = go.GetComponentInParent<SkinnedMeshRenderer>();
         var lights = GetComponentsInChildren<Light>();
 
         float realBound = 1;
@@ -375,7 +378,7 @@ public class PSMeshRendererUpdater : MonoBehaviour
         if (meshMatEffect == null) return;
 
         var meshRenderer = go.GetComponentInChildren<MeshRenderer>();
-        var skinMeshRenderer = go.GetComponentInChildren<SkinnedMeshRenderer>();
+        var skinMeshRenderer = go.GetComponentInParent<SkinnedMeshRenderer>();
 
         // foreach (var meshRenderer in meshRenderers)
         if (meshRenderer != null)
@@ -409,8 +412,8 @@ public class PSMeshRendererUpdater : MonoBehaviour
     {
         //Activation(true);
         if (MeshObject == null) return;
-        var meshRenderers = MeshObject.GetComponentsInChildren<MeshRenderer>();
-        var skinMeshRenderers = MeshObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+        var meshRenderers = MeshObject.GetComponentsInParent<MeshRenderer>();
+        var skinMeshRenderers = MeshObject.GetComponentsInParent<SkinnedMeshRenderer>();
 
         for (int i = 0; i < meshRenderers.Length; i++)
         {

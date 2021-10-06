@@ -38,7 +38,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 1
+  m_ExitTime: 0.95
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -77,7 +77,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OH_Light_Attack_02
-  m_Speed: 0.74
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7989913367519761089}
@@ -90,7 +90,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 2b3b13df213781743a49e71b567ec171, type: 2}
+  m_Motion: {fileID: 7400000, guid: c7b46f68576033b44b839b5d52501875, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -238,9 +238,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.2581048
   m_TransitionOffset: 0
-  m_ExitTime: 0.85
+  m_ExitTime: 0.8868978
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -259,7 +259,7 @@ AnimatorState:
   m_Transitions: []
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
@@ -361,6 +361,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -408,6 +410,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -428,6 +432,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -453,7 +459,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.17332661
   m_TransitionOffset: 0
   m_ExitTime: 0.75
   m_HasExitTime: 1
@@ -577,7 +583,7 @@ AnimatorState:
   - {fileID: -1869365456006142728}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
@@ -602,6 +608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -624,7 +632,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: -2236356191487561570}
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
@@ -676,6 +684,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -699,7 +709,7 @@ AnimatorState:
   - {fileID: 5213942680016258641}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
@@ -748,9 +758,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.15203178
   m_TransitionOffset: 0
-  m_ExitTime: 0.95
+  m_ExitTime: 0.80171984
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -770,7 +780,7 @@ AnimatorState:
   - {fileID: 6747421854312162848}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
+  m_IKOnFeet: 1
   m_WriteDefaultValues: 1
   m_Mirror: 0
   m_SpeedParameterActive: 0
@@ -791,7 +801,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OH_Heavy_Attack_02
-  m_Speed: 0.75
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 504064057883766133}
@@ -830,7 +840,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9145bcce26733054fbdbd14781c1f48d, type: 3}
+  m_Motion: {fileID: 7400000, guid: 78a197192bc82ec4a90c5914ccca477f, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -848,6 +858,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -892,7 +904,7 @@ AnimatorStateMachine:
     m_Position: {x: 293.50525, y: -51.743713, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6810020888525018613}
-    m_Position: {x: 70, y: -290, z: 0}
+    m_Position: {x: 30, y: -260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7256832564891024163}
     m_Position: {x: 30, y: -150, z: 0}
@@ -901,7 +913,7 @@ AnimatorStateMachine:
     m_Position: {x: 30, y: -100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5635847043941568402}
-    m_Position: {x: -160, y: -270, z: 0}
+    m_Position: {x: -200, y: -290, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -805814650865319944}
     m_Position: {x: 700, y: -110, z: 0}
@@ -922,7 +934,7 @@ AnimatorStateMachine:
     m_Position: {x: 560, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8132595889275651436}
-    m_Position: {x: 30, y: -40, z: 0}
+    m_Position: {x: 140, y: 130, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4397818246883044036}
     m_Position: {x: 20, y: -200, z: 0}
@@ -961,7 +973,7 @@ AnimatorStateMachine:
     m_Position: {x: 690, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3269232209268108734}
-    m_Position: {x: -180, y: -110, z: 0}
+    m_Position: {x: -240, y: -120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -804819284429884469}
     m_Position: {x: -190, y: -60, z: 0}
@@ -973,7 +985,7 @@ AnimatorStateMachine:
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 50, y: 20, z: 0}
+  m_AnyStatePosition: {x: 50, y: 30, z: 0}
   m_EntryPosition: {x: 50, y: 80, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -1017,6 +1029,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -1119,7 +1133,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.95
+  m_ExitTime: 0.6
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1173,6 +1187,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -1220,6 +1236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -1242,7 +1260,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.18062884
   m_TransitionOffset: 0
   m_ExitTime: 0.765625
   m_HasExitTime: 1
@@ -1264,7 +1282,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.15
   m_TransitionOffset: 0
   m_ExitTime: 0.85
   m_HasExitTime: 1
@@ -1284,6 +1302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -1358,6 +1378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -1378,6 +1400,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -1425,6 +1449,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -1447,9 +1473,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.21754575
   m_TransitionOffset: 0
-  m_ExitTime: 0.91573036
+  m_ExitTime: 0.9157303
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1469,7 +1495,7 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.19726169
   m_TransitionOffset: 0
   m_ExitTime: 0.78571427
   m_HasExitTime: 1
@@ -1669,6 +1695,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -1907,6 +1935,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2017,6 +2047,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2037,6 +2069,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2061,7 +2095,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.85
+  m_ExitTime: 0.920193
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2079,6 +2113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2124,6 +2160,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2252,9 +2290,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.1555239
   m_TransitionOffset: 0
-  m_ExitTime: 0.95
+  m_ExitTime: 0.82846755
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2272,6 +2310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2292,6 +2332,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2586,6 +2628,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2636,7 +2680,7 @@ AnimatorStateTransition:
   serializedVersion: 3
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
-  m_ExitTime: 0.91176474
+  m_ExitTime: 0.85
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -2792,7 +2836,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: OH_Light_Attack_01
-  m_Speed: 0.7
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 2160284619424341487}
@@ -2805,7 +2849,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 903e2a37c4cfccd4eb4982871ccfefa9, type: 2}
+  m_Motion: {fileID: 7400000, guid: c9ab8e92d9e03664192eaf393977cb3d, type: 2}
   m_Tag: 
   m_SpeedParameter: Horizontal
   m_MirrorParameter: 
@@ -2823,6 +2867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2843,6 +2889,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b05d6ab1b6530bc42a9cffc3968ac054, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInvulnerable: isInvulnerable
+  isInvulnerableStatus: 0
   isInteractingBool: isInteracting
   isInteractingStatus: 0
   isFiringSpellBool: isFiringSpell
@@ -2865,9 +2913,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.95
+  m_TransitionDuration: 0.15158743
+  m_TransitionOffset: 0.0039365334
+  m_ExitTime: 0.8284676
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0

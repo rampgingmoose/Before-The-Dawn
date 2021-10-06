@@ -158,14 +158,14 @@ namespace ST
 
         public void DisableCollision()
         {
-            blockCharacterCollision.characterCollider.enabled = false;
-            blockCharacterCollision.characterCollisionBlocker.enabled = false;
+            playerLocomotion.characterCollider.enabled = false;
+            playerLocomotion.characterCollisionBlocker.enabled = false;
         }
 
         public void EnableCollision()
         {
-            blockCharacterCollision.characterCollider.enabled = true;
-            blockCharacterCollision.characterCollisionBlocker.enabled = true;
+            playerLocomotion.characterCollider.enabled = true;
+            playerLocomotion.characterCollisionBlocker.enabled = true;
         }
 
         public void EnableSpell(int number)

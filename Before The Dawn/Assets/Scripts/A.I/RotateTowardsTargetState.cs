@@ -7,6 +7,7 @@ namespace ST
     public class RotateTowardsTargetState : State
     {
         public CombatStanceState combatStanceState;
+        public AttackState attackState;
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorHandler enemyAnimatorHandler)
         {
@@ -15,6 +16,8 @@ namespace ST
 
             Vector3 targetDirection = enemyManager.currentTarget.transform.position - enemyManager.transform.position;
             float viewableAngle = Vector3.SignedAngle(targetDirection, enemyManager.transform.forward, Vector3.up);
+
+            attackState.RotateTowardsTargetWhilstAttacking(enemyManager);
 
             if (enemyManager.isInteracting)
             {

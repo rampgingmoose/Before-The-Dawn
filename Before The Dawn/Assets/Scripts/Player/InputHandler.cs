@@ -15,6 +15,8 @@ namespace ST
 
         public bool b_Input;
         public bool a_Input;
+        public bool y_Input;
+        public bool x_Input;
         public bool rb_Input;
         public bool rt_Input;
         public bool lb_Input;
@@ -32,6 +34,7 @@ namespace ST
         public bool special_Input;
 
         public bool rollFlag;
+        public bool twoHandFlag;
         public bool sprintFlag;
         public bool comboFlag;
         public bool lockOnFlag;
@@ -45,7 +48,9 @@ namespace ST
         PlayerAttacker playerAttacker;
         PlayerInventory playerInventory;
         PlayerManager playerManager;
+        WeaponSlotManager weaponSlotManager;
         PlayerStats playerStats;
+        PlayerFXManager playerFXManager;
         BlockingCollider blockingCollider;
         UIManager uiManager;
         AnimatorHandler animatorHandler;
@@ -58,7 +63,9 @@ namespace ST
             playerAttacker = GetComponentInChildren<PlayerAttacker>();
             playerInventory = GetComponent<PlayerInventory>();
             playerManager = GetComponent<PlayerManager>();
+            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
             playerStats = GetComponent<PlayerStats>();
+            playerFXManager = GetComponentInChildren<PlayerFXManager>();
             animatorHandler = GetComponentInChildren<AnimatorHandler>();
             blockingCollider = GetComponentInChildren<BlockingCollider>();
             uiManager = FindObjectOfType<UIManager>();
@@ -81,6 +88,8 @@ namespace ST
                 inputActions.QuickSlots.DPadLeft.performed += i => d_Pad_Left = true;
                 inputActions.PlayerActions.A.performed += i => a_Input = true;
                 inputActions.PlayerActions.Roll.performed += i => b_Input = true;
+                inputActions.PlayerActions.Y.performed += i => y_Input = true;
+                inputActions.PlayerActions.X.performed += i => x_Input = true;
                 inputActions.PlayerActions.Roll.canceled += i => b_Input = false;
                 inputActions.PlayerActions.Jump.performed += i => jump_Input = true;
                 inputActions.PlayerActions.Inventory.performed += i => inventory_Input = true;
@@ -107,7 +116,9 @@ namespace ST
             HandleQuickSlotsInput();
             HandleInventoryInput();
             HandleLockOnInput();
+            HandleTwoHandInput();
             HandleCriticalAttackInput();
+            HandleUseConsumableInput();
         }
 
         private void HandleMoveInput(float delta)
@@ -279,12 +290,40 @@ namespace ST
             cameraHandler.SetCameraHeight();
         }
 
+        public void HandleTwoHandInput()
+        {
+            if (y_Input)
+            {
+                y_Input = false;
+                twoHandFlag = !twoHandFlag;
+
+                if (twoHandFlag)
+                {
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                }
+                else
+                {
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+                }
+            }
+        }
+
         private void HandleCriticalAttackInput()
         {
             if (critical_Attack_Input)
             {
                 critical_Attack_Input = false;
                 playerAttacker.AttemptBackStabOrRiposte();
+            }
+        }
+
+        private void HandleUseConsumableInput()
+        {
+            if (x_Input)
+            {
+                x_Input = false;
+                playerInventory.currentConsumableItem.AttemptToConsumeItem(animatorHandler, weaponSlotManager, playerFXManager);
             }
         }
     }

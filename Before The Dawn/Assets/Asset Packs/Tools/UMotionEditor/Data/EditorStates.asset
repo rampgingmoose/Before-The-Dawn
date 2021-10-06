@@ -15,5 +15,7 @@ MonoBehaviour:
   GeneralStates:
     LoadedProjectGUID:
       valueInternal: 488babc5c13db3a4aa39512ba33fa367
+    RecentlyOpenedProjectPath:
+      valueInternal: Assets
     RecentlyOpenedProjectGUIDsList:
     - valueInternal: 488babc5c13db3a4aa39512ba33fa367

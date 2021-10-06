@@ -6,7 +6,6 @@ namespace ST
 {
     public class EnemyStats : CharacterStats
     {
-        Animator animator;
         EnemyAnimatorHandler enemyAnimatorHandler;
         EnemyBossManager enemyBossManager;
         EnemyManager enemyManager;
@@ -17,11 +16,12 @@ namespace ST
         public EnemyHealthBar enemyHealthBar;
         public GameObject enemyHealthBarUI;
 
+        public int soulsAwardedOnDeath = 50;
+
         public bool isBoss;
 
         private void Awake()
         {
-            animator = GetComponentInChildren<Animator>();
             enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
             enemyBossManager = GetComponent<EnemyBossManager>();
             enemyManager = GetComponent<EnemyManager>();
@@ -51,31 +51,42 @@ namespace ST
         {
             currentHealth = currentHealth - damage;
 
-            enemyHealthBarUI.SetActive(true);
-            enemyHealthBar.SetCurrentHealth(currentHealth);
+            if (!isBoss)
+            {
+                enemyHealthBarUI.SetActive(true);
+                enemyHealthBar.SetCurrentHealth(currentHealth);
+            }
+            else if (isBoss && enemyBossManager != null)
+            {
+                enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
+            }
 
             if (currentHealth <= 0)
             {
-                currentHealth = 0;
-                isDead = true;
+                HandleDeath();
             }
         }
 
         public override void TakeDamage(int damage, string damageAnimation = "Damage_01")
         {
-            if (isDead)
-                return;
+            if (enemyManager.isPhaseShifting)
+            {
+                TakeDamageNoAnimation(damage);
+            }
+            else
+            {
+                base.TakeDamage(damage, damageAnimation = "Damage_01");
+            }
 
             currentHealth = currentHealth - damage;
 
             if (!isBoss)
             {
                 enemyHealthBar.SetCurrentHealth(currentHealth);
-                enemyHealthBarUI.SetActive(true);
             }
             else if (isBoss && enemyBossManager != null)
             {
-                enemyBossManager.UpdateBossHealthBar(currentHealth);
+                enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             }
 
             enemyAnimatorHandler.PlayTargetAnimation(damageAnimation, true);
@@ -90,6 +101,8 @@ namespace ST
         {
             currentHealth = 0;
             enemyAnimatorHandler.PlayTargetAnimation("Death_01", true);
+            enemyAnimatorHandler.anim.SetFloat("Vertical", 0);
+            enemyAnimatorHandler.anim.SetFloat("Horizontal", 0);
             isDead = true;
         }       
     }

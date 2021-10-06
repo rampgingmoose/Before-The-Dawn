@@ -18,13 +18,21 @@ MonoBehaviour:
   isUnarmed: 0
   baseDamage: 25
   CriticalDamageMultiplier: 3
+  poiseBreak: 25
+  offensivePoiseBonus: 0
+  physicalDamageAbsoption: 0
   right_Hand_Idle: Right_Arm_Idle_01
   left_Hand_Idle: Left_Arm_Idle_01
+  th_Idle: TH_Idle_Sword_01
   OH_Light_Attack_01: OH_Light_Attack_01
-  OH_Heavy_Attack_01: OH_Heavy_Attack_01
   OH_Light_Attack_02: OH_Light_Attack_02
+  OH_Heavy_Attack_01: OH_Heavy_Attack_01
   OH_Heavy_Attack_02: OH_Heavy_Attack_02
   OH_Special_Attack: OH_Special_Attack
+  TH_Light_Attack_01: TH_Light_Attack_01
+  TH_Light_Attack_02: TH_Light_Attack_02
+  TH_Heavy_Attack_01: TH_Heavy_Attack_01
+  TH_Heavy_Attack_02: TH_Heavy_Attack_02
   weapon_Art: 
   baseStamina: 10
   lightAttackMultiplier: 1

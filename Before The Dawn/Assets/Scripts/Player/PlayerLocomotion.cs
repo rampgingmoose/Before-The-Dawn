@@ -21,6 +21,9 @@ namespace ST
         public Rigidbody rigidBody;
         public GameObject normalCamera;
 
+        public CapsuleCollider characterCollider;
+        public CapsuleCollider characterCollisionBlocker;
+
         [Header("Ground & Air Detection Stats")]
         [SerializeField]
         float groundDetectionRayStartPoint = 0.5f;
@@ -65,6 +68,7 @@ namespace ST
             animatorHandler.Initialize();
             playerManager.isGrounded = true;
             ignoreForGroundCheck = ~(1 << 8 | 1 << 11);
+            Physics.IgnoreCollision(characterCollider, characterCollisionBlocker, true);
         }
 
         #region Movement

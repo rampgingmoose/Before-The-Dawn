@@ -17,6 +17,9 @@ namespace ST
 
             HandleRotateTowardsTarget(enemyManager);
 
+            if (viewableAngle > 65 || viewableAngle < -65)
+                return rotateTowardsTargetState;
+
             if (enemyManager.isInteracting)
                 return this;
 
@@ -29,6 +32,7 @@ namespace ST
             if (distanceFromTarget > enemyManager.maximumAggroRadius)
             {
                 enemyAnimatorHandler.anim.SetFloat("Vertical", 1, 0.1f, Time.deltaTime);
+                enemyAnimatorHandler.anim.SetFloat("Horizontal", 0, 0.1f, Time.deltaTime);
             }
 
             if (distanceFromTarget <= enemyManager.maximumAggroRadius)

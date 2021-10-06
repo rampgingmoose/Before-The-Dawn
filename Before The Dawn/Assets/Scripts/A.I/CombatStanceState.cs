@@ -9,13 +9,10 @@ namespace ST
         public AttackState attackState;
         public EnemyAttackAction[] enemyAttacks;
         public PursueTargetState pursueTargetState;
-        
-        private PlayerInventory playerInventory;
 
-        bool randomDestinationSet = false;
- 
-        float verticalMovementValue = 0;
-        float horizontalMovementValue = 0;
+        protected bool randomDestinationSet = false;
+        protected float verticalMovementValue = 0;
+        protected float horizontalMovementValue = 0;
 
         public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorHandler enemyAnimatorHandler)
         {
@@ -30,7 +27,7 @@ namespace ST
                 enemyAnimatorHandler.anim.SetFloat("Horizontal", 0);
                 return this;
             }
-                
+
             if (distanceFromTarget > enemyManager.maximumAggroRadius)
             {
                 return pursueTargetState;
@@ -57,7 +54,7 @@ namespace ST
             return this;
         }
 
-        private void HandleRotateTowardsTarget(EnemyManager enemyManager)
+        protected void HandleRotateTowardsTarget(EnemyManager enemyManager)
         {
             //Rotate manually
             if (enemyManager.isPerformingAction)
@@ -65,7 +62,6 @@ namespace ST
                 Vector3 direction = enemyManager.currentTarget.transform.position - transform.position;
                 direction.y = 0;
                 direction.Normalize();
-                
 
                 if (direction == Vector3.zero)
                 {
@@ -88,17 +84,16 @@ namespace ST
             }
         }
 
-        private void DecideCirclingAction(EnemyAnimatorHandler enemyAnimatorHandler)
+        protected void DecideCirclingAction(EnemyAnimatorHandler enemyAnimatorHandler)
         {
-            //Can change veritcalmovement and horizontalmovement values to imitate different behaviors
+            //Circle with only forward vertical movement
             //Circle with running
-            //circle with only forward movement
             WalkAroundTarget(enemyAnimatorHandler);
         }
 
-        private void WalkAroundTarget(EnemyAnimatorHandler enemyAnimatorHandler)
+        protected void WalkAroundTarget(EnemyAnimatorHandler enemyAnimatorHandler)
         {
-            verticalMovementValue = 0.5f;     
+            verticalMovementValue = 0.5f;
 
             horizontalMovementValue = Random.Range(-1, 1);
 
@@ -112,7 +107,7 @@ namespace ST
             }
         }
 
-        private void GetNewAttack(EnemyManager enemyManager)
+        protected virtual void GetNewAttack(EnemyManager enemyManager)
         {
             Vector3 targetsDirection = enemyManager.currentTarget.transform.position - transform.position;
             float viewableAngle = Vector3.Angle(targetsDirection, transform.forward);

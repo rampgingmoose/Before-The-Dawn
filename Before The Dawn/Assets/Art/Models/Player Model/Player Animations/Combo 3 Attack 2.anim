@@ -119297,13 +119297,6 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.28333333
-    functionName: isAttacking
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 0.3
     functionName: OpenDamageCollider
     data: 
@@ -119320,13 +119313,6 @@ AnimationClip:
     messageOptions: 0
   - time: 0.41666666
     functionName: CloseDamageCollider
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.43333334
-    functionName: DisableIsAttacking
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
