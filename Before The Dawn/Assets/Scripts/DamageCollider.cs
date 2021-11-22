@@ -8,7 +8,7 @@ namespace ST
     {
         public CharacterManager characterManager;
         Collider damageCollider;
-        EnemyStats enemyStats;
+        EnemyStatsManager enemyStats;
 
         public bool enabledDamageColliderOnStartUp = false;
 
@@ -22,7 +22,7 @@ namespace ST
         private void Awake()
         {
             damageCollider = GetComponent<Collider>();
-            enemyStats = GetComponentInParent<EnemyStats>();
+            enemyStats = GetComponentInParent<EnemyStatsManager>();
             damageCollider.gameObject.SetActive(true);
             damageCollider.isTrigger = true;
             damageCollider.enabled = enabledDamageColliderOnStartUp;
@@ -42,18 +42,19 @@ namespace ST
         {
             if (collision.tag == "Player")
             {
-                PlayerStats playerStats = collision.GetComponent<PlayerStats>();
-                CharacterManager enemyCharacterManager = collision.GetComponent<CharacterManager>();
+                PlayerStatsManager playerStats = collision.GetComponent<PlayerStatsManager>();
+                CharacterManager playerCharacterManager = collision.GetComponent<CharacterManager>();
+                CharacterFXManager playerFXManager = collision.GetComponent<CharacterFXManager>();
                 BlockingCollider shield = collision.transform.GetComponentInChildren<BlockingCollider>();
 
-                if (enemyCharacterManager != null)
+                if (playerCharacterManager != null)
                 {
-                    if (enemyCharacterManager.isParrying)
+                    if (playerCharacterManager.isParrying)
                     {
                         characterManager.GetComponentInChildren<AnimatorManager>().PlayTargetAnimation("Parried", true);
                         return;
                     }
-                    else if (shield != null && enemyCharacterManager.isBlocking)
+                    else if (shield != null && playerCharacterManager.isBlocking)
                     {
                         float physicalDamageAfterBlock = currentWeaponDamage - (currentWeaponDamage * shield.blockingPhysicalDamageAbsorption) / 100;
 
@@ -71,13 +72,18 @@ namespace ST
                     playerStats.poiseResetTimer = playerStats.totalPoiseResetTime;
                     playerStats.totalPoiseDefense = playerStats.totalPoiseDefense - poiseBreak;
 
+                    //detects where on the collider our weapon first makes contact
+                    Vector3 contactPoint = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    playerFXManager.PlayBloodSplatterFX(contactPoint);
+
                     if (playerStats.totalPoiseDefense > poiseBreak)
                     {
+                        DisableDamageCollider();
                         playerStats.TakeDamageNoAnimation(currentWeaponDamage);
-                        Debug.Log("Player Poise is currently " + playerStats.totalPoiseDefense);
                     }
                     else
                     {
+                        DisableDamageCollider();
                         playerStats.TakeDamage(currentWeaponDamage);
                     }
                 }
@@ -85,9 +91,10 @@ namespace ST
 
             if (collision.tag == "Enemy")
             {
-                EnemyStats enemyStats = collision.GetComponent<EnemyStats>();
+                EnemyStatsManager enemyStats = collision.GetComponent<EnemyStatsManager>();
                 AttackState attackState = collision.GetComponent<AttackState>();
                 CharacterManager enemyCharacterManager = collision.GetComponent<CharacterManager>();
+                CharacterFXManager enemyFXManager = collision.GetComponent<CharacterFXManager>();
                 BlockingCollider shield = collision.transform.GetComponentInChildren<BlockingCollider>();
 
                 if (enemyCharacterManager != null)
@@ -115,14 +122,36 @@ namespace ST
                     enemyStats.poiseResetTimer = enemyStats.totalPoiseResetTime;
                     enemyStats.totalPoiseDefense = enemyStats.totalPoiseDefense - poiseBreak;
 
-                    if (enemyStats.totalPoiseDefense > poiseBreak)
+                    //detects where on the collider our weapon first makes contact
+                    Vector3 contactPoint = collision.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+                    enemyFXManager.PlayBloodSplatterFX(contactPoint);
+
+                    if (enemyStats.isBoss)
                     {
-                        enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
-                        Debug.Log("Enemy Poise is currently " + enemyStats.totalPoiseDefense);
+                        if (enemyStats.totalPoiseDefense > poiseBreak)
+                        {
+                            DisableDamageCollider();
+                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
+                        }
+                        else
+                        {
+                            DisableDamageCollider();
+                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
+                            enemyStats.GuardBreak();
+                        }
                     }
                     else
                     {
-                        enemyStats.TakeDamage(currentWeaponDamage);
+                        if (enemyStats.totalPoiseDefense > poiseBreak)
+                        {
+                            DisableDamageCollider();
+                            enemyStats.TakeDamageNoAnimation(currentWeaponDamage);
+                        }
+                        else
+                        {
+                            DisableDamageCollider();
+                            enemyStats.TakeDamage(currentWeaponDamage);
+                        }
                     }
                 }
             }

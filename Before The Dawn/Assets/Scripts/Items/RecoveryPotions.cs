@@ -18,7 +18,7 @@ namespace ST
         [Header("Recovery Effects")]
         public GameObject recoveryFX;
 
-        public override void AttemptToConsumeItem(AnimatorHandler animatorHandler, WeaponSlotManager weaponSlotManager, PlayerFXManager playerFXManager)
+        public override void AttemptToConsumeItem(PlayerAnimatorManager animatorHandler, PlayerWeaponSlotManager weaponSlotManager, PlayerFXManager playerFXManager)
         {
             base.AttemptToConsumeItem(animatorHandler, weaponSlotManager, playerFXManager);
             GameObject potion = Instantiate(itemModel, weaponSlotManager.rightHandSlot.transform);
@@ -37,8 +37,6 @@ namespace ST
                 weaponSlotManager.rightHandSlot.UnloadWeapon();
                 playerFXManager.instantiatedFXModel = potion;
             }
-
-
             //play recovery FX when/if we play animation without being hit
         }
     }

@@ -14,17 +14,17 @@ namespace ST
         protected float verticalMovementValue = 0;
         protected float horizontalMovementValue = 0;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorHandler enemyAnimatorHandler)
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
-            enemyAnimatorHandler.anim.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
-            enemyAnimatorHandler.anim.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
+            enemyAnimatorManager.animator.SetFloat("Vertical", verticalMovementValue, 0.2f, Time.deltaTime);
+            enemyAnimatorManager.animator.SetFloat("Horizontal", horizontalMovementValue, 0.2f, Time.deltaTime);
             attackState.hasPerformedAttack = false;
 
             if (enemyManager.isInteracting)
             {
-                enemyAnimatorHandler.anim.SetFloat("Vertical", 0);
-                enemyAnimatorHandler.anim.SetFloat("Horizontal", 0);
+                enemyAnimatorManager.animator.SetFloat("Vertical", 0);
+                enemyAnimatorManager.animator.SetFloat("Horizontal", 0);
                 return this;
             }
 
@@ -36,7 +36,7 @@ namespace ST
             if (!randomDestinationSet)
             {
                 randomDestinationSet = true;
-                DecideCirclingAction(enemyAnimatorHandler);
+                DecideCirclingAction(enemyAnimatorManager);
             }
 
             HandleRotateTowardsTarget(enemyManager);
@@ -84,14 +84,14 @@ namespace ST
             }
         }
 
-        protected void DecideCirclingAction(EnemyAnimatorHandler enemyAnimatorHandler)
+        protected void DecideCirclingAction(EnemyAnimatorManager enemyAnimatorHandler)
         {
             //Circle with only forward vertical movement
             //Circle with running
             WalkAroundTarget(enemyAnimatorHandler);
         }
 
-        protected void WalkAroundTarget(EnemyAnimatorHandler enemyAnimatorHandler)
+        protected void WalkAroundTarget(EnemyAnimatorManager enemyAnimatorHandler)
         {
             verticalMovementValue = 0.5f;
 

@@ -7,17 +7,17 @@ namespace ST
 {
     public class WeaponInventorySlot : MonoBehaviour
     {
-        PlayerInventory playerInventory;
-        WeaponSlotManager weaponSlotManager;
+        PlayerInventoryManager playerInventory;
+        PlayerWeaponSlotManager weaponSlotManager;
         UIManager uiManager;
         public Image icon;
         WeaponItem item;
 
         private void Awake()
         {
-            playerInventory = FindObjectOfType<PlayerInventory>();
+            playerInventory = FindObjectOfType<PlayerInventoryManager>();
             uiManager = FindObjectOfType<UIManager>();
-            weaponSlotManager = FindObjectOfType<WeaponSlotManager>();
+            weaponSlotManager = FindObjectOfType<PlayerWeaponSlotManager>();
         }
         public void AddItem(WeaponItem newItem)
         {

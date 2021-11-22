@@ -13,7 +13,13 @@ namespace ST
         public CriticalDamageColliders backStabCollider;
         public CriticalDamageColliders riposteCollider;
 
+        [Header("Interacting")]
+        public bool isInteracting;
+
         [Header("Combat Flags")]
+        public bool canDoCombo;
+        public bool isUsingRightHand;
+        public bool isUsingLeftHand;
         public bool canBeRiposted;
         public bool isParrying;
         public bool canBeParried;
@@ -24,6 +30,9 @@ namespace ST
         [Header("Movement Flags")]
         public bool isRotatingWithRootMotion;
         public bool canRotate;
+        public bool isSprinting;
+        public bool isInAir;
+        public bool isGrounded;
 
         [Header("Spells")]
         public bool isFiringSpell;

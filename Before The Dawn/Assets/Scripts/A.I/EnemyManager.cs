@@ -7,21 +7,19 @@ namespace ST
 {
     public class EnemyManager : CharacterManager
     {
-        EnemyAnimatorHandler enemyAnimatorHandler;
-        EnemyStats enemyStats;
+        EnemyAnimatorManager enemyAnimatorHandler;
+        EnemyStatsManager enemyStatsManager;
+        EnemyFXManager enemyFXManager;
+        EnemyLocomotionManager enemyLocomotionManager;
 
         public State currentState;
-        public CharacterStats currentTarget;
+        public CharacterStatsManager currentTarget;
         public NavMeshAgent navmeshAgent;
         public Rigidbody enemyRigidBody;
 
         public bool isPerformingAction;
-        public bool isInteracting;
         public float rotationSpeed = 10;
         public float maximumAggroRadius = 5f;
-
-        [Header("Combat Flags")]
-        public bool canDoCombo;
 
         [Header("A.I Settings")]
         public float detectionRadius = 20;
@@ -37,8 +35,10 @@ namespace ST
 
         private void Awake()
         {
-            enemyAnimatorHandler = GetComponentInChildren<EnemyAnimatorHandler>();
-            enemyStats = GetComponent<EnemyStats>();
+            enemyAnimatorHandler = GetComponent<EnemyAnimatorManager>();
+            enemyStatsManager = GetComponent<EnemyStatsManager>();
+            enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
+            enemyFXManager = GetComponent<EnemyFXManager>();
             enemyRigidBody = GetComponent<Rigidbody>();
             backStabCollider = GetComponentInChildren<CriticalDamageColliders>();
             navmeshAgent = GetComponentInChildren<NavMeshAgent>();
@@ -55,13 +55,18 @@ namespace ST
             HandleRecoveryTimer();
             HandleStateMachine();
 
-            isRotatingWithRootMotion = enemyAnimatorHandler.anim.GetBool("isRotatingWithRootMotion");
-            isInteracting = enemyAnimatorHandler.anim.GetBool("isInteracting");
-            isPhaseShifting = enemyAnimatorHandler.anim.GetBool("isPhaseShifting");
-            isInvulnerable = enemyAnimatorHandler.anim.GetBool("isInvulnerable");
-            canDoCombo = enemyAnimatorHandler.anim.GetBool("canDoCombo");
-            canRotate = enemyAnimatorHandler.anim.GetBool("canRotate");
-            enemyAnimatorHandler.anim.SetBool("isDead", enemyStats.isDead);
+            isRotatingWithRootMotion = enemyAnimatorHandler.animator.GetBool("isRotatingWithRootMotion");
+            isInteracting = enemyAnimatorHandler.animator.GetBool("isInteracting");
+            isPhaseShifting = enemyAnimatorHandler.animator.GetBool("isPhaseShifting");
+            isInvulnerable = enemyAnimatorHandler.animator.GetBool("isInvulnerable");
+            canDoCombo = enemyAnimatorHandler.animator.GetBool("canDoCombo");
+            canRotate = enemyAnimatorHandler.animator.GetBool("canRotate");
+            enemyAnimatorHandler.animator.SetBool("isDead", enemyStatsManager.isDead);
+        }
+
+        public void FixedUpdate()
+        {
+            enemyFXManager.HandleAllBuildUpEffects();
         }
 
         private void LateUpdate()
@@ -72,14 +77,13 @@ namespace ST
 
         private void HandleStateMachine()
         {
-            if (enemyStats.isDead)
+            if (enemyStatsManager.isDead)
             {
                 currentState = null;
             }
-
-            if (currentState != null)
+            else if (currentState != null)
             {
-                State nextState = currentState.Tick(this, enemyStats, enemyAnimatorHandler);
+                State nextState = currentState.Tick(this, enemyStatsManager, enemyAnimatorHandler);
 
                 if (nextState != null)
                 {

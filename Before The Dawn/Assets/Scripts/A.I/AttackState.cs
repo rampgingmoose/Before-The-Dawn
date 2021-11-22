@@ -13,7 +13,7 @@ namespace ST
         public bool willDoComboOnNextAttack = false;
         public bool hasPerformedAttack = false;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorHandler enemyAnimatorHandler)
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
             float distanceFromTarget = Vector3.Distance(enemyManager.currentTarget.transform.position, enemyManager.transform.position);
 
@@ -24,18 +24,24 @@ namespace ST
                 return pursueTargetState;
             }
 
-            if (willDoComboOnNextAttack && enemyManager.canDoCombo)
+            if (enemyStats.attackIsInterrupted == true)
             {
-                AttackTargetWithCombo(enemyAnimatorHandler, enemyManager);
+                enemyStats.attackIsInterrupted = false;
+                return rotateTowardsTargetState;
+            }
+
+            if (willDoComboOnNextAttack && enemyManager.canDoCombo && !enemyStats.attackIsInterrupted)
+            {
+                AttackTargetWithCombo(enemyAnimatorManager, enemyManager);
             }
 
             if (!hasPerformedAttack)
             {
-                AttackTarget(enemyAnimatorHandler, enemyManager);
+                AttackTarget(enemyAnimatorManager, enemyManager);
                 RollForComboChance(enemyManager);
             }
 
-            if (willDoComboOnNextAttack && hasPerformedAttack)
+            if (willDoComboOnNextAttack && hasPerformedAttack && !enemyStats.attackIsInterrupted)
             {
                 return this; //GOES BACK UP TO PERFORM THE COMBO
             }
@@ -43,17 +49,17 @@ namespace ST
             return rotateTowardsTargetState;
         }
 
-        private void AttackTarget(EnemyAnimatorHandler enemyAnimatorHandler, EnemyManager enemyManager)
+        private void AttackTarget(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
-            enemyAnimatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             hasPerformedAttack = true;
         }
 
-        private void AttackTargetWithCombo(EnemyAnimatorHandler enemyAnimatorHandler, EnemyManager enemyManager)
+        private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
             willDoComboOnNextAttack = false;
-            enemyAnimatorHandler.PlayTargetAnimation(currentAttack.actionAnimation, true);
+            enemyAnimatorManager.PlayTargetAnimation(currentAttack.actionAnimation, true);
             enemyManager.currentRecoveryTime = currentAttack.recoveryTime;
             currentAttack = null;
         }

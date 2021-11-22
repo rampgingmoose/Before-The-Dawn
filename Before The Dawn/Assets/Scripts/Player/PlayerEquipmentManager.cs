@@ -8,17 +8,17 @@ namespace ST
     {
         InputHandler inputHandler;
         public BlockingCollider blockingCollider;
-        PlayerInventory playerInventory;
+        PlayerInventoryManager playerInventoryManager;
 
         private void Awake()
         {
-            playerInventory = GetComponentInParent<PlayerInventory>();
-            inputHandler = GetComponentInParent<InputHandler>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
+            inputHandler = GetComponent<InputHandler>();
         }
 
         public void OpenBlockingCollider()
         {
-            blockingCollider.SetColliderDamageAbsorption(playerInventory.leftWeapon);
+            blockingCollider.SetColliderDamageAbsorption(playerInventoryManager.leftWeapon);
             blockingCollider.EnableBlockingCollider();
         }
 

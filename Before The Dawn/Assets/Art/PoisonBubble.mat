@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: PoisonBubble
+  m_Shader: {fileID: -6465566751694194690, guid: 6a156d0838d330846a332b6f3deefaed, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Floats:
+    - Vector1_510CF216: 1
+    - Vector1_686AE918: 0
+    - Vector1_6B03C9AB: 100
+    - Vector1_737DB9C3: 0.05
+    - Vector1_842A68EC: 0
+    - Vector1_B242BF3A: 0
+    - Vector1_B5EB4E36: 1
+    - Vector1_E6B70EE7: 0
+    m_Colors:
+    - Color_5B065600: {r: 0.77647066, g: 0.08235294, b: 0.8313726, a: 0.5882353}
+    - Color_5E42A653: {r: 0.5568628, g: 0, b: 0.7411765, a: 0.24705882}
+    - Color_B651A6F: {r: 0.6745098, g: 0, b: 0.8352942, a: 0.49803922}
+  m_BuildTextureStacks: []

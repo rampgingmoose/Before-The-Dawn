@@ -73,8 +73,8 @@ namespace ST
         {
             if (inputHandler.lockOnFlag == false && currentLockOnTarget == null)
             {
-                lookAngle += (mouseXInput * lookSpeed) / delta;
-                pivotAngle -= (mouseYInput * pivotSpeed) / delta;
+                lookAngle += mouseXInput * lookSpeed * delta;
+                pivotAngle -= mouseYInput * pivotSpeed * delta;
                 pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
 
                 Vector3 rotation = Vector3.zero;

@@ -18,13 +18,13 @@ namespace ST
 
         private void PickUpItem(PlayerManager playerManager)
         {
-            PlayerInventory playerInventory;
-            PlayerLocomotion playerLocomotion;
-            AnimatorHandler animatorHandler;
+            PlayerInventoryManager playerInventory;
+            PlayerLocomotionManager playerLocomotion;
+            PlayerAnimatorManager animatorHandler;
 
-            playerInventory = playerManager.GetComponent<PlayerInventory>();
-            playerLocomotion = playerManager.GetComponent<PlayerLocomotion>();
-            animatorHandler = playerManager.GetComponentInChildren<AnimatorHandler>();
+            playerInventory = playerManager.GetComponent<PlayerInventoryManager>();
+            playerLocomotion = playerManager.GetComponent<PlayerLocomotionManager>();
+            animatorHandler = playerManager.GetComponentInChildren<PlayerAnimatorManager>();
 
             playerLocomotion.rigidBody.velocity = Vector3.zero;//Stops the player from moving while picking up item
             animatorHandler.PlayTargetAnimation("Pick up Item", true);//Plays the animation of looting the item

@@ -10,13 +10,13 @@ namespace ST
 
         public LayerMask detectionLayer;
 
-        public override State Tick(EnemyManager enemyManager, EnemyStats enemyStats, EnemyAnimatorHandler enemyAnimatorHandler)
+        public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorHandler)
         {
             #region Handle Enemy Target Detection
             Collider[] colliders = Physics.OverlapSphere(transform.position, enemyManager.detectionRadius, detectionLayer);
             for (int i = 0; i < colliders.Length; i++)
             {
-                CharacterStats characterStats = colliders[i].transform.GetComponent<CharacterStats>();
+                CharacterStatsManager characterStats = colliders[i].transform.GetComponent<CharacterStatsManager>();
 
                 if (characterStats != null)
                 {

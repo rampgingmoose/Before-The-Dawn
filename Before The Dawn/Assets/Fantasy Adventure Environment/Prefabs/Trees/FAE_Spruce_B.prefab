@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 4294967283
   m_IsActive: 1
 --- !u!4 &4000011549873352
 Transform:
@@ -39,7 +39,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010163779612}
-  m_Mesh: {fileID: 4300000, guid: 31f2ddbaa7c1bc14fa0f99dc84cf0ab4, type: 2}
+  m_Mesh: {fileID: 1258949182437741900, guid: dbdc145146e16764f8e66eb1f2e5d58a, type: 3}
 --- !u!23 &23000012210223742
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55,7 +55,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -81,7 +80,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000011430780218
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +97,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 4294967283
   m_IsActive: 1
 --- !u!4 &4000011889476344
 Transform:
@@ -196,7 +194,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 4294967283
   m_IsActive: 1
 --- !u!4 &4000012002236324
 Transform:
@@ -219,7 +217,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000011778659660}
-  m_Mesh: {fileID: 4300000, guid: 457f16984ccf52e4a9e496ad4c70e114, type: 2}
+  m_Mesh: {fileID: -9081881635204437385, guid: dbdc145146e16764f8e66eb1f2e5d58a, type: 3}
 --- !u!23 &23000012739225380
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -235,7 +233,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -261,7 +258,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000012061728934
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,7 +274,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 4294967283
   m_IsActive: 1
 --- !u!4 &4000010845136958
 Transform:
@@ -301,7 +297,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012061728934}
-  m_Mesh: {fileID: 4300000, guid: 2084eb3057e693849b5975f3ad7edab8, type: 2}
+  m_Mesh: {fileID: 3121845048934812066, guid: dbdc145146e16764f8e66eb1f2e5d58a, type: 3}
 --- !u!23 &23000010110600136
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -317,7 +313,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -342,7 +337,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000013135979508
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,7 +353,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 4294967283
   m_IsActive: 1
 --- !u!4 &4000010169681578
 Transform:
@@ -382,7 +376,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000013135979508}
-  m_Mesh: {fileID: 4300000, guid: bf411e4bb7213d646866c26a7fe2c4c6, type: 2}
+  m_Mesh: {fileID: -6406787027444161916, guid: dbdc145146e16764f8e66eb1f2e5d58a, type: 3}
 --- !u!23 &23000011383578852
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -398,7 +392,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -424,4 +417,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}

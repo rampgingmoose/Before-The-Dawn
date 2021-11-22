@@ -4,18 +4,28 @@ using UnityEngine;
 
 namespace ST
 {
-    public class EnemyWeaponSlotManager : MonoBehaviour
+    public class EnemyWeaponSlotManager : CharacterWeaponSlotManager
     {
         public WeaponItem rightHandWeapon;
         public WeaponItem leftHandWeapon;
 
-        WeaponHolderSlot rightHandSlot;
-        WeaponHolderSlot leftHandSlot;
-
-        DamageCollider leftHandDamageCollider;
-        DamageCollider rightHandDamageCollider;
+        EnemyStatsManager enemyStatsManager;
+        EnemyFXManager enemyFXManager;
 
         private void Awake()
+        {
+            enemyStatsManager = GetComponent<EnemyStatsManager>();
+            enemyFXManager = GetComponent<EnemyFXManager>();
+
+            LoadWeaponHolderSlots();
+        }
+
+        private void Start()
+        {
+            LoadWeaponsOnBothHands();
+        }
+
+        private void LoadWeaponHolderSlots()
         {
             WeaponHolderSlot[] weaponHolderSlots = GetComponentsInChildren<WeaponHolderSlot>();
             foreach (WeaponHolderSlot weaponSlot in weaponHolderSlots)
@@ -29,11 +39,6 @@ namespace ST
                     rightHandSlot = weaponSlot;
                 }
             }
-        }
-
-        private void Start()
-        {
-            LoadWeaponsOnBothHands();
         }
 
         public void LoadWeaponOnSlot(WeaponItem weapon, bool isLeft)
@@ -70,11 +75,13 @@ namespace ST
             {
                 leftHandDamageCollider = leftHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
                 leftHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+                enemyFXManager.leftWeaponFX = leftHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
             }
             else
             {
                 rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
                 rightHandDamageCollider.characterManager = GetComponentInParent<CharacterManager>();
+                enemyFXManager.rightWeaponFX = rightHandSlot.currentWeaponModel.GetComponentInChildren<WeaponFX>();
             }
         }
 
@@ -100,12 +107,26 @@ namespace ST
 
         public void EnableCombo()
         {
-            //anim.SetBool("canDoCombo", true);
+            //animator.SetBool("canDoCombo", true);
         }
 
         public void DisableCombo()
         {
-            //anim.SetBool("canDoCombo", false);
+            //animator.SetBool("canDoCombo", false);
         }
+
+        #region Handle Weapon Poise Bonus
+
+        public void GrantWeaponAttackingPoiseBonus()
+        {
+            enemyStatsManager.totalPoiseDefense = enemyStatsManager.totalPoiseDefense + enemyStatsManager.offensivePoiseBonus;
+        }
+
+        public void ResetWeaponAttackingPoiseBonus()
+        {
+            enemyStatsManager.totalPoiseDefense = enemyStatsManager.armorPoiseBonus;
+        }
+
+        #endregion
     }
 }

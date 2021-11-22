@@ -9,7 +9,7 @@ TerrainLayer:
   m_Name: layer_TerrainForestFloor_Birch_basecolorTerrainForestFloor_Birch_normalcd2d2d038030d602
   m_DiffuseTexture: {fileID: 2800000, guid: a4b5297c80517ef46b297d5667139e1a, type: 3}
   m_NormalMapTexture: {fileID: 2800000, guid: ee10a7b533748744eb3567630b6bc111, type: 3}
-  m_MaskMapTexture: {fileID: 2800000, guid: d1046b305ea65aa46ab64192dbf064ce, type: 3}
+  m_MaskMapTexture: {fileID: 0}
   m_TileSize: {x: 3, y: 3}
   m_TileOffset: {x: 0, y: 0}
   m_Specular: {r: 0, g: 0, b: 0, a: 0}

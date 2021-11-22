@@ -45,28 +45,28 @@ namespace ST
 
         PlayerControls inputActions;
         CameraHandler cameraHandler;
-        PlayerAttacker playerAttacker;
-        PlayerInventory playerInventory;
+        PlayerCombatManager playerCombatManager;
+        PlayerInventoryManager playerInventoryManager;
         PlayerManager playerManager;
-        WeaponSlotManager weaponSlotManager;
-        PlayerStats playerStats;
+        PlayerWeaponSlotManager weaponSlotManager;
+        PlayerStatsManager playerStatsManager;
         PlayerFXManager playerFXManager;
         BlockingCollider blockingCollider;
         UIManager uiManager;
-        AnimatorHandler animatorHandler;
+        PlayerAnimatorManager playerAnimatorManager;
 
         Vector2 movementInput;
         Vector2 cameraInput;
 
         private void Awake()
         {
-            playerAttacker = GetComponentInChildren<PlayerAttacker>();
-            playerInventory = GetComponent<PlayerInventory>();
+            playerCombatManager = GetComponent<PlayerCombatManager>();
+            playerInventoryManager = GetComponent<PlayerInventoryManager>();
             playerManager = GetComponent<PlayerManager>();
-            weaponSlotManager = GetComponentInChildren<WeaponSlotManager>();
-            playerStats = GetComponent<PlayerStats>();
-            playerFXManager = GetComponentInChildren<PlayerFXManager>();
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            weaponSlotManager = GetComponent<PlayerWeaponSlotManager>();
+            playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerFXManager = GetComponent<PlayerFXManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
             blockingCollider = GetComponentInChildren<BlockingCollider>();
             uiManager = FindObjectOfType<UIManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
@@ -110,6 +110,9 @@ namespace ST
 
         public void TickInput(float delta)
         {
+            if (playerStatsManager.isDead)
+                return;
+
             HandleMoveInput(delta);
             HandleRollInput(delta);
             HandleCombatInput(delta);
@@ -136,13 +139,13 @@ namespace ST
             {
                 rollInputTimer += delta;
 
-                if (playerStats.currentStamina <= 0)
+                if (playerStatsManager.currentStamina <= 0)
                 {
                     b_Input = false;
                     sprintFlag = false;
                 }
 
-                if (moveAmount > 0.5f && playerStats.currentStamina > 0)
+                if (moveAmount > 0.5f && playerStatsManager.currentStamina > 0)
                 {
                     sprintFlag = true;
                 }
@@ -165,7 +168,7 @@ namespace ST
             //RB Input handles the RIGHT hand weapon's light attack
             if (rb_Input)
             {
-                playerAttacker.HandleRBAction();
+                playerCombatManager.HandleRBAction();
             }
 
             if (rt_Input)
@@ -173,7 +176,7 @@ namespace ST
                 if (playerManager.canDoCombo)
                 {
                     comboFlag = true;
-                    playerAttacker.HandleWeaponCombo(playerInventory.rightWeapon);
+                    playerCombatManager.HandleWeaponCombo(playerInventoryManager.rightWeapon);
                     comboFlag = false;
                 }
                 else
@@ -183,14 +186,14 @@ namespace ST
                     if (playerManager.canDoCombo)
                         return;
 
-                    animatorHandler.anim.SetBool("isUsingRightHand", true);
-                    playerAttacker.HandleHeavyAttack(playerInventory.rightWeapon);
+                    playerAnimatorManager.animator.SetBool("isUsingRightHand", true);
+                    playerCombatManager.HandleHeavyAttack(playerInventoryManager.rightWeapon);
                 }
             }
 
             if (lb_Input)
             {
-                playerAttacker.HandleLBAction();
+                playerCombatManager.HandleLBAction();
             }
             else
             {
@@ -204,14 +207,14 @@ namespace ST
 
             if (lt_Input)
             {
-                playerAttacker.HandleLTAction();
+                playerCombatManager.HandleLTAction();
             }
 
             if (special_Input)
             {
                 if (playerManager.isInteracting)
                     return;
-                playerAttacker.HandleSpecialAttack(playerInventory.rightWeapon);
+                playerCombatManager.HandleSpecialAttack(playerInventoryManager.rightWeapon);
             }
         }
 
@@ -219,11 +222,11 @@ namespace ST
         {
             if (d_Pad_Right)
             {
-                playerInventory.ChangeRightWeapon();
+                playerInventoryManager.ChangeRightWeapon();
             }
             else if (d_Pad_Left)
             {
-                playerInventory.ChangeLeftWeapon();
+                playerInventoryManager.ChangeLeftWeapon();
             }
         }
 
@@ -299,12 +302,12 @@ namespace ST
 
                 if (twoHandFlag)
                 {
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
                 }
                 else
                 {
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.rightWeapon, false);
-                    weaponSlotManager.LoadWeaponOnSlot(playerInventory.leftWeapon, true);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
+                    weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.leftWeapon, true);
                 }
             }
         }
@@ -314,7 +317,7 @@ namespace ST
             if (critical_Attack_Input)
             {
                 critical_Attack_Input = false;
-                playerAttacker.AttemptBackStabOrRiposte();
+                playerCombatManager.AttemptBackStabOrRiposte();
             }
         }
 
@@ -323,7 +326,7 @@ namespace ST
             if (x_Input)
             {
                 x_Input = false;
-                playerInventory.currentConsumableItem.AttemptToConsumeItem(animatorHandler, weaponSlotManager, playerFXManager);
+                playerInventoryManager.currentConsumableItem.AttemptToConsumeItem(playerAnimatorManager, weaponSlotManager, playerFXManager);
             }
         }
     }

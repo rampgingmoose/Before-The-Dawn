@@ -12,7 +12,7 @@ namespace ST
 
         bool hasCollided = false;
 
-        CharacterStats spellTarget;
+        CharacterStatsManager spellTarget;
         Rigidbody rigidBody;
 
         Vector3 impactNormal = new Vector3(0, 0, 0); //used to rotate impactparticles
@@ -39,7 +39,7 @@ namespace ST
         {
             if (!hasCollided)
             {
-                spellTarget = collision.transform.GetComponent<CharacterStats>();
+                spellTarget = collision.transform.GetComponent<CharacterStatsManager>();
 
                 if (spellTarget != null)
                 {

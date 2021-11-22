@@ -19,7 +19,7 @@ namespace ST
         public string consumeAnimation;
         public bool isInteracting;
 
-        public virtual void AttemptToConsumeItem(AnimatorHandler animatorHandler, WeaponSlotManager weaponSlotManager, PlayerFXManager playerFXManager)
+        public virtual void AttemptToConsumeItem(PlayerAnimatorManager animatorHandler, PlayerWeaponSlotManager weaponSlotManager, PlayerFXManager playerFXManager)
         {
             if(currentItemAmount > 0)
             {

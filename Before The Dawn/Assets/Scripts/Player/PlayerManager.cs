@@ -8,58 +8,50 @@ namespace ST
     public class PlayerManager : CharacterManager
     {
         InputHandler inputHandler;
-        Animator anim;
+        Animator animator;
         CameraHandler cameraHandler;
-        PlayerLocomotion playerLocomotion;
-        PlayerStats playerStats;
-        AnimatorHandler animatorHandler;
+        PlayerLocomotionManager playerLocomotion;
+        PlayerStatsManager playerStatsManager;
+        PlayerAnimatorManager playerAnimatorManager;
+        PlayerFXManager playerFXManager;
 
         InteractableUI interactableUI;
         public GameObject interactableUIGameObject;
         public GameObject itemInteractableGameObject;
-
-        public bool isInteracting;
-
-        [Header("Player Flags")]
-        public bool isSprinting;
-        public bool isInAir;
-        public bool isGrounded;
-        public bool canDoCombo;
-        public bool isUsingRightHand;
-        public bool isUsingLeftHand;
 
         private void Awake()
         {
             cameraHandler = FindObjectOfType<CameraHandler>();
             backStabCollider = GetComponentInChildren<CriticalDamageColliders>();
             inputHandler = GetComponent<InputHandler>();
-            anim = GetComponentInChildren<Animator>();
-            playerLocomotion = GetComponent<PlayerLocomotion>();
+            animator = GetComponent<Animator>();
+            playerLocomotion = GetComponent<PlayerLocomotionManager>();
             interactableUI = FindObjectOfType<InteractableUI>();
-            playerStats = GetComponent<PlayerStats>();
-            animatorHandler = GetComponentInChildren<AnimatorHandler>();
+            playerStatsManager = GetComponent<PlayerStatsManager>();
+            playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
+            playerFXManager = GetComponent<PlayerFXManager>();
         }
 
         void Update()
         {
             float delta = Time.deltaTime;
 
-            isInteracting = anim.GetBool("isInteracting");
-            canDoCombo = anim.GetBool("canDoCombo");
-            isUsingRightHand = anim.GetBool("isUsingRightHand");
-            isUsingLeftHand = anim.GetBool("isUsingLeftHand");
-            isInvulnerable = anim.GetBool("isInvulnerable");
-            isFiringSpell = anim.GetBool("isFiringSpell");
-            anim.SetBool("isBlocking", isBlocking);
-            anim.SetBool("isAttacking", isAttacking);
-            anim.SetBool("isInAir", isInAir);
-            anim.SetBool("isDead", playerStats.isDead);            
+            isInteracting = animator.GetBool("isInteracting");
+            canDoCombo = animator.GetBool("canDoCombo");
+            isUsingRightHand = animator.GetBool("isUsingRightHand");
+            isUsingLeftHand = animator.GetBool("isUsingLeftHand");
+            isInvulnerable = animator.GetBool("isInvulnerable");
+            isFiringSpell = animator.GetBool("isFiringSpell");
+            animator.SetBool("isBlocking", isBlocking);
+            animator.SetBool("isAttacking", isAttacking);
+            animator.SetBool("isInAir", isInAir);
+            animator.SetBool("isDead", playerStatsManager.isDead);            
 
             inputHandler.TickInput(delta);
-            animatorHandler.canRotate = anim.GetBool("canRotate");
+            playerAnimatorManager.canRotate = animator.GetBool("canRotate");
             playerLocomotion.HandleRollingAndSprinting(delta);
             playerLocomotion.HandleJumping();
-            playerStats.RegenerateStamina();
+            playerStatsManager.RegenerateStamina();
 
             CheckForInteractableObject();
         }
@@ -70,6 +62,7 @@ namespace ST
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
             playerLocomotion.HandleRotation(delta);
+            playerFXManager.HandleAllBuildUpEffects();
         }
 
         private void LateUpdate()
@@ -144,7 +137,7 @@ namespace ST
         {
             playerLocomotion.rigidBody.velocity = Vector3.zero; //Stops the player from ice skating
             transform.position = playerStandsHereWhenOpeningChest.transform.position;
-            animatorHandler.PlayTargetAnimation("Open Chest", true);
+            playerAnimatorManager.PlayTargetAnimation("Open Chest", true);
         }
 
         public void PassThroughFogWallInteraction(Transform fogWallEntrance)
@@ -156,7 +149,7 @@ namespace ST
             transform.rotation = turnRotation;
             //Rotate over time so it does not look as rigid
 
-            animatorHandler.PlayTargetAnimation("Pass Through Fog", true);
+            playerAnimatorManager.PlayTargetAnimation("Pass Through Fog", true);
         }
 
         #endregion

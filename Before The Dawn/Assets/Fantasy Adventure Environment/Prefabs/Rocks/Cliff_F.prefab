@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &4000014061428328
 Transform:
@@ -39,7 +39,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010964941572}
-  m_Mesh: {fileID: 4300000, guid: ea6ef60e23b44d0449ffcea338e6917c, type: 3}
+  m_Mesh: {fileID: 3585453660405205499, guid: ce45c468d5781104e839d74e82fb52e1, type: 3}
 --- !u!23 &23000010755638634
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55,7 +55,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,7 +79,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000011610397332
 GameObject:
   m_ObjectHideFlags: 0
@@ -92,13 +90,12 @@ GameObject:
   - component: {fileID: 4000010509172042}
   - component: {fileID: 205000013737930254}
   - component: {fileID: 64000013684230224}
-  - component: {fileID: 65000010330151470}
   m_Layer: 0
   m_Name: Cliff_F
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &4000010509172042
 Transform:
@@ -128,19 +125,19 @@ LODGroup:
   m_LocalReferencePoint: {x: -0.019279957, y: 1.218987, z: -0.034406662}
   m_Size: 5.129548
   m_FadeMode: 1
-  m_AnimateCrossFading: 0
+  m_AnimateCrossFading: 1
   m_LastLODIsBillboard: 0
   m_LODs:
   - screenRelativeHeight: 0.6
-    fadeTransitionWidth: 0
+    fadeTransitionWidth: 0.2
     renderers:
     - renderer: {fileID: 23000010755638634}
   - screenRelativeHeight: 0.3
-    fadeTransitionWidth: 0
+    fadeTransitionWidth: 1
     renderers:
     - renderer: {fileID: 23000010694009770}
   - screenRelativeHeight: 0.034891788
-    fadeTransitionWidth: 0
+    fadeTransitionWidth: 0.1
     renderers:
     - renderer: {fileID: 23000013095083352}
   m_Enabled: 1
@@ -157,20 +154,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 24ae0dbd8915d634991c0aff4bda95c9, type: 2}
---- !u!65 &65000010330151470
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011610397332}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 5.15, y: 2.79, z: 4.67}
-  m_Center: {x: 0, y: 1.22, z: 0}
+  m_Mesh: {fileID: -8264862484664440309, guid: ce45c468d5781104e839d74e82fb52e1, type: 3}
 --- !u!1 &1000012004250126
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +171,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &4000014092557182
 Transform:
@@ -210,7 +194,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012004250126}
-  m_Mesh: {fileID: 4300000, guid: 24ae0dbd8915d634991c0aff4bda95c9, type: 2}
+  m_Mesh: {fileID: -8264862484664440309, guid: ce45c468d5781104e839d74e82fb52e1, type: 3}
 --- !u!23 &23000013095083352
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -226,7 +210,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -251,7 +234,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1000012506010524
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +250,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 123
   m_IsActive: 1
 --- !u!4 &4000010277502464
 Transform:
@@ -291,7 +273,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012506010524}
-  m_Mesh: {fileID: 4300000, guid: b8e936dc975950b4ca8e0ba9c541f4d8, type: 2}
+  m_Mesh: {fileID: -1263388246947644892, guid: ce45c468d5781104e839d74e82fb52e1, type: 3}
 --- !u!23 &23000010694009770
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -307,7 +289,6 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -332,4 +313,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
