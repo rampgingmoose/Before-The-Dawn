@@ -168,7 +168,7 @@ namespace BoingKit
 
             m_numEffectors = 0;
             m_upWs = 
-              p.Bits.IsBitSet(ReactorFlags.GlobalReactionUpVector) 
+              p.Bits.IsBitSet((int) ReactorFlags.GlobalReactionUpVector) 
               ? p.RotationReactionUp 
               : rotation* VectorUtil.NormalizeSafe(p.RotationReactionUp, Vector3.up);
 
@@ -193,24 +193,24 @@ namespace BoingKit
 
           m_numEffectors = 0;
           m_upWs = 
-            p.Bits.IsBitSet(ReactorFlags.GlobalReactionUpVector) 
+            p.Bits.IsBitSet((int) ReactorFlags.GlobalReactionUpVector) 
             ? p.RotationReactionUp 
             : gridRotation * VectorUtil.NormalizeSafe(p.RotationReactionUp, Vector3.up);
 
           m_scale = 1.0f;
         }
 
-        public void AccumulateTarget(ref Params p, ref BoingEffector.Params effector)
+        public void AccumulateTarget(ref Params p, ref BoingEffector.Params effector, float dt)
         {
           Vector3 effectRefPos = 
-            effector.Bits.IsBitSet(BoingWork.EffectorFlags.ContinuousMotion) 
+            effector.Bits.IsBitSet((int) BoingWork.EffectorFlags.ContinuousMotion) 
               ? VectorUtil.GetClosestPointOnSegment(PositionOrigin, effector.PrevPosition, effector.CurrPosition) 
               : effector.CurrPosition;
 
           Vector3 deltaPos = PositionOrigin - effectRefPos;
 
           Vector3 deltaPos3D = deltaPos;
-          if (p.Bits.IsBitSet(ReactorFlags.TwoDDistanceCheck))
+          if (p.Bits.IsBitSet((int) ReactorFlags.TwoDDistanceCheck))
           {
             switch (p.TwoDPlane)
             {
@@ -240,7 +240,7 @@ namespace BoingKit
           Vector3 deltaDirPos = VectorUtil.NormalizeSafe(deltaPos3D, m_upWs);
           Vector3 deltaDirRot = deltaDirPos;
 
-          if (p.Bits.IsBitSet(ReactorFlags.TwoDPositionInfluence))
+          if (p.Bits.IsBitSet((int) ReactorFlags.TwoDPositionInfluence))
           {
             switch (p.TwoDPlane)
             {
@@ -266,7 +266,7 @@ namespace BoingKit
             deltaDirPos = VectorUtil.NormalizeSafe(deltaDirPos, upWsPos);
           }
 
-          if (p.Bits.IsBitSet(ReactorFlags.TwoDRotationInfluence))
+          if (p.Bits.IsBitSet((int) ReactorFlags.TwoDRotationInfluence))
           {
             switch (p.TwoDPlane)
             {
@@ -292,22 +292,22 @@ namespace BoingKit
             deltaDirRot = VectorUtil.NormalizeSafe(deltaDirRot, upWsRot);
           }
 
-          if (p.Bits.IsBitSet(ReactorFlags.EnablePositionEffect))
+          if (p.Bits.IsBitSet((int) ReactorFlags.EnablePositionEffect))
           {
             Vector3 moveVec = tDeltaDist * p.MoveReactionMultiplier * effector.MoveDistance * deltaDirPos;
             PositionTarget += moveVec;
 
-            PositionSpring.Velocity += tDeltaDist * p.LinearImpulseMultiplier * effector.LinearImpulse * effector.LinearVelocityDir;
+            PositionSpring.Velocity += tDeltaDist * p.LinearImpulseMultiplier * effector.LinearImpulse * effector.LinearVelocityDir * (60.0f * dt);
           }
 
-          if (p.Bits.IsBitSet(ReactorFlags.EnableRotationEffect))
+          if (p.Bits.IsBitSet((int) ReactorFlags.EnableRotationEffect))
           {
             Vector3 rotAxis = VectorUtil.NormalizeSafe(Vector3.Cross(upWsRot, deltaDirRot), VectorUtil.FindOrthogonal(upWsRot));
             Vector3 rotVec = tDeltaDist * p.RotationReactionMultiplier * effector.RotateAngle * rotAxis;
             RotationTarget += QuaternionUtil.ToVector4(QuaternionUtil.FromAngularVector(rotVec));
 
             Vector3 angularImpulseDir = VectorUtil.NormalizeSafe(Vector3.Cross(effector.LinearVelocityDir, deltaDirRot - 0.01f * Vector3.up), rotAxis);
-            float angularImpulseMag = tDeltaDist * p.AngularImpulseMultiplier * effector.AngularImpulse;
+            float angularImpulseMag = tDeltaDist * p.AngularImpulseMultiplier * effector.AngularImpulse * (60.0f * dt);
             Vector4 angularImpulseDirQuat = QuaternionUtil.ToVector4(QuaternionUtil.FromAngularVector(angularImpulseDir));
             RotationSpring.VelocityVec += angularImpulseMag * angularImpulseDirQuat;
           }
@@ -340,12 +340,12 @@ namespace BoingKit
             useAccumulatedEffectors 
             ? (PositionSpring.Velocity.sqrMagnitude > MathUtil.Epsilon 
                || (PositionSpring.Value - PositionTarget).sqrMagnitude > MathUtil.Epsilon) 
-            : p.Bits.IsBitSet(ReactorFlags.EnablePositionEffect);
+            : p.Bits.IsBitSet((int) ReactorFlags.EnablePositionEffect);
           bool rotationSpringNeedsUpdate = 
             useAccumulatedEffectors 
             ? (RotationSpring.VelocityVec.sqrMagnitude > MathUtil.Epsilon 
                || (RotationSpring.ValueVec - RotationTarget).sqrMagnitude > MathUtil.Epsilon) 
-            : p.Bits.IsBitSet(ReactorFlags.EnableRotationEffect);
+            : p.Bits.IsBitSet((int) ReactorFlags.EnableRotationEffect);
 
           if (m_numEffectors == 0)
           {
@@ -592,9 +592,9 @@ namespace BoingKit
         AngularImpulseMultiplier = 1.0f;
       }
 
-      public void AccumulateTarget(ref BoingEffector.Params effector)
+      public void AccumulateTarget(ref BoingEffector.Params effector, float dt)
       {
-        Instance.AccumulateTarget(ref this, ref effector);
+        Instance.AccumulateTarget(ref this, ref effector, dt);
       }
 
       public void EndAccumulateTargets()
@@ -865,19 +865,31 @@ namespace BoingKit
         RotationSpring = rotationSpring;
       }
 
-      public void GatherOutput(Dictionary<int, BoingBehavior> behaviorMap)
+      public void GatherOutput(Dictionary<int, BoingBehavior> behaviorMap, BoingManager.UpdateTiming updateTiming)
       {
         BoingBehavior behavior;
         if (!behaviorMap.TryGetValue(InstanceID, out behavior))
           return;
 
+        if (!behavior.isActiveAndEnabled)
+          return;
+
+        if (behavior.UpdateTiming != updateTiming)
+          return;
+
         behavior.GatherOutput(ref this);
       }
 
-      public void GatherOutput(Dictionary<int, BoingReactor> reactorMap)
+      public void GatherOutput(Dictionary<int, BoingReactor> reactorMap, BoingManager.UpdateTiming updateTiming)
       {
         BoingReactor reactor;
         if (!reactorMap.TryGetValue(InstanceID, out reactor))
+          return;
+
+        if (!reactor.isActiveAndEnabled)
+          return;
+
+        if (reactor.UpdateTiming != updateTiming)
           return;
 
         reactor.GatherOutput(ref this);

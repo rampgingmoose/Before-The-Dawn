@@ -14,31 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 21300000, guid: 8dd466cdda0c86f47b9aa38e068d0a0f, type: 3}
   itemName: Sun's Pride
-  modelPrefab: {fileID: 6151302079809488560, guid: 80d215e458531b14e9f765805ea10bd2, type: 3}
+  modelPrefab: {fileID: 348872407895986390, guid: 5958e3cd07afcc1489687a320e3241d3, type: 3}
   isUnarmed: 0
-  baseDamage: 25
+  weaponController: {fileID: 22100000, guid: b7f8eeb7a878b1c478750710d01cd378, type: 2}
+  offHandIdleAnimation: Left_Arm_Idle_01
+  weaponType: 3
+  physicalDamage: 25
+  fireDamage: 100
   CriticalDamageMultiplier: 3
   poiseBreak: 25
   offensivePoiseBonus: 50
-  physicalDamageAbsoption: 0
-  right_Hand_Idle: Right_Arm_Idle_01
-  left_Hand_Idle: Left_Arm_Idle_01
-  th_Idle: TH_Idle_Sword_01
-  OH_Light_Attack_01: OH_Light_Attack_01
-  OH_Light_Attack_02: OH_Light_Attack_02
-  OH_Heavy_Attack_01: OH_Heavy_Attack_01
-  OH_Heavy_Attack_02: OH_Heavy_Attack_02
-  OH_Special_Attack: OH_Special_Attack
-  TH_Light_Attack_01: TH_Light_Attack_01
-  TH_Light_Attack_02: TH_Light_Attack_02
-  TH_Heavy_Attack_01: TH_Heavy_Attack_01
-  TH_Heavy_Attack_02: TH_Heavy_Attack_02
-  weapon_Art: 
+  physicalDamageAbsorption: 0
+  fireDamageAbsorption: 0
   baseStamina: 10
   lightAttackMultiplier: 1
   heavyAttackMultiplier: 2
-  isSpellCaster: 0
-  isFaithCaster: 0
-  isPryroCaster: 0
-  isMeleeWeapon: 1
-  isShieldWeapon: 0

@@ -173,7 +173,7 @@ Material:
     - _ColorDimExtra: {r: 0.4716981, g: 0.43342826, b: 0.43342826, a: 1}
     - _ColorDimSteps: {r: 1, g: 1, b: 1, a: 1}
     - _ColorGradient: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1.853403, g: 1.9999998, b: 0, a: 1}
+    - _EmissionColor: {r: 3.8862765, g: 4.5947924, b: 0, a: 1}
     - _FlatRimColor: {r: 3.2490096, g: 3.2490096, b: 3.2490096, a: 1}
     - _FlatSpecularColor: {r: 1.0592737, g: 1.0592737, b: 1.0592737, a: 1}
     - _L1_color: {r: 1, g: 1, b: 1, a: 0}
@@ -195,4 +195,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 2
+  version: 4

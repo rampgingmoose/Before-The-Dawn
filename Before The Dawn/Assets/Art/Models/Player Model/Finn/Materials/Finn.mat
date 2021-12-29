@@ -23,15 +23,15 @@ Material:
   m_Name: Finn
   m_Shader: {fileID: 4800000, guid: bee44b4a58655ee4cbff107302a3e131, type: 3}
   m_ShaderKeywords: BAKERY_SHNONLINEAR DR_CEL_EXTRA_ON DR_RIM_ON _CELPRIMARYMODE_SINGLE
-    _EMISSION _NORMALMAP _OCCLUSIONMAP _SPECULAR_SETUP _TEXTUREBLENDINGMODE_MULTIPLY
-    _UNITYSHADOWMODE_NONE
+    _NORMALMAP _OCCLUSIONMAP _SPECULAR_SETUP _TEXTUREBLENDINGMODE_MULTIPLY _UNITYSHADOWMODE_NONE
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
   m_CustomRenderQueue: 2000
   stringTagMap:
     RenderType: Opaque
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - SRPDEFAULTUNLIT
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -155,6 +155,7 @@ Material:
     - _BAKERY_VOLUME: 0
     - _Blend: 0
     - _BumpScale: 1
+    - _CameraDistanceImpact: 0
     - _CelExtraEnabled: 1
     - _CelNumSteps: 3
     - _CelPrimaryMode: 1
@@ -190,6 +191,10 @@ Material:
     - _Mode: 0
     - _NoTexture: 0
     - _OcclusionStrength: 0
+    - _OutlineDepthOffset: 0
+    - _OutlineEnabled: 0
+    - _OutlineScale: 1
+    - _OutlineWidth: 1
     - _OverrideLightmapDir: 0
     - _Parallax: 0.02
     - _QueueOffset: 0
@@ -213,6 +218,7 @@ Material:
     - _TextureImpact: 1
     - _UVSec: 0
     - _UnityShadowMode: 0
+    - _UnityShadowOcclusion: 0
     - _UnityShadowPower: 0.2
     - _UnityShadowSharpness: 10
     - _VertexColorsEnabled: 0
@@ -242,6 +248,7 @@ Material:
     - _MatrixForward: {r: 0, g: 0, b: 1, a: 0}
     - _MatrixRight: {r: 1, g: 0, b: 0, a: 0}
     - _MatrixUp: {r: 0, g: 1, b: 0, a: 0}
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
     - _SnowDirection: {r: 0, g: 1, b: 0, a: 1}
     - _SnowLayerColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

@@ -6,6 +6,9 @@ namespace ST
 {
     public class CharacterManager : MonoBehaviour
     {
+        AnimatorManager animatorManager;
+        CharacterWeaponSlotManager characterWeaponSlotManager;
+
         [Header("Lock On Transform")]
         public Transform lockOnTransform;
 
@@ -20,6 +23,7 @@ namespace ST
         public bool canDoCombo;
         public bool isUsingRightHand;
         public bool isUsingLeftHand;
+        public bool isTwoHanding;
         public bool canBeRiposted;
         public bool isParrying;
         public bool canBeParried;
@@ -40,5 +44,16 @@ namespace ST
         //Damage will be inflicted during an animation event
         //Happens during backstab or riposte animations
         public int pendingCriticalDamage;
+
+        protected virtual void Awake()
+        {
+            animatorManager = GetComponent<AnimatorManager>();
+            characterWeaponSlotManager = GetComponent<CharacterWeaponSlotManager>();
+        }
+
+        protected virtual void FixedUpdate()
+        {
+            animatorManager.CheckHandIKWeight(characterWeaponSlotManager.rightHandIKTarget, characterWeaponSlotManager.leftHandIKTarget, isTwoHanding);
+        }
     }
 }

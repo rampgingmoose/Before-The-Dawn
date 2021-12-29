@@ -50,7 +50,7 @@ Material:
     - _AlphaVariationValue: 1
     - _ColorsMaskMaxValue: 0
     - _ColorsMaskMinValue: 0
-    - _ColorsVariationValue: 0.5
+    - _ColorsVariationValue: 0
     - _Cutoff: 0.5
     - _DetailBlendMode: 1
     - _DetailCat: 0
@@ -58,6 +58,7 @@ Material:
     - _DetailTypeMode: 0
     - _EmissiveCat: 1
     - _EmissiveFlagMode: 0
+    - _FadeCameraValue: 1
     - _FadeGlancingValue: 0
     - _FadeSpace: 0
     - _GlobalAlpha: 1
@@ -108,13 +109,13 @@ Material:
     - _NoiseCat: 1
     - _NoiseMaxValue: 1
     - _NoiseMinValue: 0
-    - _NoiseScaleValue: 0
+    - _NoiseScaleValue: 0.01
     - _OcclusionCat: 1
     - _OverlayBottomValue: 0.5
     - _OverlayMaskMaxValue: 0.55
     - _OverlayMaskMinValue: 0.45
     - _OverlayVariationValue: 0
-    - _PerspectiveAngleValue: 5
+    - _PerspectiveAngleValue: 1
     - _PerspectiveCat: 1
     - _PerspectiveNoiseValue: 0
     - _PerspectivePushValue: 0
@@ -123,17 +124,17 @@ Material:
     - _RenderCull: 0
     - _RenderDecals: 0
     - _RenderMode: 0
-    - _RenderNormals: 1
+    - _RenderNormals: 2
     - _RenderPriority: 0
     - _RenderSSR: 0
     - _RenderSpecular: 1
     - _RenderZWrite: 1
     - _RenderingCat: 0
     - _SizeFadeCat: 0
-    - _SizeFadeEndValue: 60
+    - _SizeFadeEndValue: 300
     - _SizeFadeMessage: 0
     - _SizeFadeMode: 1
-    - _SizeFadeStartValue: 40
+    - _SizeFadeStartValue: 200
     - _SubsurfaceCat: 1
     - _SubsurfaceDiffusion: 3.5648174
     - _SubsurfaceMaskMaxValue: 1
@@ -162,7 +163,7 @@ Material:
     - _subsurface_shadow: 1
     - _vertex_pivot_mode: 1
     m_Colors:
-    - _Color: {r: 1, g: 0.37277266, b: 0, a: 1}
+    - _Color: {r: 0.45451394, g: 1, b: 0.06731268, a: 1}
     - _ColorsMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _DetailBlendRemap: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
@@ -172,7 +173,7 @@ Material:
     - _GradientColorOne: {r: 1, g: 1, b: 1, a: 1}
     - _GradientColorTwo: {r: 1, g: 1, b: 1, a: 1}
     - _GradientMaskRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _MainColor: {r: 1, g: 0.37277266, b: 0, a: 1}
+    - _MainColor: {r: 0.45451394, g: 1, b: 0.06731268, a: 1}
     - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
     - _MaxBoundsInfo: {r: 1.3534392, g: 0.5625007, b: 1.3534392, a: 0}
     - _MotionHighlightColor: {r: 4, g: 4, b: 4, a: 1}
@@ -180,11 +181,11 @@ Material:
     - _NoiseColorTwo: {r: 1, g: 1, b: 1, a: 1}
     - _NoiseMaskRemap: {r: 0, g: 0, b: 0, a: 0}
     - _OverlayMaskRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _SubsurfaceColor: {r: 0.3662527, g: 0, b: 0.052860655, a: 1}
+    - _SubsurfaceColor: {r: 0.45451394, g: 1, b: 0.06731268, a: 1}
     - _SubsurfaceDiffusion_Asset: {r: 2.2888926e+38, g: 1.2389358e-26, b: 7.69327e-37, a: 0.00018220427}
     - _SubsurfaceDiffusion_asset: {r: 2.2888926e+38, g: 1.2389358e-26, b: 7.69327e-37, a: 0.00018220427}
     - _SubsurfaceMaskRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _VertexOcclusionColor: {r: 0.17788847, g: 0, b: 0.043735042, a: 1}
+    - _VertexOcclusionColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _VertexOcclusionRemap: {r: 0, g: 0, b: 0, a: 0}
-    - _render_normals_options: {r: 1, g: 1, b: -1, a: 0}
+    - _render_normals_options: {r: 1, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

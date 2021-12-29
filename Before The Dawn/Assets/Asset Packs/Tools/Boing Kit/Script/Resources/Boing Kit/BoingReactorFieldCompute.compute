@@ -66,14 +66,18 @@ void Init(uint3 id : SV_DispatchThreadId)
   int idFlat = FlattenCellIndex(int3(id));
 
   InstanceData cell = aCell[idFlat];
+  cell.intData = 0;
+  cell.upWs = 0.0f;
   cell.positionSpring.value = float4(fieldParams[0].gridCenter.xyz + GetCellCenterOffset(iRes), 0.0f);
   cell.positionSpring.velocity = 0.0f;
-  cell.rotationSpring.value = 0.0f;
+  cell.rotationSpring.value = quat_identity();
   cell.rotationSpring.velocity = 0.0f;
   cell.positionOrigin = cell.positionSpring.value;
-  cell.rotationOrigin = quat_identity();
+  cell.rotationOrigin = cell.rotationSpring.value;
   cell.positionTarget = 0.0f;
   cell.rotationTarget = 0.0f;
+  cell.positionPropagationWorkData = 0.0f;
+  cell.rotationPropagationWorkData = 0.0f;
   aCell[idFlat] = cell;
 }
 
@@ -93,7 +97,7 @@ inline void WrapCell(int3 index)
   InstanceData cell = aCell[iWrapResFlat];
   cell.positionSpring.value = float4(fieldParams[0].gridCenter.xyz + GetCellCenterOffset(iResetRes), 0.0f);
   cell.positionSpring.velocity = 0.0f;
-  cell.rotationSpring.value = 0.0f;
+  cell.rotationSpring.value = quat_identity();
   cell.rotationSpring.velocity = 0.0f;
   cell.positionOrigin = cell.positionSpring.value;
   cell.rotationOrigin = quat_identity();
@@ -334,7 +338,7 @@ void Execute(uint3 id : SV_DispatchThreadId)
       float3 moveVec = tDeltaDist * rp.moveReactionMultiplier * effector.moveDistance * deltaDirPos;
       cell.positionTarget.xyz += moveVec;
 
-      cell.positionSpring.velocity.xyz += tDeltaDist * rp.linearImpulseMultiplier * effector.linearImpulse * effector.linearVelocityDir.xyz;
+      cell.positionSpring.velocity.xyz += tDeltaDist * rp.linearImpulseMultiplier * effector.linearImpulse * effector.linearVelocityDir.xyz * (60.0f * dt);
     }
 
     if (rp.bits & kReactorFlagEnableRotationEffect)
@@ -344,7 +348,7 @@ void Execute(uint3 id : SV_DispatchThreadId)
       cell.rotationTarget += quat_angular_vec(rotVec);
 
       float3 angularImpulseDir = normalize_safe(cross(effector.linearVelocityDir.xyz, deltaDirRot - 0.01f * unit_y()), rotAxis);
-      float angularImpulseMag = tDeltaDist * rp.angularImpulseMultiplier * effector.angularImpulse;
+      float angularImpulseMag = tDeltaDist * rp.angularImpulseMultiplier * effector.angularImpulse * (60.0f * dt);
       float4 angularImpulseDirQuat = quat_angular_vec(angularImpulseDir);
       cell.rotationSpring.velocity += angularImpulseMag * angularImpulseDirQuat;
     }
@@ -389,6 +393,8 @@ void Execute(uint3 id : SV_DispatchThreadId)
     dot(cell.rotationSpring.velocity, cell.rotationSpring.velocity) > kEpsilon 
     || dot(rotationSpringDelta, rotationSpringDelta) > kEpsilon;
 
+  // DirectX doesn't like this branch!
+  /*
   if (cell.intData.x == 0)
   {
     bool earlyOut = true;
@@ -419,6 +425,7 @@ void Execute(uint3 id : SV_DispatchThreadId)
       return;
     }
   }
+  */
 
   // instant accumulation?
   if (cell.intData.y != 0)

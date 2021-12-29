@@ -11,10 +11,7 @@
 #ifndef BOING_KIT
 #define BOING_KIT
 
-#include "UnityCG.cginc"
-
-
-#if SHADER_TARGET >= 35 && (defined(SHADER_API_D3D11) || defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE) || defined(SHADER_API_XBOXONE) || defined(SHADER_API_PSSL) || defined(SHADER_API_SWITCH) || defined(SHADER_API_VULKAN) || (defined(SHADER_API_METAL) && defined(UNITY_COMPILER_HLSLCC)))
+#if (defined(SHADER_API_D3D11) || defined(SHADER_API_GLES3) || defined(SHADER_API_GLCORE) || defined(SHADER_API_XBOXONE) || defined(SHADER_API_PSSL) || defined(SHADER_API_SWITCH) || defined(SHADER_API_VULKAN) || (defined(SHADER_API_METAL) && defined(UNITY_COMPILER_HLSLCC)))
 #define BOING_KIT_SUPPORTED
 #endif
 
@@ -279,18 +276,18 @@ BoingReactorFieldSampleResults SampleBoingReactorField(float3 posWs)
       aBoingFieldCell[iResFlat110].positionSpring.value - gridCenter - float4(GetCellCenterOffset(tlp.iRaw110, numCells, cellSize), 0.0f), 
       aBoingFieldCell[iResFlat111].positionSpring.value - gridCenter - float4(GetCellCenterOffset(tlp.iRaw111, numCells, cellSize), 0.0f), 
       tlp.t
-    );
+    ).xyz;
   results.rotationOffset =
     TriLerp
     (
-      aBoingFieldCell[iResFlat000].rotationSpring.value,
-      aBoingFieldCell[iResFlat001].rotationSpring.value,
-      aBoingFieldCell[iResFlat010].rotationSpring.value,
-      aBoingFieldCell[iResFlat011].rotationSpring.value,
-      aBoingFieldCell[iResFlat100].rotationSpring.value,
-      aBoingFieldCell[iResFlat101].rotationSpring.value,
-      aBoingFieldCell[iResFlat110].rotationSpring.value,
-      aBoingFieldCell[iResFlat111].rotationSpring.value,
+      aBoingFieldCell[iResFlat000].rotationSpring.value, 
+      aBoingFieldCell[iResFlat001].rotationSpring.value, 
+      aBoingFieldCell[iResFlat010].rotationSpring.value, 
+      aBoingFieldCell[iResFlat011].rotationSpring.value, 
+      aBoingFieldCell[iResFlat100].rotationSpring.value, 
+      aBoingFieldCell[iResFlat101].rotationSpring.value, 
+      aBoingFieldCell[iResFlat110].rotationSpring.value, 
+      aBoingFieldCell[iResFlat111].rotationSpring.value, 
       tlp.t
     );
 
@@ -387,6 +384,7 @@ BoingReactorFieldResults ApplyBoingReactorFieldPerObject(float3 position, float3
       + 2.0 * q.w * cross(q.xyz, normal) 
       - cross(cross(q.xyz, normal), q.xyz);
   }
+
   position += sampleResults.positionOffset;
 
   BoingReactorFieldResults results;

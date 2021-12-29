@@ -16,6 +16,7 @@ using Unity.Jobs;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Profiling;
+using System;
 
 namespace BoingKit
 {
@@ -64,17 +65,17 @@ namespace BoingKit
       {
         var ep = Params[index];
 
-        if (LateUpdateTiming != ep.Bits.IsBitSet(BoingWork.ReactorFlags.LateUpdateTiming))
+        if (LateUpdateTiming != ep.Bits.IsBitSet((int) BoingWork.ReactorFlags.LateUpdateTiming))
           return;
 
-        if (ep.Bits.IsBitSet(BoingWork.ReactorFlags.FixedUpdate))
+        if (ep.Bits.IsBitSet((int) BoingWork.ReactorFlags.FixedUpdate))
         {
           for (int i = 0; i < NumFixedUpdateIterations; ++i)
             ep.Execute(FixedDeltaTime);
         }
         else
         {
-          ep.Execute(BoingManager.DeltaTime);
+          ep.Execute(DeltaTime);
         }
 
         Output[index] = new BoingWork.Output(ep.InstanceID, ref ep.Instance.PositionSpring, ref ep.Instance.RotationSpring);
@@ -92,25 +93,7 @@ namespace BoingKit
       BoingManager.UpdateTiming updateTiming
     )
     {
-      // gather job
-      if (updateTiming == BoingManager.UpdateTiming.Early)
-      {
-        if (s_behaviorJobNeedsGather)
-        {
-          Profiler.BeginSample("Gather Behavior Job");
-          s_hBehaviorJob.Complete();
-          for (int iBehavior = 0, n = s_aBehaviorParams.Length; iBehavior < n; ++iBehavior)
-            s_aBehaviorOutput[iBehavior].GatherOutput(behaviorMap);
-          s_aBehaviorParams.Dispose();
-          s_aBehaviorOutput.Dispose();
-          Profiler.EndSample();
-
-          s_behaviorJobNeedsGather = false;
-        }
-      }
-
       // kick job
-      if (updateTiming == BoingManager.UpdateTiming.Late)
       {
         Profiler.BeginSample("Kick Behavior Job");
         Profiler.BeginSample("Allocate");
@@ -136,13 +119,32 @@ namespace BoingKit
           DeltaTime = BoingManager.DeltaTime, 
           FixedDeltaTime = BoingManager.FixedDeltaTime, 
           NumFixedUpdateIterations = BoingManager.NumFixedUpdateIterations, 
-          LateUpdateTiming = (updateTiming == BoingManager.UpdateTiming.Late)
+          LateUpdateTiming = (updateTiming == BoingManager.UpdateTiming.Late), 
         };
-        s_hBehaviorJob = job.Schedule(s_aBehaviorParams.Length, 32);
+
+        int jobInnerLoopBatchCount = (int) Mathf.Ceil(s_aBehaviorParams.Length / ((float) Environment.ProcessorCount));
+
+        s_hBehaviorJob = job.Schedule(s_aBehaviorParams.Length, jobInnerLoopBatchCount);
         JobHandle.ScheduleBatchedJobs();
         Profiler.EndSample();
 
         s_behaviorJobNeedsGather = true;
+      }
+
+      // gather job
+      {
+        if (s_behaviorJobNeedsGather)
+        {
+          Profiler.BeginSample("Gather Behavior Job");
+          s_hBehaviorJob.Complete();
+          for (int iBehavior = 0, n = s_aBehaviorParams.Length; iBehavior < n; ++iBehavior)
+            s_aBehaviorOutput[iBehavior].GatherOutput(behaviorMap, updateTiming);
+          s_aBehaviorParams.Dispose();
+          s_aBehaviorOutput.Dispose();
+          Profiler.EndSample();
+
+          s_behaviorJobNeedsGather = false;
+        }
       }
     }
 
@@ -165,17 +167,17 @@ namespace BoingKit
       {
         var rep = Params[index];
 
-        if (LateUpdateTiming != rep.Bits.IsBitSet(BoingWork.ReactorFlags.LateUpdateTiming))
+        if (LateUpdateTiming != rep.Bits.IsBitSet((int) BoingWork.ReactorFlags.LateUpdateTiming))
           return;
 
         for (int i = 0, n = Effectors.Length; i < n; ++i)
         {
           var eep = Effectors[i];
-          rep.AccumulateTarget(ref eep);
+          rep.AccumulateTarget(ref eep, DeltaTime);
         }
         rep.EndAccumulateTargets();
 
-        if (rep.Bits.IsBitSet(BoingWork.ReactorFlags.FixedUpdate))
+        if (rep.Bits.IsBitSet((int) BoingWork.ReactorFlags.FixedUpdate))
         {
           for (int i = 0; i < NumFixedUpdateIterations; ++i)
             rep.Execute(FixedDeltaTime);
@@ -206,34 +208,7 @@ namespace BoingKit
     {
       float dt = Time.deltaTime;
 
-      // gather job
-      if (updateTiming == BoingManager.UpdateTiming.Early)
-      {
-        if (s_reactorJobNeedsGather)
-        {
-          Profiler.BeginSample("Gather Reactor Job");
-          if (s_aEffectors.Length > 0 && s_aReactorExecParams.Length > 0)
-          {
-            s_hReactorJob.Complete();
-
-            Profiler.BeginSample("Pull Data");
-            for (int iReactor = 0, n = s_aReactorExecParams.Length; iReactor < n; ++iReactor)
-            {
-              s_aReactorExecOutput[iReactor].GatherOutput(reactorMap);
-            }
-            Profiler.EndSample();
-          }
-          s_aEffectors.Dispose();
-          s_aReactorExecParams.Dispose();
-          s_aReactorExecOutput.Dispose();
-          Profiler.EndSample();
-
-          s_reactorJobNeedsGather = false;
-        }
-      }
-
       // kick job
-      if (updateTiming == BoingManager.UpdateTiming.Late)
       {
         Profiler.BeginSample("Kick Reactor Job");
         s_aEffectors = new NativeArray<BoingEffector.Params>(effectorMap.Count, Allocator.TempJob, NativeArrayOptions.UninitializedMemory);
@@ -267,8 +242,8 @@ namespace BoingKit
             Output = s_aReactorExecOutput, 
             DeltaTime = dt, 
             FixedDeltaTime = BoingManager.FixedDeltaTime, 
-            NumFixedUpdateIterations = BoingManager.NumFixedUpdateIterations, 
-            LateUpdateTiming = (updateTiming == BoingManager.UpdateTiming.Late)
+            NumFixedUpdateIterations = BoingManager.NumFixedUpdateIterations,
+            LateUpdateTiming = (updateTiming == BoingManager.UpdateTiming.Late), 
           };
           s_hReactorJob = job.Schedule(s_aReactorExecParams.Length, 32);
           JobHandle.ScheduleBatchedJobs();
@@ -298,6 +273,31 @@ namespace BoingKit
 
         s_reactorJobNeedsGather = true;
       }
+
+      // gather job
+      {
+        if (s_reactorJobNeedsGather)
+        {
+          Profiler.BeginSample("Gather Reactor Job");
+          if (s_aEffectors.Length > 0 && s_aReactorExecParams.Length > 0)
+          {
+            s_hReactorJob.Complete();
+
+            Profiler.BeginSample("Pull Data");
+            for (int iReactor = 0, n = s_aReactorExecParams.Length; iReactor < n; ++iReactor)
+            {
+              s_aReactorExecOutput[iReactor].GatherOutput(reactorMap, updateTiming);
+            }
+            Profiler.EndSample();
+          }
+          s_aEffectors.Dispose();
+          s_aReactorExecParams.Dispose();
+          s_aReactorExecOutput.Dispose();
+          Profiler.EndSample();
+
+          s_reactorJobNeedsGather = false;
+        }
+      }
     }
 
     #endregion // Reactor
@@ -315,6 +315,8 @@ namespace BoingKit
     {
       Profiler.BeginSample("Update Bones (Execute)");
 
+      float dt = BoingManager.DeltaTime;
+
       foreach (var itBones in bonesMap)
       {
         var bones = itBones.Value;
@@ -324,7 +326,7 @@ namespace BoingKit
         bones.PrepareExecute();
 
         for (int i = 0; i < aEffectorParams.Length; ++i)
-          bones.AccumulateTarget(ref aEffectorParams[i]);
+          bones.AccumulateTarget(ref aEffectorParams[i], dt);
         bones.EndAccumulateTargets();
 
         switch (bones.UpdateMode)
@@ -345,7 +347,7 @@ namespace BoingKit
 
     internal static void PullBonesResults
     (
-      BoingEffector.Params[] aEffectorParams,
+      BoingEffector.Params[] aEffectorParams, 
       Dictionary<int, BoingBones> bonesMap, 
       BoingManager.UpdateTiming updateTiming
     )

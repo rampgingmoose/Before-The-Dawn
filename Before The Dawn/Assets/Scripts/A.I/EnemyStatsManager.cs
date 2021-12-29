@@ -17,8 +17,9 @@ namespace ST
         public bool isBoss;
         public bool attackIsInterrupted = false;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             enemyAnimatorHandler = GetComponent<EnemyAnimatorManager>();
             enemyBossManager = GetComponent<EnemyBossManager>();
             enemyManager = GetComponent<EnemyManager>();
@@ -53,12 +54,12 @@ namespace ST
             return maxHealth;
         }
 
-        public override void TakeDamageNoAnimation(int damage)
+        public override void TakeDamageNoAnimation(int physicalDamage, int fireDamage)
         {
             if (isDead)
                 return;
 
-            base.TakeDamageNoAnimation(damage);
+            base.TakeDamageNoAnimation(physicalDamage, fireDamage);
 
             if (!isBoss)
             {
@@ -98,18 +99,18 @@ namespace ST
             enemyAnimatorHandler.PlayTargetAnimation("Guard Break", true);
         }
 
-        public override void TakeDamage(int damage, string damageAnimation = "Damage_01")
+        public override void TakeDamage(int physicalDamage, int fireDamage, string damageAnimation = "Damage_01")
         {
             if (isDead)
                 return;
 
             if (enemyManager.isPhaseShifting)
             {
-                TakeDamageNoAnimation(damage);
+                TakeDamageNoAnimation(physicalDamage,fireDamage);
             }
             else
             {
-                base.TakeDamage(damage, damageAnimation = "Damage_01");
+                base.TakeDamage(physicalDamage, fireDamage, damageAnimation = "Damage_01");
                 attackIsInterrupted = true;
             }
 

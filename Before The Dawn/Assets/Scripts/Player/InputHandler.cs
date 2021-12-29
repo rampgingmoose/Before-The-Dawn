@@ -187,7 +187,7 @@ namespace ST
                         return;
 
                     playerAnimatorManager.animator.SetBool("isUsingRightHand", true);
-                    playerCombatManager.HandleHeavyAttack(playerInventoryManager.rightWeapon);
+                    playerCombatManager.HandleRTAction();
                 }
             }
 
@@ -208,13 +208,6 @@ namespace ST
             if (lt_Input)
             {
                 playerCombatManager.HandleLTAction();
-            }
-
-            if (special_Input)
-            {
-                if (playerManager.isInteracting)
-                    return;
-                playerCombatManager.HandleSpecialAttack(playerInventoryManager.rightWeapon);
             }
         }
 
@@ -302,12 +295,16 @@ namespace ST
 
                 if (twoHandFlag)
                 {
+                    playerManager.isTwoHanding = true;
                     weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
+                    weaponSlotManager.LoadTwoHandIKTargets(true);
                 }
                 else
                 {
+                    playerManager.isTwoHanding = false;
                     weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.rightWeapon, false);
                     weaponSlotManager.LoadWeaponOnSlot(playerInventoryManager.leftWeapon, true);
+                    weaponSlotManager.LoadTwoHandIKTargets(false);
                 }
             }
         }

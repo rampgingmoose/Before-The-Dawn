@@ -16,29 +16,16 @@ MonoBehaviour:
   itemName: Moon's Sorrow
   modelPrefab: {fileID: 4014631604082462727, guid: fb332d3ac8a629c4d9e6fe38967aadaf, type: 3}
   isUnarmed: 0
-  baseDamage: 25
+  weaponController: {fileID: 22100000, guid: b7f8eeb7a878b1c478750710d01cd378, type: 2}
+  offHandIdleAnimation: Left_Arm_Idle_01
+  weaponType: 3
+  physicalDamage: 25
+  fireDamage: 0
   CriticalDamageMultiplier: 3
   poiseBreak: 25
   offensivePoiseBonus: 0
-  physicalDamageAbsoption: 0
-  right_Hand_Idle: Right_Arm_Idle_01
-  left_Hand_Idle: Left_Arm_Idle_01
-  th_Idle: TH_Idle_Sword_01
-  OH_Light_Attack_01: OH_Light_Attack_01
-  OH_Light_Attack_02: OH_Light_Attack_02
-  OH_Heavy_Attack_01: OH_Heavy_Attack_01
-  OH_Heavy_Attack_02: OH_Heavy_Attack_02
-  OH_Special_Attack: OH_Special_Attack
-  TH_Light_Attack_01: TH_Light_Attack_01
-  TH_Light_Attack_02: TH_Light_Attack_02
-  TH_Heavy_Attack_01: TH_Heavy_Attack_01
-  TH_Heavy_Attack_02: TH_Heavy_Attack_02
-  weapon_Art: 
+  physicalDamageAbsorption: 0
+  fireDamageAbsorption: 0
   baseStamina: 10
   lightAttackMultiplier: 1
   heavyAttackMultiplier: 2
-  isSpellCaster: 0
-  isFaithCaster: 0
-  isPryroCaster: 0
-  isMeleeWeapon: 1
-  isShieldWeapon: 0

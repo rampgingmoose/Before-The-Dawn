@@ -9,6 +9,8 @@ TagManager:
   - Interactable
   - Fire
   - Illusionary Wall
+  - Character
+  - ground
   layers:
   - Default
   - TransparentFX

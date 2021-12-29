@@ -16,9 +16,9 @@ namespace ST
         public float staminaRegenerationAmount = 30f;
         public float staminaRegenerationTimer = 0;
 
-        private void Awake()
+        protected override void Awake()
         {
-            healthBar = FindObjectOfType<HealthBar>();
+            base.Awake();
             staminaBar = FindObjectOfType<StaminaBar>();
             focusBar = FindObjectOfType<FocusBar>(); 
             playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
@@ -73,35 +73,29 @@ namespace ST
             return maxFocus;
         }
 
-        public override void TakeDamage(int damage, string damageAnimation = "Damage_01")
+        public override void TakeDamage(int physicalDamage, int fireDamage, string damageAnimation = "Damage_01")
         {
             if (playerManager.isInvulnerable)
                 return;
 
-            if (isDead)
-                return;
-
-            currentHealth = currentHealth - damage;
-
+            base.TakeDamage(physicalDamage, fireDamage);
             healthBar.SetCurrentHealth(currentHealth);
-
             playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);
 
-            if(currentHealth <= 0)
+            if (currentHealth <= 0)
             {
-                HandleDeath();
+                currentHealth = 0;
+                isDead = true;
+                playerAnimatorManager.PlayTargetAnimation("Death_01", true);
             }
         }
 
-        public override void TakeDamageNoAnimation(int damage)
+        public override void TakeDamageNoAnimation(int physicalDamage, int fireDamage)
         {
             if (playerManager.isInvulnerable)
                 return;
 
-            if (isDead)
-                return;
-
-            base.TakeDamageNoAnimation(damage);
+            base.TakeDamageNoAnimation(physicalDamage,fireDamage);
 
             healthBar.SetCurrentHealth(currentHealth);
         }

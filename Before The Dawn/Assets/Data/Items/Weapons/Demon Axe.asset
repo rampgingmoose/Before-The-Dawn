@@ -16,29 +16,16 @@ MonoBehaviour:
   itemName: Demon Axe
   modelPrefab: {fileID: 1024157257164116855, guid: d70d7b32180c25143a02cc0688a01aa5, type: 3}
   isUnarmed: 0
-  baseDamage: 50
+  weaponController: {fileID: 0}
+  offHandIdleAnimation: Left_Arm_Idle_01
+  weaponType: 4
+  physicalDamage: 25
+  fireDamage: 10
   CriticalDamageMultiplier: 4
   poiseBreak: 250
   offensivePoiseBonus: 200
-  physicalDamageAbsoption: 0
-  right_Hand_Idle: Right_Arm_Idle_01
-  left_Hand_Idle: Left_Arm_Idle_01
-  th_Idle: 
-  OH_Light_Attack_01: OH_Light_Attack_01
-  OH_Light_Attack_02: OH_Light_Attack_02
-  OH_Heavy_Attack_01: OH_Heavy_Attack_01
-  OH_Heavy_Attack_02: OH_Heavy_Attack_02
-  OH_Special_Attack: OH_Special_Attack
-  TH_Light_Attack_01: 
-  TH_Light_Attack_02: 
-  TH_Heavy_Attack_01: 
-  TH_Heavy_Attack_02: 
-  weapon_Art: 
+  physicalDamageAbsorption: 0
+  fireDamageAbsorption: 0
   baseStamina: 25
   lightAttackMultiplier: 1
   heavyAttackMultiplier: 2
-  isSpellCaster: 0
-  isFaithCaster: 0
-  isPryroCaster: 0
-  isMeleeWeapon: 1
-  isShieldWeapon: 0

@@ -1,5 +1,4 @@
-﻿/******************************************************************************/
-/*
+﻿/*
   Project   - Boing Kit
   Publisher - Long Bunny Labs
               http://LongBunnyLabs.com
@@ -520,7 +519,7 @@ namespace BoingKit
 
       m_fieldParams.GridCenter = m_gridCenter;
       m_fieldParams.UpWs =
-        Params.Bits.IsBitSet(BoingWork.ReactorFlags.GlobalReactionUpVector)
+        Params.Bits.IsBitSet((int) BoingWork.ReactorFlags.GlobalReactionUpVector)
         ? Params.RotationReactionUp
         : transform.rotation * VectorUtil.NormalizeSafe(Params.RotationReactionUp, Vector3.up);
 
@@ -719,7 +718,16 @@ namespace BoingKit
         if (m_cellsBuffer != null)
           m_cellsBuffer.Dispose();
 
-        m_cellsBuffer = new ComputeBuffer(CellsX * CellsY * CellsZ, BoingWork.Params.InstanceData.Stride);
+        int numCells = CellsX * CellsY * CellsZ;
+        m_cellsBuffer = new ComputeBuffer(numCells, BoingWork.Params.InstanceData.Stride);
+        var cellBufferInitData = new BoingWork.Params.InstanceData[numCells];
+        for (int i = 0; i < numCells; ++i)
+        {
+          cellBufferInitData[i].PositionSpring.Reset();
+          cellBufferInitData[i].RotationSpring.Reset();
+        }
+        m_cellsBuffer.SetData(cellBufferInitData);
+
         incrementResourceSetId = true;
 
         m_cellsX = CellsX;
@@ -1107,7 +1115,7 @@ namespace BoingKit
         for (int z = 0; z < CellsZ; ++z)
           for (int y = 0; y < CellsY; ++y)
             for (int x = 0; x < CellsX; ++x)
-              m_aCpuCell[z, y, x].AccumulateTarget(ref Params, ref ep);
+              m_aCpuCell[z, y, x].AccumulateTarget(ref Params, ref ep, dt);
         Profiler.EndSample();
 
       }

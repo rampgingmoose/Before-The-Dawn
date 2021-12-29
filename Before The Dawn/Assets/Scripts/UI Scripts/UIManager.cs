@@ -9,6 +9,7 @@ namespace ST
     {
         public PlayerInventoryManager playerInventory;
         public EquipmentWindowUI equipmentWindowUI;
+        private QuickSlotsUI quickSlotsUI;
 
         [Header("UI Windows")]
         public GameObject hudWindow;
@@ -29,13 +30,15 @@ namespace ST
 
         private void Awake()
         {
-
+            quickSlotsUI = GetComponentInChildren<QuickSlotsUI>();
         }
 
         public void Start()
         {
             weaponInventorySlots = weaponInventorySlotsParent.GetComponentsInChildren<WeaponInventorySlot>();
             equipmentWindowUI.LoadWeaponsOnEquipmentScreen(playerInventory);
+            quickSlotsUI.UpdateCurrentSpellIcon(playerInventory.currentSpell);
+            quickSlotsUI.UpdateCurrentConsumableIcon(playerInventory.currentConsumableItem);
         }
 
         public void UpdateUI()

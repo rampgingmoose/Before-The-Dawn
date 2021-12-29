@@ -29,13 +29,7 @@ namespace ST
         [SerializeField]
         float movementSpeed = 5;
         [SerializeField]
-        float sprintSpeed = 7;
-        [SerializeField]
-        float rotationSpeed = 10;
-        [SerializeField]
         float fallingSpeed = 45;
-        [SerializeField]
-        float walkingSpeed = 3;
 
         private void Awake()
         {

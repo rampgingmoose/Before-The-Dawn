@@ -62,12 +62,18 @@ namespace BoingKit
       }
     }
 
-    public static Aabb FromPoints(params Vector3[] aPoint)
+    public static Aabb FromPoint(Vector3 p)
     {
       var aabb = Empty;
-      for (int i = 0, n = aPoint.Length; i < n; ++i)
-        aabb.Include(aPoint[i]);
-
+      aabb.Include(p);
+      return aabb;
+    }
+    
+    public static Aabb FromPoints(Vector3 a, Vector3 b)
+    {
+      var aabb = Empty;
+      aabb.Include(a);
+      aabb.Include(b);
       return aabb;
     }
 
@@ -127,7 +133,7 @@ namespace BoingKit
     public bool Intersects(ref BoingEffector.Params effector)
     {
       return
-        effector.Bits.IsBitSet(BoingWork.EffectorFlags.ContinuousMotion) 
+        effector.Bits.IsBitSet((int) BoingWork.EffectorFlags.ContinuousMotion) 
           ? Intersects
             (
               FromPoints
@@ -138,7 +144,7 @@ namespace BoingKit
             )
           : Intersects
             (
-              FromPoints
+              FromPoint
               (
                 effector.CurrPosition
               ).Expand(effector.Radius)
@@ -183,11 +189,6 @@ namespace BoingKit
     public bool IsBitSet(int index)
     {
       return (m_bits & (1 << index)) != 0;
-    }
-
-    public bool IsBitSet(System.Enum index)
-    {
-      return IsBitSet(Convert.ToInt32(index));
     }
   }
 

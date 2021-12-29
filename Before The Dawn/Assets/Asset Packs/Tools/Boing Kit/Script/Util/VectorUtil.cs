@@ -239,49 +239,9 @@ namespace BoingKit
       return new Vector3(Mathf.Abs(v.x), Mathf.Abs(v.y), Mathf.Abs(v.z));
     }
 
-    public static Vector3 ComponentWiseMin(params Vector3[] aVec)
+    public static Vector3 ComponentWiseMult(Vector3 a, Vector3 b)
     {
-      if (aVec.Length == 0)
-        return new Vector3(float.MinValue, float.MinValue, float.MinValue);
-
-      Vector3 min = aVec[0];
-      for (int i = 1, n = aVec.Length; i < n; ++i)
-      {
-        Vector3 v = aVec[i];
-        min.Set(Mathf.Min(min.x, v.x), Mathf.Min(min.y, v.y), Mathf.Min(min.z, v.z));
-      }
-
-      return min;
-    }
-
-    public static Vector3 ComponentWiseMax(params Vector3[] aVec)
-    {
-      if (aVec.Length == 0)
-        return new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-
-      Vector3 max = aVec[0];
-      for (int i = 1, n = aVec.Length; i < n; ++i)
-      {
-        Vector3 v = aVec[i];
-        max.Set(Mathf.Max(max.x, v.x), Mathf.Max(max.y, v.y), Mathf.Max(max.z, v.z));
-      }
-
-      return max;
-    }
-
-    public static Vector3 ComponentWiseMult(params Vector3[] aVec)
-    {
-      if (aVec.Length == 0)
-        return Vector3.one;
-
-      Vector3 prod = aVec[0];
-      for (int i = 1, n = aVec.Length; i < n; ++i)
-      {
-        Vector3 v = aVec[i];
-        prod.Set(prod.x * v.x, prod.y * v.y, prod.z * v.z);
-      }
-
-      return prod;
+      return Vector3.Scale(a, b);
     }
 
     public static Vector3 ComponentWiseDiv(Vector3 num, Vector3 den)

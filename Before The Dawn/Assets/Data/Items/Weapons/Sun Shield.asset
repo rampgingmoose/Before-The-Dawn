@@ -16,27 +16,16 @@ MonoBehaviour:
   itemName: Sun Shield
   modelPrefab: {fileID: 572308893272370344, guid: 4211efde7a0415b4f863464a9b122ae9, type: 3}
   isUnarmed: 0
-  baseDamage: 0
+  weaponController: {fileID: 22100000, guid: 24b039919290fb54b9a39c6a26269ecd, type: 2}
+  offHandIdleAnimation: Left_Arm_Idle_01
+  weaponType: 5
+  physicalDamage: 25
+  fireDamage: 0
   CriticalDamageMultiplier: 0
-  physicalDamageAbsoption: 70
-  right_Hand_Idle: Right_Arm_Idle_01
-  left_Hand_Idle: Left_Arm_Idle_01
-  th_Idle: 
-  OH_Light_Attack_01: 
-  OH_Light_Attack_02: 
-  OH_Heavy_Attack_01: 
-  OH_Heavy_Attack_02: 
-  OH_Special_Attack: 
-  TH_Light_Attack_01: 
-  TH_Light_Attack_02: 
-  TH_Heavy_Attack_01: 
-  TH_Heavy_Attack_02: 
-  weapon_Art: Parry
+  poiseBreak: 0
+  offensivePoiseBonus: 0
+  physicalDamageAbsorption: 100
+  fireDamageAbsorption: 60
   baseStamina: 25
   lightAttackMultiplier: 1
   heavyAttackMultiplier: 2
-  isSpellCaster: 0
-  isFaithCaster: 0
-  isPryroCaster: 0
-  isMeleeWeapon: 0
-  isShieldWeapon: 1

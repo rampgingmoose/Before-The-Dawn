@@ -10,7 +10,7 @@ Material:
   m_Name: M_Terrain
   m_Shader: {fileID: 4800000, guid: 0ef6b50e2e41c014dbd8578900796423, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 0
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -164,6 +164,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _AlphaCutoff: 0.5
     - _BumpScale: 1
     - _Culling: 2
     - _Cutoff: 0.5
@@ -209,3 +210,4 @@ Material:
     - _EmissiveTint: {r: 1, g: 1, b: 1, a: 0}
     - _GrassTint: {r: 1, g: 1, b: 1, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []

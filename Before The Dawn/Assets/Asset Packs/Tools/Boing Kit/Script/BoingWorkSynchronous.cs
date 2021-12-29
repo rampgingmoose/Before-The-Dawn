@@ -17,7 +17,7 @@ namespace BoingKit
   internal static class BoingWorkSynchronous
   {
     #region Behavior
-    
+
     internal static void ExecuteBehaviors(Dictionary<int, BoingBehavior> behaviorMap, BoingManager.UpdateTiming updateTiming)
     {
       float dt = Time.deltaTime;
@@ -57,7 +57,7 @@ namespace BoingKit
       BoingManager.UpdateTiming updateTiming
     )
     {
-      float dt = Time.deltaTime;
+      float dt = BoingManager.DeltaTime;
 
       Profiler.BeginSample("Update Reactors");
 
@@ -70,7 +70,7 @@ namespace BoingKit
         reactor.PrepareExecute();
 
         for (int i = 0; i < aEffectorParams.Length; ++i)
-          reactor.Params.AccumulateTarget(ref aEffectorParams[i]);
+          reactor.Params.AccumulateTarget(ref aEffectorParams[i], dt);
         reactor.Params.EndAccumulateTargets();
 
         switch (reactor.UpdateMode)
@@ -124,16 +124,19 @@ namespace BoingKit
     {
       Profiler.BeginSample("Update Bones (Execute)");
 
+      float dt = BoingManager.DeltaTime;
+
       foreach (var itBones in bonesMap)
       {
         var bones = itBones.Value;
         if (bones.UpdateTiming != updateTiming)
           continue;
 
+
         bones.PrepareExecute();
 
         for (int i = 0; i < aEffectorParams.Length; ++i)
-          bones.AccumulateTarget(ref aEffectorParams[i]);
+          bones.AccumulateTarget(ref aEffectorParams[i], dt);
         bones.EndAccumulateTargets();
 
         switch (bones.UpdateMode)
@@ -154,7 +157,7 @@ namespace BoingKit
 
     internal static void PullBonesResults
     (
-      BoingEffector.Params[] aEffectorParams,
+      BoingEffector.Params[] aEffectorParams, 
       Dictionary<int, BoingBones> bonesMap, 
       BoingManager.UpdateTiming updateTiming
     )

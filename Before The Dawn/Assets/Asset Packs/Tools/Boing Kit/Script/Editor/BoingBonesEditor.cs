@@ -54,9 +54,9 @@ namespace BoingKit
       DebugDrawLengthFromRoot = serializedObject.FindProperty("DebugDrawLengthFromRoot");
     }
 
-    public override void OnInspectorGUI()
+    protected override void DrawContent()
     {
-      base.OnInspectorGUI();
+      base.DrawContent();
 
 
       serializedObject.Update();

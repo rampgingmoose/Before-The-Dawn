@@ -35,8 +35,8 @@ namespace BoingKit
 
     public enum UpdateTiming
     {
-      Early, 
-      Late, 
+      Early,
+      Late,
     }
 
     public enum TranslationLockSpace
@@ -414,7 +414,7 @@ namespace BoingKit
 
         itBehavior.Value.PullResults();
       }
-
+  
       Profiler.EndSample();
     }
 

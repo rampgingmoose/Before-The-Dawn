@@ -17,14 +17,21 @@ namespace ST
 
         [Header("Base Damage")]
         public int baseDamage = 200;
+        public int explosiveDamage = 50;
 
+        public override void Start()
+        {
+            currentItemAmount = maxItemAmount;
+        }
         public override void AttemptToConsumeItem(PlayerAnimatorManager playerAnimatorManager, PlayerWeaponSlotManager weaponSlotManager, PlayerFXManager playerFXManager)
         {
             if (currentItemAmount > 0)
             {
+                weaponSlotManager.rightHandSlot.UnloadWeapon();
                 playerAnimatorManager.PlayTargetAnimation(consumeAnimation, true);
                 GameObject bombModel = Instantiate(itemModel, weaponSlotManager.rightHandSlot.transform.position, Quaternion.identity, weaponSlotManager.rightHandSlot.transform);
                 playerFXManager.instantiatedFXModel = bombModel;
+                currentItemAmount = Mathf.RoundToInt(currentItemAmount - 1);
             }
             else
             {

@@ -12,13 +12,13 @@ namespace ST
         public EnemyAttackAction comboAction;
 
         public int attackScore = 3;
-        public float recoveryTime = 2;
+        public float recoveryTime = 2f;
 
-        public float maximumAttackAngle = 35;
-        public float minimumAttackAngle = -35;
+        public float maximumAttackAngle = 35f;
+        public float minimumAttackAngle = -35f;
 
-        public float minimumDistanceNeededToAttack = 0;
-        public float maximumDistanceNeededToAttack = 3;
+        public float minimumDistanceNeededToAttack = 0.1f;
+        public float maximumDistanceNeededToAttack = 3f;
     }
 
 }

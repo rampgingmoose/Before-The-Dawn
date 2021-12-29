@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 234da47c4694caf479cd3f28a53a3daf
 ModelImporter:
-  serializedVersion: 20101
+  serializedVersion: 20200
   internalIDToNameTable:
   - first:
       1: 100000
@@ -1055,36 +1055,11 @@ ModelImporter:
       error = 2.993097 mm\n\t'middle_02_r' : position error = 1.204122 mm\n\t'ring_02_r'
       : position error = 1.314597 mm\n"
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar
-      to improve retargeting quality.\n\t'thigh_l' has translation animation that
-      will be discarded.\n\t'calf_l' has translation animation that will be discarded.\n\t'foot_l'
-      has translation animation that will be discarded.\n\t'ball_l' has translation
-      animation that will be discarded.\n\t'thigh_r' has translation animation that
-      will be discarded.\n\t'calf_r' has translation animation that will be discarded.\n\t'foot_r'
-      has translation animation that will be discarded.\n\t'ball_r' has translation
-      animation that will be discarded.\n\t'spine_01' has translation animation that
-      will be discarded.\n\t'spine_02' has translation animation that will be discarded.\n\t'upperarm_l'
-      has translation animation that will be discarded.\n\t'lowerarm_l' has translation
-      animation that will be discarded.\n\t'upperarm_r' has translation animation
-      that will be discarded.\n\t'lowerarm_r' has translation animation that will
-      be discarded.\n\t'head' has translation animation that will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftLowerLeg
-      average position error 5.0 mm and maximum position error 8.9 mm at time 0:24
-      (75.0%) Frame 24\n\tLeftFoot average position error 5.0 mm and maximum position
-      error 9.0 mm at time 0:24 (75.0%) Frame 24\n\tRightLowerLeg average position
-      error 4.6 mm and maximum position error 7.6 mm at time 0: 5 (15.6%) Frame 5\n\tRightFoot
-      average position error 4.5 mm and maximum position error 7.5 mm at time 0:
-      5 (15.6%) Frame 5\n\tLeftUpperArm average position error 8.7 mm and maximum
-      position error 14.6 mm at time 0:23 (71.9%) Frame 23\n\tLeftLowerArm average
-      position error 8.5 mm and maximum position error 13.9 mm at time 0:23 (71.9%)
-      Frame 23\n\tLeftHand average position error 8.8 mm and maximum position error
-      13.5 mm at time 0: 7 (21.9%) Frame 7\n\tRightUpperArm average position error
-      8.7 mm and maximum position error 14.0 mm at time 0: 7 (21.9%) Frame 7\n\tRightLowerArm
-      average position error 8.4 mm and maximum position error 13.3 mm at time 0:
-      7 (21.9%) Frame 7\n\tRightHand average position error 8.8 mm and maximum position
-      error 13.8 mm at time 0:23 (71.9%) Frame 23\n\tHead average position error
-      8.8 mm and maximum position error 14.0 mm at time 0:23 (71.9%) Frame 23\n"
+    animationImportWarnings: 
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftHand
+      average position error 1.4 mm and maximum position error 1.6 mm at time 0:16
+      (50.0%) Frame 16\n\tRightHand average position error 1.5 mm and maximum position
+      error 1.7 mm at time 0:31 (96.9%) Frame 31\n"
     animationDoRetargetingWarnings: 1
     importAnimatedCustomProperties: 0
     importConstraints: 0
@@ -1095,7 +1070,36 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 32
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 1
+      loopBlendPositionY: 1
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 1
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 1
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -2206,6 +2210,7 @@ ModelImporter:
   animationType: 3
   humanoidOversampling: 1
   avatarSetup: 2
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

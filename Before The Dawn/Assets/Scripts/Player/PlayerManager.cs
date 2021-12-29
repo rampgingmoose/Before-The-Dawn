@@ -19,8 +19,9 @@ namespace ST
         public GameObject interactableUIGameObject;
         public GameObject itemInteractableGameObject;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             cameraHandler = FindObjectOfType<CameraHandler>();
             backStabCollider = GetComponentInChildren<CriticalDamageColliders>();
             inputHandler = GetComponent<InputHandler>();
@@ -39,9 +40,10 @@ namespace ST
             isInteracting = animator.GetBool("isInteracting");
             canDoCombo = animator.GetBool("canDoCombo");
             isUsingRightHand = animator.GetBool("isUsingRightHand");
-            isUsingLeftHand = animator.GetBool("isUsingLeftHand");
+            isUsingLeftHand = animator.GetBool("isUsingLeftHand");            
             isInvulnerable = animator.GetBool("isInvulnerable");
             isFiringSpell = animator.GetBool("isFiringSpell");
+            animator.SetBool("isTwoHanding", isTwoHanding);
             animator.SetBool("isBlocking", isBlocking);
             animator.SetBool("isAttacking", isAttacking);
             animator.SetBool("isInAir", isInAir);
@@ -56,8 +58,9 @@ namespace ST
             CheckForInteractableObject();
         }
 
-        private void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             float delta = Time.fixedDeltaTime;
             playerLocomotion.HandleMovement(delta);
             playerLocomotion.HandleFalling(delta, playerLocomotion.moveDirection);
@@ -78,7 +81,6 @@ namespace ST
             inputHandler.a_Input = false;
             inputHandler.jump_Input = false;
             inputHandler.inventory_Input = false;
-            inputHandler.special_Input = false;
             
             float delta = Time.deltaTime;
 

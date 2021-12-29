@@ -139,3 +139,113 @@ FAQ
      as shown in the example shaders.
      The functions are ApplyBoingReactorFieldPerObject and ApplyBoingReactorFieldPerVertex.
      For usage examples, please check out the Example Custom Shader files under the Warped Teapots example.
+
+---------------------------------------------------------------------------------------------------
+
+Changes:
+
+  Version 1.2.29:
+   - Fix garbage collection upon calling Aabb.FromPoints.
+   - Fix garbage collection upon calling VectorUtil.ComponentWiseMult.
+
+  Version 1.2.28:
+   - Fix garbage collection upon calling Bits32.IsBitSet.
+
+  Version 1.2.27:
+   - Restore update timing. (Unity should really fix the timing of their sprite framework's transform read; it should be after LateUpdate(), NOT after Update())
+   - Fix one-frame-off error on non-loose root bones.
+
+  Version 1.2.26:
+   - Fix reactor field compute shader for DirectX.
+   - Fix time dependence of effector accumulation.
+
+  Version 1.2.25:
+   - Fix inspector header text color in dark theme.
+
+  Version 1.2.24:
+   - Remove update timing option, as it was a crutch that introduced too much code complexity and performance hit, all to accommodate issues in other external systems that improperly pull transform data too early for rendering.
+   - Fix jitter in fixed update mode.
+
+  Version 1.2.23:
+   - Add shader subgraph, which can be used to create URP & HDRP shader graphs that sample reactor fields.
+
+  Version 1.2.22:
+   - Fix boing bones jitter in builds.
+
+  Version 1.2.21:
+   - Fix boing bones not restoring to original bone positions upon being disabled.
+   - Fix objects reset to identity transform on synchronous scene reload.
+
+  Version 1.2.20:
+   - Fix exception upon adding the boing bones component.
+   - Fix bone exclusion from the boing bones component.
+
+  Version 1.2.19:
+   - Fix boing behaviors & reactors having rotation permanently changed without properly restoring when outside influence is gone.
+
+  Version 1.2.18:
+   - Fix editor errors when editing boing reactor fields in inspector.
+   - Fix inability to move objects with boing behaviors in editor under play mode.
+
+  Version 1.2.17:
+   - Use script execution order instead of camera-based events to apply and restore transforms. If this breaks interaction between Boing Kit and other procedural animation scripts, please simply re-adjust their script execution order. Typically, Boing Kit's post-update pump needs to be last in the execution order list and pre-update pump needs to be first in the list.
+   - Add update timing (Early v.s. Late) to boing beahviors, boing reactors, boing reactor field CPU samplers, and boing bones. This option dictates when to apply transforms for rendering. The Late option is the original and default, which apply transforms for rendering at the end of LateUpdate. The Early applies transforms for rendering at the end of Update, which is for accommodating scripts that unexpectedly pull transforms for rendering between Update and LateUpdate, such as Unity's skinned sprite renderer in certain versions.
+
+  Version 1.2.16:
+   - Add update mode (Update v.s. FixedUpdate) to boing behaviors and boing reactors. Use matching update mode to other game logic to avoid potential jitter.
+   - Add options to lock translational effects along certain axes (in either global or local space).
+
+  Version 1.2.15:
+   - Fix issues with gravity in fixed-update mode.
+
+  Version 1.2.14:
+   - Add update mode (Update v.s. FixedUpdate) to boing bones. Use matching update mode to other game logic to avoid potential jitter.
+   - Fix boing bones issues with switching/reloading scenes.
+   - Fix bone transform drifts over prolonged period of time.
+
+  Version 1.2.13:
+   - Fix bones becoming further apart over time.
+
+  Version 1.2.12:
+   - Fix issues with multiple cameras in game & multiple views in editor.
+   - Add README files that contain a new overview, quick start guide, and instructions on how to set up effects demonstrated in some examples.
+
+  Version 1.2.11:
+   - Fix namespace conflicts with Oculus SDK in examples.
+
+  Version 1.2.10:
+   - Fix bad child rotation under bones with multiple children.
+
+  Version 1.2.9:
+   - Use a globally shared dummy collider for all boing bones.
+
+  Version 1.2.8:
+   - Fix crash upon exceeding initial effector count limit.
+
+  Version 1.2.7:
+   - Fix profiler error messages.
+
+  Version 1.2.6:
+   - Fix for multiple cameras.
+   - NOTE: Due to technical limitations, effects will only appear in one single active Edit or Game view under Play Mode in the Unity editor (whichever gets rendered first). However, effects should show up normally in all cameras in built games.
+
+  Version 1.2.5:
+   - SRP support (including LWRP & HDRP) for Unity 2019.1 or newer.
+   - NOTE: Materials included in the examples are still targeted for the standard render pipeline. If using LWRP or HDRP, they would need to be upgraded to the scriptable render pipelines via the menu items under Edit > Render Pipeline. However, the example materials used alongside the reactor field's compute shader are modified from Unity's standard materials (hence non-standard) and cannot be automatically upgraded for LWRP or HDRP. It is recommended that you try out all the examples under Unity's standard render pipeline.
+
+  Version 1.2.4:
+   - Dynamic bouncy bones.
+
+  Version 1.1.3:
+   - Reactor field propagation.
+
+  Version 1.0.2:
+   - Registry callbacks.
+
+  Version 1.0.1:
+   - Fix for custom shader example.
+
+  Version 1.0.0:
+   - Initial release.
+  Original
+

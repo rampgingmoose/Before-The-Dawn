@@ -67,9 +67,12 @@ namespace BoingKit
       }
     }
 
-    internal Vector3 CachedPosition;
+    internal bool CachedTransformValid = false;
+    internal Vector3 CachedPositionLs;
+    internal Vector3 CachedPositionWs;
     internal Vector3 RenderPosition;
-    internal Quaternion CachedRotation;
+    internal Quaternion CachedRotationLs;
+    internal Quaternion CachedRotationWs;
     internal Quaternion RenderRotation;
 
     internal bool InitRebooted = false;
@@ -81,14 +84,19 @@ namespace BoingKit
 
     public virtual void Reboot()
     {
-      Params.Instance.PositionSpring.Reset(gameObject.transform.position);
-      Params.Instance.RotationSpring.Reset(gameObject.transform.rotation);
-      CachedPosition = gameObject.transform.position;
-      CachedRotation = gameObject.transform.rotation;
+      Params.Instance.PositionSpring.Reset(transform.position);
+      Params.Instance.RotationSpring.Reset(transform.rotation);
+      CachedPositionLs = transform.localPosition;
+      CachedRotationLs = transform.localRotation;
+      CachedPositionWs = transform.position;
+      CachedRotationWs = transform.rotation;
+
+      CachedTransformValid = true;
     }
 
     public virtual void OnEnable()
     {
+      CachedTransformValid = false;
       InitRebooted = false;
       Register();
     }
@@ -98,7 +106,7 @@ namespace BoingKit
       InitRebooted = false;
     }
 
-    public void OnDisable()
+    public virtual void OnDisable()
     {
       Unregister();
     }
@@ -146,8 +154,8 @@ namespace BoingKit
       Params.Instance.PrepareExecute
       (
         ref Params, 
-        CachedPosition, 
-        CachedRotation, 
+        CachedPositionWs, 
+        CachedRotationWs, 
         Mathf.Min(scale.x, scale.y, scale.z), 
         accumulateEffectors
       );
@@ -198,32 +206,39 @@ namespace BoingKit
 
     private void PullResults(ref BoingWork.Params p)
     {
-      CachedPosition = transform.position;
+      CachedPositionLs = transform.localPosition;
+      CachedPositionWs = transform.position;
       RenderPosition = BoingWork.ComputeTranslationalResults(transform, transform.position, p.Instance.PositionSpring.Value, this);
       transform.position = RenderPosition;
 
-      CachedRotation = transform.rotation;
-      RenderRotation = p.Instance.RotationSpring.ValueQuat;;
+      CachedRotationLs = transform.localRotation;
+      CachedRotationWs = transform.rotation;
+      RenderRotation = p.Instance.RotationSpring.ValueQuat;
       transform.rotation = RenderRotation;
+
+      CachedTransformValid = true;
     }
 
-    public void Restore()
+    virtual public void Restore()
     {
+      if (!CachedTransformValid)
+        return;
+
       if (Application.isEditor)
       {
         // transforms can be manually modified in editor between post-update and pre-update
         // we respect that by skipping restoration of cached transforms
 
         if ((transform.position - RenderPosition).sqrMagnitude < 1e-4f)
-          transform.position = CachedPosition;
+          transform.localPosition = CachedPositionLs;
 
         if (QuaternionUtil.GetAngle(transform.rotation * Quaternion.Inverse(RenderRotation)) < 1e-2f)
-          transform.rotation = CachedRotation;
+          transform.localRotation = CachedRotationLs;
       }
       else
       {
-        transform.position = CachedPosition;
-        transform.rotation = CachedRotation;
+        transform.localPosition = CachedPositionLs;
+        transform.localRotation = CachedRotationLs;
       }
     }
   }

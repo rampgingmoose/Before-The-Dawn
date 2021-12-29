@@ -249,6 +249,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			return tess;
 		}
 		#endif //ASE_TESS_FUNCS
+
 		ENDHLSL
 
 		
@@ -276,19 +277,23 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _EMISSION
 			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 70403
+			#define ASE_SRP_VERSION 100202
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma prefer_hlslcc gles
 			#pragma exclude_renderers d3d11_9x
 
+			#pragma multi_compile _ _SCREEN_SPACE_OCCLUSION
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
-			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS _ADDITIONAL_OFF
 			#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
 			#pragma multi_compile _ _SHADOWS_SOFT
 			#pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
 			
+			#pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+			#pragma multi_compile _ SHADOWS_SHADOWMASK
+
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
 			#pragma multi_compile _ LIGHTMAP_ON
 
@@ -318,15 +323,15 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#pragma shader_feature_local TVE_VERTEX_DATA_BATCHED
 			//TVE Shader Type Defines
 			#define TVE_IS_VEGETATION_SHADER
+			//TVE Pipeline Defines
+			#define THE_VEGETATION_ENGINE
+			#define TVE_IS_UNIVERSAL_PIPELINE
 			//TVE Injection Defines
 			//SHADER INJECTION POINT BEGIN
            //Nature Renderer (Procedural Instancing)
            #include "Assets/Visual Design Cafe/Nature Shaders/Common/Nodes/Integrations/Nature Renderer.cginc"
            #pragma instancing_options procedural:SetupNatureRenderer
 			//SHADER INJECTION POINT END
-			//TVE Pipeline Defines
-			#define THE_VEGETATION_ENGINE
-			#define TVE_IS_UNIVERSAL_PIPELINE
 
 
 			struct VertexInput
@@ -364,33 +369,32 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _Color;
-			half4 _VertexOcclusionRemap;
-			float4 _GradientMaskRemap;
-			half4 _MainColor;
-			half4 _GradientColorOne;
+			float4 _SubsurfaceDiffusion_asset;
 			half4 _SubsurfaceMaskRemap;
 			half4 _DetailBlendRemap;
 			half4 _SubsurfaceColor;
-			float4 _SubsurfaceDiffusion_asset;
-			half4 _OverlayMaskRemap;
-			half4 _EmissiveColor;
+			half4 _VertexOcclusionRemap;
+			half4 _MainColor;
+			half4 _ColorsMaskRemap;
 			float4 _NoiseMaskRemap;
-			half4 _EmissiveUVs;
+			float4 _GradientMaskRemap;
+			float4 _Color;
 			half4 _GradientColorTwo;
 			float4 _SubsurfaceDiffusion_Asset;
-			half4 _NoiseColorTwo;
-			float4 _MaxBoundsInfo;
-			half4 _NoiseColorOne;
-			half4 _MainUVs;
+			half4 _EmissiveColor;
 			float4 _EmissiveIntensityParams;
-			half4 _ColorsMaskRemap;
+			half4 _EmissiveUVs;
+			half4 _OverlayMaskRemap;
+			half4 _NoiseColorTwo;
+			half4 _NoiseColorOne;
+			float4 _MaxBoundsInfo;
+			half4 _MainUVs;
+			half4 _GradientColorOne;
 			half3 _render_normals_options;
 			half _GradientMinValue;
 			half _GradientMaxValue;
-			half _OcclusionCat;
-			half _VertexDataMode;
 			half _InteractionMaskValue;
+			half _VertexDataMode;
 			half _LayerReactValue;
 			half _InteractionAmplitude;
 			float _MotionScale_10;
@@ -400,7 +404,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _MotionAmplitude_10;
 			half _GlobalSize;
 			half _NoiseScaleValue;
-			half _ColorsMaskMinValue;
+			half _IsStandardShader;
 			half _NoiseMaxValue;
 			half _MainOcclusionValue;
 			half _GlobalWetness;
@@ -411,54 +415,49 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _OverlayMaskMaxValue;
 			half _OverlayMaskMinValue;
 			half _LayerExtrasValue;
+			half _NoiseMinValue;
 			half _GlobalOverlay;
-			half _MainLightScatteringValue;
 			half _MainLightAngleValue;
 			half _SubsurfaceMaskMaxValue;
 			half _SubsurfaceMaskMinValue;
 			half _SubsurfaceValue;
 			half _ColorsMaskMaxValue;
-			half _render_zw;
+			half _ColorsMaskMinValue;
+			half _TranslucencyScatteringValue;
 			half _GlobalColors;
 			half _LayerColorsValue;
-			half _NoiseMinValue;
-			half _render_cull;
+			half _MainLightScatteringValue;
 			half _TranslucencyDirectValue;
-			half _render_src;
-			half _TranslucencyAmbientValue;
-			half _RenderCull;
-			half _LayersSpace;
-			half _FadeSpace;
-			half _TranslucencyHDMessage;
-			half _SubsurfaceCat;
+			half _SizeFadeMessage;
+			half _DetailTypeMode;
 			half _VertexMasksMode;
 			half _NoiseCat;
 			half _SizeFadeCat;
-			half _VariationGlobalsMessage;
 			half _VariationMotionMessage;
+			half _RenderNormals;
 			half _TranslucencyIntensityValue;
 			half _IsTVEShader;
 			half _DetailMode;
 			half _DetailCat;
+			half _SubsurfaceCat;
 			half _EmissiveFlagMode;
-			half _MotionSpace;
 			half _EmissiveCat;
 			half _Cutoff;
 			half _GradientCat;
-			half _RenderNormals;
-			half _TranslucencyNormalValue;
-			half _RenderClip;
-			half _RenderMode;
+			half _OcclusionCat;
+			half _render_src;
+			half _render_cull;
+			half _render_dst;
+			half _render_zw;
 			half _IsCrossShader;
-			half _IsStandardShader;
-			half _TranslucencyScatteringValue;
-			half _FadeHorizontalValue;
-			half _IsVersion;
-			half _DetailTypeMode;
+			half _MotionSpace;
+			half _TranslucencyHDMessage;
+			half _FadeSpace;
+			half _LayersSpace;
 			half _RenderSSR;
 			half _DetailBlendMode;
 			half _ReceiveSpace;
-			half _SizeFadeMessage;
+			half _FadeHorizontalValue;
 			half _RenderingCat;
 			half _PerspectiveCat;
 			half _TranslucencyShadowValue;
@@ -470,7 +469,13 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			float _SubsurfaceDiffusion;
 			half _RenderDecals;
 			half _VertexVariationMode;
-			half _render_dst;
+			half _RenderMode;
+			half _RenderClip;
+			half _TranslucencyNormalValue;
+			half _VariationGlobalsMessage;
+			half _TranslucencyAmbientValue;
+			half _RenderCull;
+			half _IsVersion;
 			half _FadeVerticalValue;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -545,165 +550,165 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 VertexPosition3588_g54597 = v.vertex.xyz;
-				half3 Mesh_PivotsOS2291_g54597 = half3(0,0,0);
-				float3 temp_output_2283_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				half3 VertexPos40_g55654 = temp_output_2283_0_g54597;
-				float3 appendResult74_g55654 = (float3(VertexPos40_g55654.x , 0.0 , 0.0));
-				half3 VertexPosRotationAxis50_g55654 = appendResult74_g55654;
-				float3 break84_g55654 = VertexPos40_g55654;
-				float3 appendResult81_g55654 = (float3(0.0 , break84_g55654.y , break84_g55654.z));
-				half3 VertexPosOtherAxis82_g55654 = appendResult81_g55654;
-				half ObjectData20_g55685 = 3.14;
-				float Bounds_Height374_g54597 = _MaxBoundsInfo.y;
-				half WorldData19_g55685 = ( Bounds_Height374_g54597 * 3.14 );
+				float3 VertexPosition3588_g55655 = v.vertex.xyz;
+				half3 Mesh_PivotsOS2291_g55655 = half3(0,0,0);
+				float3 temp_output_2283_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				half3 VertexPos40_g55681 = temp_output_2283_0_g55655;
+				float3 appendResult74_g55681 = (float3(VertexPos40_g55681.x , 0.0 , 0.0));
+				half3 VertexPosRotationAxis50_g55681 = appendResult74_g55681;
+				float3 break84_g55681 = VertexPos40_g55681;
+				float3 appendResult81_g55681 = (float3(0.0 , break84_g55681.y , break84_g55681.z));
+				half3 VertexPosOtherAxis82_g55681 = appendResult81_g55681;
+				half ObjectData20_g55710 = 3.14;
+				float Bounds_Height374_g55655 = _MaxBoundsInfo.y;
+				half WorldData19_g55710 = ( Bounds_Height374_g55655 * 3.14 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55685 = WorldData19_g55685;
+				float staticSwitch14_g55710 = WorldData19_g55710;
 				#else
-				float staticSwitch14_g55685 = ObjectData20_g55685;
+				float staticSwitch14_g55710 = ObjectData20_g55710;
 				#endif
-				float Motion_Max_Bending1133_g54597 = staticSwitch14_g55685;
-				float4x4 break19_g55659 = GetObjectToWorldMatrix();
-				float3 appendResult20_g55659 = (float3(break19_g55659[ 0 ][ 3 ] , break19_g55659[ 1 ][ 3 ] , break19_g55659[ 2 ][ 3 ]));
-				half3 ObjectData20_g55660 = appendResult20_g55659;
+				float Motion_Max_Bending1133_g55655 = staticSwitch14_g55710;
+				float4x4 break19_g55686 = GetObjectToWorldMatrix();
+				float3 appendResult20_g55686 = (float3(break19_g55686[ 0 ][ 3 ] , break19_g55686[ 1 ][ 3 ] , break19_g55686[ 2 ][ 3 ]));
+				half3 ObjectData20_g55687 = appendResult20_g55686;
 				float3 ase_worldPos = mul(GetObjectToWorldMatrix(), v.vertex).xyz;
-				half3 WorldData19_g55660 = ase_worldPos;
+				half3 WorldData19_g55687 = ase_worldPos;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55660 = WorldData19_g55660;
+				float3 staticSwitch14_g55687 = WorldData19_g55687;
 				#else
-				float3 staticSwitch14_g55660 = ObjectData20_g55660;
+				float3 staticSwitch14_g55687 = ObjectData20_g55687;
 				#endif
-				float3 temp_output_114_0_g55659 = staticSwitch14_g55660;
-				float3 vertexToFrag4224_g54597 = temp_output_114_0_g55659;
-				half3 ObjectData20_g55680 = vertexToFrag4224_g54597;
-				float3 vertexToFrag3890_g54597 = ase_worldPos;
-				half3 WorldData19_g55680 = vertexToFrag3890_g54597;
+				float3 temp_output_114_0_g55686 = staticSwitch14_g55687;
+				float3 vertexToFrag4224_g55655 = temp_output_114_0_g55686;
+				half3 ObjectData20_g55705 = vertexToFrag4224_g55655;
+				float3 vertexToFrag3890_g55655 = ase_worldPos;
+				half3 WorldData19_g55705 = vertexToFrag3890_g55655;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55680 = WorldData19_g55680;
+				float3 staticSwitch14_g55705 = WorldData19_g55705;
 				#else
-				float3 staticSwitch14_g55680 = ObjectData20_g55680;
+				float3 staticSwitch14_g55705 = ObjectData20_g55705;
 				#endif
-				float3 ObjectPosition4223_g54597 = staticSwitch14_g55680;
-				float3 Position83_g55689 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55689 = _LayerMotionValue;
-				float4 lerpResult87_g55689 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55689).xz ) ),temp_output_84_0_g55689, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55689]);
-				half4 Global_Motion_Params3909_g54597 = lerpResult87_g55689;
-				float4 break322_g55695 = Global_Motion_Params3909_g54597;
-				half Wind_Power369_g55695 = break322_g55695.z;
-				float lerpResult376_g55695 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55695);
-				half Wind_Power_103106_g54597 = lerpResult376_g55695;
-				float2 panner73_g55630 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g54597).xz * TVE_NoiseParams.z ));
-				float4 tex2DNode75_g55630 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55630, 0.0 );
-				float4 saferPower77_g55630 = max( abs( tex2DNode75_g55630 ) , 0.0001 );
-				half Wind_Power2223_g54597 = Wind_Power369_g55695;
-				float temp_output_167_0_g55630 = Wind_Power2223_g54597;
-				float lerpResult168_g55630 = lerp( 1.4 , 0.2 , temp_output_167_0_g55630);
-				float4 temp_cast_3 = (lerpResult168_g55630).xxxx;
-				float4 break174_g55630 = pow( saferPower77_g55630 , temp_cast_3 );
-				half Global_NoiseTex_R34_g54597 = break174_g55630.r;
-				float3 appendResult397_g55695 = (float3(break322_g55695.x , 0.0 , break322_g55695.y));
-				float3 temp_output_398_0_g55695 = (appendResult397_g55695*2.0 + -1.0);
+				float3 ObjectPosition4223_g55655 = staticSwitch14_g55705;
+				float3 Position83_g55714 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55714 = _LayerMotionValue;
+				float4 lerpResult87_g55714 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55714).xz ) ),temp_output_84_0_g55714, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55714]);
+				half4 Global_Motion_Params3909_g55655 = lerpResult87_g55714;
+				float4 break322_g55720 = Global_Motion_Params3909_g55655;
+				half Wind_Power369_g55720 = break322_g55720.z;
+				float lerpResult376_g55720 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55720);
+				half Wind_Power_103106_g55655 = lerpResult376_g55720;
+				float2 panner73_g55658 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g55655).xz * TVE_NoiseParams.z ));
+				float4 tex2DNode75_g55658 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55658, 0.0 );
+				float4 saferPower77_g55658 = max( abs( tex2DNode75_g55658 ) , 0.0001 );
+				half Wind_Power2223_g55655 = Wind_Power369_g55720;
+				float temp_output_167_0_g55658 = Wind_Power2223_g55655;
+				float lerpResult168_g55658 = lerp( 1.4 , 0.2 , temp_output_167_0_g55658);
+				float4 temp_cast_3 = (lerpResult168_g55658).xxxx;
+				float4 break174_g55658 = pow( saferPower77_g55658 , temp_cast_3 );
+				half Global_NoiseTex_R34_g55655 = break174_g55658.r;
+				float3 appendResult397_g55720 = (float3(break322_g55720.x , 0.0 , break322_g55720.y));
+				float3 temp_output_398_0_g55720 = (appendResult397_g55720*2.0 + -1.0);
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
-				float3 temp_output_339_0_g55695 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55695 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Wind_DirectionOS39_g54597 = (temp_output_339_0_g55695).xz;
-				half Input_Speed62_g55653 = _MotionSpeed_10;
-				float mulTime373_g55653 = _TimeParameters.x * Input_Speed62_g55653;
-				float3 break111_g55678 = ObjectPosition4223_g54597;
-				half Variation_Complex102_g55678 = frac( ( v.ase_color.r + ( break111_g55678.x + break111_g55678.z ) ) );
-				half ObjectData20_g55679 = Variation_Complex102_g55678;
-				half Variation_Simple105_g55678 = v.ase_color.r;
-				half WorldData19_g55679 = Variation_Simple105_g55678;
+				float3 temp_output_339_0_g55720 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55720 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Wind_DirectionOS39_g55655 = (temp_output_339_0_g55720).xz;
+				half Input_Speed62_g55680 = _MotionSpeed_10;
+				float mulTime373_g55680 = _TimeParameters.x * Input_Speed62_g55680;
+				float3 break111_g55703 = ObjectPosition4223_g55655;
+				half Variation_Complex102_g55703 = frac( ( v.ase_color.r + ( break111_g55703.x + break111_g55703.z ) ) );
+				half ObjectData20_g55704 = Variation_Complex102_g55703;
+				half Variation_Simple105_g55703 = v.ase_color.r;
+				half WorldData19_g55704 = Variation_Simple105_g55703;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55679 = WorldData19_g55679;
+				float staticSwitch14_g55704 = WorldData19_g55704;
 				#else
-				float staticSwitch14_g55679 = ObjectData20_g55679;
+				float staticSwitch14_g55704 = ObjectData20_g55704;
 				#endif
-				half Motion_Variation3073_g54597 = staticSwitch14_g55679;
-				half Motion_Variation284_g55653 = ( _MotionVariation_10 * Motion_Variation3073_g54597 );
-				float Motion_Scale287_g55653 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
-				half Sine_MinusOneToOne281_g55653 = sin( ( mulTime373_g55653 + Motion_Variation284_g55653 + Motion_Scale287_g55653 ) );
-				half Wind_Squash4479_g54597 = TVE_MotionTweaks.w;
-				half Input_WindSquash419_g55653 = Wind_Squash4479_g54597;
-				half Input_WindPower327_g55653 = Wind_Power_103106_g54597;
-				float lerpResult321_g55653 = lerp( Sine_MinusOneToOne281_g55653 , (Sine_MinusOneToOne281_g55653*Input_WindSquash419_g55653 + 1.0) , Input_WindPower327_g55653);
-				half Mesh_Motion_1082_g54597 = v.ase_texcoord3.x;
-				half2 Motion_10_Bending2258_g54597 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g54597 ) * Wind_Power_103106_g54597 * Global_NoiseTex_R34_g54597 * Wind_DirectionOS39_g54597 * lerpResult321_g55653 * Mesh_Motion_1082_g54597 );
-				half Interaction_Amplitude4137_g54597 = _InteractionAmplitude;
-				float3 Position83_g55652 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55652 = _LayerReactValue;
-				float4 lerpResult87_g55652 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55652).xz ) ),temp_output_84_0_g55652, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55652]);
-				half4 Global_React_Params4173_g54597 = lerpResult87_g55652;
-				float4 break322_g55631 = Global_React_Params4173_g54597;
-				half Interaction_Mask66_g54597 = break322_g55631.z;
-				float3 appendResult397_g55631 = (float3(break322_g55631.x , 0.0 , break322_g55631.y));
-				float3 temp_output_398_0_g55631 = (appendResult397_g55631*2.0 + -1.0);
-				float3 temp_output_339_0_g55631 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55631 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Interaction_DirectionOS4158_g54597 = (temp_output_339_0_g55631).xz;
-				float lerpResult4494_g54597 = lerp( 1.0 , Mesh_Motion_1082_g54597 , _InteractionMaskValue);
-				half2 Motion_10_Interaction53_g54597 = ( Interaction_Amplitude4137_g54597 * Motion_Max_Bending1133_g54597 * Interaction_Mask66_g54597 * Interaction_Mask66_g54597 * Interaction_DirectionOS4158_g54597 * lerpResult4494_g54597 );
-				float2 lerpResult109_g54597 = lerp( Motion_10_Bending2258_g54597 , Motion_10_Interaction53_g54597 , ( Interaction_Mask66_g54597 * saturate( Interaction_Amplitude4137_g54597 ) ));
-				float2 break143_g54597 = lerpResult109_g54597;
-				half Motion_10_ZAxis190_g54597 = break143_g54597.y;
-				half Angle44_g55654 = Motion_10_ZAxis190_g54597;
-				half3 VertexPos40_g55663 = ( VertexPosRotationAxis50_g55654 + ( VertexPosOtherAxis82_g55654 * cos( Angle44_g55654 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55654 ) * sin( Angle44_g55654 ) ) );
-				float3 appendResult74_g55663 = (float3(0.0 , 0.0 , VertexPos40_g55663.z));
-				half3 VertexPosRotationAxis50_g55663 = appendResult74_g55663;
-				float3 break84_g55663 = VertexPos40_g55663;
-				float3 appendResult81_g55663 = (float3(break84_g55663.x , break84_g55663.y , 0.0));
-				half3 VertexPosOtherAxis82_g55663 = appendResult81_g55663;
-				half Motion_10_XAxis216_g54597 = break143_g54597.x;
-				half Angle44_g55663 = -Motion_10_XAxis216_g54597;
-				float3 Vertex_Motion_Object833_g54597 = ( VertexPosRotationAxis50_g55663 + ( VertexPosOtherAxis82_g55663 * cos( Angle44_g55663 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55663 ) * sin( Angle44_g55663 ) ) );
-				float3 temp_output_3474_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				float3 appendResult2043_g54597 = (float3(Motion_10_XAxis216_g54597 , 0.0 , Motion_10_ZAxis190_g54597));
-				float3 Vertex_Motion_World1118_g54597 = ( temp_output_3474_0_g54597 + appendResult2043_g54597 );
+				half Motion_Variation3073_g55655 = staticSwitch14_g55704;
+				half Motion_Variation284_g55680 = ( _MotionVariation_10 * Motion_Variation3073_g55655 );
+				float Motion_Scale287_g55680 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
+				half Sine_MinusOneToOne281_g55680 = sin( ( mulTime373_g55680 + Motion_Variation284_g55680 + Motion_Scale287_g55680 ) );
+				half Wind_Squash4479_g55655 = TVE_MotionTweaks.w;
+				half Input_WindSquash419_g55680 = Wind_Squash4479_g55655;
+				half Input_WindPower327_g55680 = Wind_Power_103106_g55655;
+				float lerpResult321_g55680 = lerp( Sine_MinusOneToOne281_g55680 , (Sine_MinusOneToOne281_g55680*Input_WindSquash419_g55680 + 1.0) , Input_WindPower327_g55680);
+				half Mesh_Motion_1082_g55655 = v.ase_texcoord3.x;
+				half2 Motion_10_Bending2258_g55655 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g55655 ) * Wind_Power_103106_g55655 * Global_NoiseTex_R34_g55655 * Wind_DirectionOS39_g55655 * lerpResult321_g55680 * Mesh_Motion_1082_g55655 );
+				half Interaction_Amplitude4137_g55655 = _InteractionAmplitude;
+				float3 Position83_g55679 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55679 = _LayerReactValue;
+				float4 lerpResult87_g55679 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55679).xz ) ),temp_output_84_0_g55679, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55679]);
+				half4 Global_React_Params4173_g55655 = lerpResult87_g55679;
+				float4 break322_g55659 = Global_React_Params4173_g55655;
+				half Interaction_Mask66_g55655 = break322_g55659.z;
+				float3 appendResult397_g55659 = (float3(break322_g55659.x , 0.0 , break322_g55659.y));
+				float3 temp_output_398_0_g55659 = (appendResult397_g55659*2.0 + -1.0);
+				float3 temp_output_339_0_g55659 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55659 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Interaction_DirectionOS4158_g55655 = (temp_output_339_0_g55659).xz;
+				float lerpResult4494_g55655 = lerp( 1.0 , Mesh_Motion_1082_g55655 , _InteractionMaskValue);
+				half2 Motion_10_Interaction53_g55655 = ( Interaction_Amplitude4137_g55655 * Motion_Max_Bending1133_g55655 * Interaction_Mask66_g55655 * Interaction_Mask66_g55655 * Interaction_DirectionOS4158_g55655 * lerpResult4494_g55655 );
+				float2 lerpResult109_g55655 = lerp( Motion_10_Bending2258_g55655 , Motion_10_Interaction53_g55655 , ( Interaction_Mask66_g55655 * saturate( Interaction_Amplitude4137_g55655 ) ));
+				float2 break143_g55655 = lerpResult109_g55655;
+				half Motion_10_ZAxis190_g55655 = break143_g55655.y;
+				half Angle44_g55681 = Motion_10_ZAxis190_g55655;
+				half3 VertexPos40_g55690 = ( VertexPosRotationAxis50_g55681 + ( VertexPosOtherAxis82_g55681 * cos( Angle44_g55681 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55681 ) * sin( Angle44_g55681 ) ) );
+				float3 appendResult74_g55690 = (float3(0.0 , 0.0 , VertexPos40_g55690.z));
+				half3 VertexPosRotationAxis50_g55690 = appendResult74_g55690;
+				float3 break84_g55690 = VertexPos40_g55690;
+				float3 appendResult81_g55690 = (float3(break84_g55690.x , break84_g55690.y , 0.0));
+				half3 VertexPosOtherAxis82_g55690 = appendResult81_g55690;
+				half Motion_10_XAxis216_g55655 = break143_g55655.x;
+				half Angle44_g55690 = -Motion_10_XAxis216_g55655;
+				float3 Vertex_Motion_Object833_g55655 = ( VertexPosRotationAxis50_g55690 + ( VertexPosOtherAxis82_g55690 * cos( Angle44_g55690 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55690 ) * sin( Angle44_g55690 ) ) );
+				float3 temp_output_3474_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				float3 appendResult2043_g55655 = (float3(Motion_10_XAxis216_g55655 , 0.0 , Motion_10_ZAxis190_g55655));
+				float3 Vertex_Motion_World1118_g55655 = ( temp_output_3474_0_g55655 + appendResult2043_g55655 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch3312_g54597 = Vertex_Motion_World1118_g54597;
+				float3 staticSwitch3312_g55655 = Vertex_Motion_World1118_g55655;
 				#else
-				float3 staticSwitch3312_g54597 = ( Vertex_Motion_Object833_g54597 + ( 0.0 * _VertexDataMode ) );
+				float3 staticSwitch3312_g55655 = ( Vertex_Motion_Object833_g55655 + ( 0.0 * _VertexDataMode ) );
 				#endif
-				half Global_Vertex_Size174_g54597 = break322_g55631.w;
-				float lerpResult346_g54597 = lerp( 1.0 , Global_Vertex_Size174_g54597 , _GlobalSize);
-				float3 appendResult3480_g54597 = (float3(lerpResult346_g54597 , lerpResult346_g54597 , lerpResult346_g54597));
-				half3 ObjectData20_g55694 = appendResult3480_g54597;
+				half Global_Vertex_Size174_g55655 = break322_g55659.w;
+				float lerpResult346_g55655 = lerp( 1.0 , Global_Vertex_Size174_g55655 , _GlobalSize);
+				float3 appendResult3480_g55655 = (float3(lerpResult346_g55655 , lerpResult346_g55655 , lerpResult346_g55655));
+				half3 ObjectData20_g55719 = appendResult3480_g55655;
 				half3 _Vector11 = half3(1,1,1);
-				half3 WorldData19_g55694 = _Vector11;
+				half3 WorldData19_g55719 = _Vector11;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55694 = WorldData19_g55694;
+				float3 staticSwitch14_g55719 = WorldData19_g55719;
 				#else
-				float3 staticSwitch14_g55694 = ObjectData20_g55694;
+				float3 staticSwitch14_g55719 = ObjectData20_g55719;
 				#endif
-				half3 Vertex_Size1741_g54597 = staticSwitch14_g55694;
+				half3 Vertex_Size1741_g55655 = staticSwitch14_g55719;
 				half3 _Vector5 = half3(1,1,1);
-				float3 Vertex_SizeFade1740_g54597 = _Vector5;
-				half3 Grass_Coverage2661_g54597 = half3(0,0,0);
-				float3 Final_VertexPosition890_g54597 = ( ( staticSwitch3312_g54597 * Vertex_Size1741_g54597 * Vertex_SizeFade1740_g54597 ) + Mesh_PivotsOS2291_g54597 + Grass_Coverage2661_g54597 );
+				float3 Vertex_SizeFade1740_g55655 = _Vector5;
+				half3 Grass_Coverage2661_g55655 = half3(0,0,0);
+				float3 Final_VertexPosition890_g55655 = ( ( staticSwitch3312_g55655 * Vertex_Size1741_g55655 * Vertex_SizeFade1740_g55655 ) + Mesh_PivotsOS2291_g55655 + Grass_Coverage2661_g55655 );
 				
-				float temp_output_7_0_g55657 = _GradientMinValue;
-				float4 lerpResult2779_g54597 = lerp( _GradientColorTwo , _GradientColorOne , saturate( ( ( v.ase_color.a - temp_output_7_0_g55657 ) / ( _GradientMaxValue - temp_output_7_0_g55657 ) ) ));
-				half3 Gradient_Tint2784_g54597 = (lerpResult2779_g54597).rgb;
-				float3 vertexToFrag11_g55640 = Gradient_Tint2784_g54597;
-				o.ase_texcoord7.xyz = vertexToFrag11_g55640;
+				float temp_output_7_0_g55684 = _GradientMinValue;
+				float4 lerpResult2779_g55655 = lerp( _GradientColorTwo , _GradientColorOne , saturate( ( ( v.ase_color.a - temp_output_7_0_g55684 ) / ( _GradientMaxValue - temp_output_7_0_g55684 ) ) ));
+				half3 Gradient_Tint2784_g55655 = (lerpResult2779_g55655).rgb;
+				float3 vertexToFrag11_g55667 = Gradient_Tint2784_g55655;
+				o.ase_texcoord7.xyz = vertexToFrag11_g55667;
 				float3 temp_cast_11 = (_NoiseScaleValue).xxx;
-				float3 WorldPosition3905_g54597 = vertexToFrag3890_g54597;
-				float temp_output_7_0_g55666 = _NoiseMinValue;
-				half Noise_Mask3162_g54597 = saturate( ( ( SAMPLE_TEXTURE3D_LOD( TVE_WorldTex3D, samplerTVE_WorldTex3D, ( temp_cast_11 * WorldPosition3905_g54597 * 0.1 ), 0.0 ).r - temp_output_7_0_g55666 ) / ( _NoiseMaxValue - temp_output_7_0_g55666 ) ) );
-				float4 lerpResult2800_g54597 = lerp( _NoiseColorTwo , _NoiseColorOne , Noise_Mask3162_g54597);
-				half3 Noise_Tint2802_g54597 = (lerpResult2800_g54597).rgb;
-				float3 vertexToFrag11_g55642 = Noise_Tint2802_g54597;
-				o.ase_texcoord8.xyz = vertexToFrag11_g55642;
-				float2 vertexToFrag11_g55638 = ( ( v.texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
-				o.ase_texcoord9.xy = vertexToFrag11_g55638;
-				float3 Position58_g55622 = WorldPosition3905_g54597;
-				float temp_output_82_0_g55622 = _LayerColorsValue;
-				float4 lerpResult88_g55622 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55622).xz ) ),temp_output_82_0_g55622, 0.0 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55622]);
-				half Global_ColorsTex_A1701_g54597 = (lerpResult88_g55622).a;
-				float vertexToFrag11_g55644 = Global_ColorsTex_A1701_g54597;
-				o.ase_texcoord7.w = vertexToFrag11_g55644;
-				o.ase_texcoord10.xyz = vertexToFrag3890_g54597;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float temp_output_7_0_g55693 = _NoiseMinValue;
+				half Noise_Mask3162_g55655 = saturate( ( ( SAMPLE_TEXTURE3D_LOD( TVE_WorldTex3D, samplerTVE_WorldTex3D, ( temp_cast_11 * WorldPosition3905_g55655 * 0.1 ), 0.0 ).r - temp_output_7_0_g55693 ) / ( _NoiseMaxValue - temp_output_7_0_g55693 ) ) );
+				float4 lerpResult2800_g55655 = lerp( _NoiseColorTwo , _NoiseColorOne , Noise_Mask3162_g55655);
+				half3 Noise_Tint2802_g55655 = (lerpResult2800_g55655).rgb;
+				float3 vertexToFrag11_g55669 = Noise_Tint2802_g55655;
+				o.ase_texcoord8.xyz = vertexToFrag11_g55669;
+				float2 vertexToFrag11_g55666 = ( ( v.texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
+				o.ase_texcoord9.xy = vertexToFrag11_g55666;
+				float3 Position58_g55656 = WorldPosition3905_g55655;
+				float temp_output_82_0_g55656 = _LayerColorsValue;
+				float4 lerpResult88_g55656 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55656).xz ) ),temp_output_82_0_g55656, 0.0 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55656]);
+				half Global_ColorsTex_A1701_g55655 = (lerpResult88_g55656).a;
+				float vertexToFrag11_g55671 = Global_ColorsTex_A1701_g55655;
+				o.ase_texcoord7.w = vertexToFrag11_g55671;
+				o.ase_texcoord10.xyz = vertexToFrag3890_g55655;
 				
-				float2 vertexToFrag11_g55682 = ( ( v.texcoord.xy * (_EmissiveUVs).xy ) + (_EmissiveUVs).zw );
-				o.ase_texcoord9.zw = vertexToFrag11_g55682;
+				float2 vertexToFrag11_g55707 = ( ( v.texcoord.xy * (_EmissiveUVs).xy ) + (_EmissiveUVs).zw );
+				o.ase_texcoord9.zw = vertexToFrag11_g55707;
 				
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -714,7 +719,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = Final_VertexPosition890_g54597;
+				float3 vertexValue = Final_VertexPosition890_g55655;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -900,144 +905,144 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 	
 				WorldViewDirection = SafeNormalize( WorldViewDirection );
 
-				float3 vertexToFrag11_g55640 = IN.ase_texcoord7.xyz;
-				float3 vertexToFrag11_g55642 = IN.ase_texcoord8.xyz;
-				float2 vertexToFrag11_g55638 = IN.ase_texcoord9.xy;
-				half2 Main_UVs15_g54597 = vertexToFrag11_g55638;
-				float4 tex2DNode29_g54597 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g54597 );
-				float3 temp_output_51_0_g54597 = ( (_MainColor).rgb * (tex2DNode29_g54597).rgb );
-				half3 Main_Albedo99_g54597 = temp_output_51_0_g54597;
-				half3 Blend_Albedo265_g54597 = Main_Albedo99_g54597;
-				half3 Blend_AlbedoTinted2808_g54597 = ( vertexToFrag11_g55640 * vertexToFrag11_g55642 * float3(1,1,1) * Blend_Albedo265_g54597 );
-				float dotResult3616_g54597 = dot( Blend_AlbedoTinted2808_g54597 , float3(0.2126,0.7152,0.0722) );
-				float3 temp_cast_0 = (dotResult3616_g54597).xxx;
-				float vertexToFrag11_g55644 = IN.ase_texcoord7.w;
-				half Global_Colors_Influence3668_g54597 = vertexToFrag11_g55644;
-				float3 lerpResult3618_g54597 = lerp( Blend_AlbedoTinted2808_g54597 , temp_cast_0 , Global_Colors_Influence3668_g54597);
-				float3 vertexToFrag3890_g54597 = IN.ase_texcoord10.xyz;
-				float3 WorldPosition3905_g54597 = vertexToFrag3890_g54597;
-				float3 Position58_g55622 = WorldPosition3905_g54597;
-				float temp_output_82_0_g55622 = _LayerColorsValue;
-				float4 lerpResult88_g55622 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55622).xz ) ),temp_output_82_0_g55622 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55622]);
-				half3 Global_ColorsTex_RGB1700_g54597 = (lerpResult88_g55622).rgb;
+				float3 vertexToFrag11_g55667 = IN.ase_texcoord7.xyz;
+				float3 vertexToFrag11_g55669 = IN.ase_texcoord8.xyz;
+				float2 vertexToFrag11_g55666 = IN.ase_texcoord9.xy;
+				half2 Main_UVs15_g55655 = vertexToFrag11_g55666;
+				float4 tex2DNode29_g55655 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				float3 temp_output_51_0_g55655 = ( (_MainColor).rgb * (tex2DNode29_g55655).rgb );
+				half3 Main_Albedo99_g55655 = temp_output_51_0_g55655;
+				half3 Blend_Albedo265_g55655 = Main_Albedo99_g55655;
+				half3 Blend_AlbedoTinted2808_g55655 = ( vertexToFrag11_g55667 * vertexToFrag11_g55669 * float3(1,1,1) * Blend_Albedo265_g55655 );
+				float dotResult3616_g55655 = dot( Blend_AlbedoTinted2808_g55655 , float3(0.2126,0.7152,0.0722) );
+				float3 temp_cast_0 = (dotResult3616_g55655).xxx;
+				float vertexToFrag11_g55671 = IN.ase_texcoord7.w;
+				half Global_Colors_Influence3668_g55655 = vertexToFrag11_g55671;
+				float3 lerpResult3618_g55655 = lerp( Blend_AlbedoTinted2808_g55655 , temp_cast_0 , Global_Colors_Influence3668_g55655);
+				float3 vertexToFrag3890_g55655 = IN.ase_texcoord10.xyz;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float3 Position58_g55656 = WorldPosition3905_g55655;
+				float temp_output_82_0_g55656 = _LayerColorsValue;
+				float4 lerpResult88_g55656 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55656).xz ) ),temp_output_82_0_g55656 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55656]);
+				half3 Global_ColorsTex_RGB1700_g55655 = (lerpResult88_g55656).rgb;
 				#ifdef UNITY_COLORSPACE_GAMMA
-				float staticSwitch1_g55676 = 2.0;
+				float staticSwitch1_g55701 = 2.0;
 				#else
-				float staticSwitch1_g55676 = 4.594794;
+				float staticSwitch1_g55701 = 4.594794;
 				#endif
-				half3 Global_Colors1954_g54597 = ( Global_ColorsTex_RGB1700_g54597 * staticSwitch1_g55676 );
-				half Global_Colors_Value3650_g54597 = _GlobalColors;
-				float4 tex2DNode35_g54597 = SAMPLE_TEXTURE2D( _MainMaskTex, sampler_MainAlbedoTex, Main_UVs15_g54597 );
-				half Main_Mask57_g54597 = tex2DNode35_g54597.b;
-				float temp_output_7_0_g55677 = _ColorsMaskMinValue;
-				half Global_Colors_Mask3692_g54597 = saturate( ( ( Main_Mask57_g54597 - temp_output_7_0_g55677 ) / ( _ColorsMaskMaxValue - temp_output_7_0_g55677 ) ) );
-				float3 lerpResult3628_g54597 = lerp( Blend_AlbedoTinted2808_g54597 , ( lerpResult3618_g54597 * Global_Colors1954_g54597 ) , ( Global_Colors_Value3650_g54597 * Global_Colors_Mask3692_g54597 ));
-				half3 Blend_AlbedoColored863_g54597 = lerpResult3628_g54597;
-				float3 temp_output_799_0_g54597 = (_SubsurfaceColor).rgb;
-				float dotResult3930_g54597 = dot( temp_output_799_0_g54597 , float3(0.2126,0.7152,0.0722) );
-				float3 temp_cast_3 = (dotResult3930_g54597).xxx;
-				float3 lerpResult3932_g54597 = lerp( temp_output_799_0_g54597 , temp_cast_3 , Global_Colors_Influence3668_g54597);
-				float3 lerpResult3942_g54597 = lerp( temp_output_799_0_g54597 , ( lerpResult3932_g54597 * Global_Colors1954_g54597 ) , ( Global_Colors_Value3650_g54597 * Global_Colors_Mask3692_g54597 ));
-				half3 Subsurface_Color1722_g54597 = lerpResult3942_g54597;
-				half MainLight_Subsurface4041_g54597 = TVE_MainLightParams.a;
-				half Subsurface_Intensity1752_g54597 = ( _SubsurfaceValue * MainLight_Subsurface4041_g54597 );
-				float temp_output_7_0_g55662 = _SubsurfaceMaskMinValue;
-				half Subsurface_Mask1557_g54597 = saturate( ( ( Main_Mask57_g54597 - temp_output_7_0_g55662 ) / ( _SubsurfaceMaskMaxValue - temp_output_7_0_g55662 ) ) );
-				half3 Subsurface_Transmission884_g54597 = ( Subsurface_Color1722_g54597 * Subsurface_Intensity1752_g54597 * Subsurface_Mask1557_g54597 );
-				half3 MainLight_Direction3926_g54597 = TVE_MainLightDirection;
-				float3 normalizeResult2169_g54597 = normalize( WorldViewDirection );
-				float3 ViewDir_Normalized3963_g54597 = normalizeResult2169_g54597;
-				float dotResult785_g54597 = dot( -MainLight_Direction3926_g54597 , ViewDir_Normalized3963_g54597 );
-				float saferPower1624_g54597 = max( (dotResult785_g54597*0.5 + 0.5) , 0.0001 );
+				half3 Global_Colors1954_g55655 = ( Global_ColorsTex_RGB1700_g55655 * staticSwitch1_g55701 );
+				half Global_Colors_Value3650_g55655 = _GlobalColors;
+				float4 tex2DNode35_g55655 = SAMPLE_TEXTURE2D( _MainMaskTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				half Main_Mask57_g55655 = tex2DNode35_g55655.b;
+				float temp_output_7_0_g55702 = _ColorsMaskMinValue;
+				half Global_Colors_Mask3692_g55655 = saturate( ( ( Main_Mask57_g55655 - temp_output_7_0_g55702 ) / ( _ColorsMaskMaxValue - temp_output_7_0_g55702 ) ) );
+				float3 lerpResult3628_g55655 = lerp( Blend_AlbedoTinted2808_g55655 , ( lerpResult3618_g55655 * Global_Colors1954_g55655 ) , ( Global_Colors_Value3650_g55655 * Global_Colors_Mask3692_g55655 ));
+				half3 Blend_AlbedoColored863_g55655 = lerpResult3628_g55655;
+				float3 temp_output_799_0_g55655 = (_SubsurfaceColor).rgb;
+				float dotResult3930_g55655 = dot( temp_output_799_0_g55655 , float3(0.2126,0.7152,0.0722) );
+				float3 temp_cast_3 = (dotResult3930_g55655).xxx;
+				float3 lerpResult3932_g55655 = lerp( temp_output_799_0_g55655 , temp_cast_3 , Global_Colors_Influence3668_g55655);
+				float3 lerpResult3942_g55655 = lerp( temp_output_799_0_g55655 , ( lerpResult3932_g55655 * Global_Colors1954_g55655 ) , ( Global_Colors_Value3650_g55655 * Global_Colors_Mask3692_g55655 ));
+				half3 Subsurface_Color1722_g55655 = lerpResult3942_g55655;
+				half MainLight_Subsurface4041_g55655 = TVE_MainLightParams.a;
+				half Subsurface_Intensity1752_g55655 = ( _SubsurfaceValue * MainLight_Subsurface4041_g55655 );
+				float temp_output_7_0_g55689 = _SubsurfaceMaskMinValue;
+				half Subsurface_Mask1557_g55655 = saturate( ( ( Main_Mask57_g55655 - temp_output_7_0_g55689 ) / ( _SubsurfaceMaskMaxValue - temp_output_7_0_g55689 ) ) );
+				half3 Subsurface_Transmission884_g55655 = ( Subsurface_Color1722_g55655 * Subsurface_Intensity1752_g55655 * Subsurface_Mask1557_g55655 );
+				half3 MainLight_Direction3926_g55655 = TVE_MainLightDirection;
+				float3 normalizeResult2169_g55655 = normalize( WorldViewDirection );
+				float3 ViewDir_Normalized3963_g55655 = normalizeResult2169_g55655;
+				float dotResult785_g55655 = dot( -MainLight_Direction3926_g55655 , ViewDir_Normalized3963_g55655 );
+				float saferPower1624_g55655 = max( (dotResult785_g55655*0.5 + 0.5) , 0.0001 );
 				#ifdef UNITY_PASS_FORWARDADD
-				float staticSwitch1602_g54597 = 0.0;
+				float staticSwitch1602_g55655 = 0.0;
 				#else
-				float staticSwitch1602_g54597 = ( pow( saferPower1624_g54597 , _MainLightAngleValue ) * _MainLightScatteringValue );
+				float staticSwitch1602_g55655 = ( pow( saferPower1624_g55655 , _MainLightAngleValue ) * _MainLightScatteringValue );
 				#endif
-				half Mask_Subsurface_View782_g54597 = staticSwitch1602_g54597;
-				half3 Subsurface_Scattering1693_g54597 = ( Subsurface_Transmission884_g54597 * Blend_AlbedoColored863_g54597 * Mask_Subsurface_View782_g54597 );
-				half3 Blend_AlbedoAndSubsurface149_g54597 = ( Blend_AlbedoColored863_g54597 + Subsurface_Scattering1693_g54597 );
-				half3 Global_OverlayColor1758_g54597 = (TVE_OverlayColor).rgb;
-				half Main_AlbedoTex_G3526_g54597 = tex2DNode29_g54597.g;
-				float3 Position82_g55688 = WorldPosition3905_g54597;
-				float temp_output_84_0_g55688 = _LayerExtrasValue;
-				float4 lerpResult88_g55688 = lerp( TVE_ExtrasParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ExtrasTex, samplerTVE_ExtrasTex, ( (TVE_ExtrasCoord).zw + ( (TVE_ExtrasCoord).xy * (Position82_g55688).xz ) ),temp_output_84_0_g55688 ) , TVE_ExtrasUsage[(int)temp_output_84_0_g55688]);
-				float4 break89_g55688 = lerpResult88_g55688;
-				half Global_Extras_Overlay156_g54597 = break89_g55688.b;
-				float temp_output_1025_0_g54597 = ( _GlobalOverlay * Global_Extras_Overlay156_g54597 );
-				half Overlay_Commons1365_g54597 = temp_output_1025_0_g54597;
-				float temp_output_7_0_g55646 = _OverlayMaskMinValue;
-				half Overlay_Mask269_g54597 = saturate( ( ( ( ( 0.5 + Main_AlbedoTex_G3526_g54597 ) * Overlay_Commons1365_g54597 ) - temp_output_7_0_g55646 ) / ( _OverlayMaskMaxValue - temp_output_7_0_g55646 ) ) );
-				float3 lerpResult336_g54597 = lerp( Blend_AlbedoAndSubsurface149_g54597 , Global_OverlayColor1758_g54597 , Overlay_Mask269_g54597);
-				half3 Final_Albedo359_g54597 = lerpResult336_g54597;
+				half Mask_Subsurface_View782_g55655 = staticSwitch1602_g55655;
+				half3 Subsurface_Scattering1693_g55655 = ( Subsurface_Transmission884_g55655 * Blend_AlbedoColored863_g55655 * Mask_Subsurface_View782_g55655 );
+				half3 Blend_AlbedoAndSubsurface149_g55655 = ( Blend_AlbedoColored863_g55655 + Subsurface_Scattering1693_g55655 );
+				half3 Global_OverlayColor1758_g55655 = (TVE_OverlayColor).rgb;
+				half Main_AlbedoTex_G3526_g55655 = tex2DNode29_g55655.g;
+				float3 Position82_g55713 = WorldPosition3905_g55655;
+				float temp_output_84_0_g55713 = _LayerExtrasValue;
+				float4 lerpResult88_g55713 = lerp( TVE_ExtrasParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ExtrasTex, samplerTVE_ExtrasTex, ( (TVE_ExtrasCoord).zw + ( (TVE_ExtrasCoord).xy * (Position82_g55713).xz ) ),temp_output_84_0_g55713 ) , TVE_ExtrasUsage[(int)temp_output_84_0_g55713]);
+				float4 break89_g55713 = lerpResult88_g55713;
+				half Global_Extras_Overlay156_g55655 = break89_g55713.b;
+				float temp_output_1025_0_g55655 = ( _GlobalOverlay * Global_Extras_Overlay156_g55655 );
+				half Overlay_Commons1365_g55655 = temp_output_1025_0_g55655;
+				float temp_output_7_0_g55673 = _OverlayMaskMinValue;
+				half Overlay_Mask269_g55655 = saturate( ( ( ( ( 0.5 + Main_AlbedoTex_G3526_g55655 ) * Overlay_Commons1365_g55655 ) - temp_output_7_0_g55673 ) / ( _OverlayMaskMaxValue - temp_output_7_0_g55673 ) ) );
+				float3 lerpResult336_g55655 = lerp( Blend_AlbedoAndSubsurface149_g55655 , Global_OverlayColor1758_g55655 , Overlay_Mask269_g55655);
+				half3 Final_Albedo359_g55655 = lerpResult336_g55655;
 				
-				float3 unpack4112_g54597 = UnpackNormalScale( SAMPLE_TEXTURE2D( _MainNormalTex, sampler_MainAlbedoTex, Main_UVs15_g54597 ), _MainNormalValue );
-				unpack4112_g54597.z = lerp( 1, unpack4112_g54597.z, saturate(_MainNormalValue) );
-				half3 Main_Normal137_g54597 = unpack4112_g54597;
-				float3 temp_output_13_0_g55674 = Main_Normal137_g54597;
-				float3 switchResult12_g55674 = (((ase_vface>0)?(temp_output_13_0_g55674):(( temp_output_13_0_g55674 * _render_normals_options ))));
-				half3 Blend_Normal312_g54597 = switchResult12_g55674;
-				half3 Final_Normal366_g54597 = Blend_Normal312_g54597;
+				float3 unpack4112_g55655 = UnpackNormalScale( SAMPLE_TEXTURE2D( _MainNormalTex, sampler_MainAlbedoTex, Main_UVs15_g55655 ), _MainNormalValue );
+				unpack4112_g55655.z = lerp( 1, unpack4112_g55655.z, saturate(_MainNormalValue) );
+				half3 Main_Normal137_g55655 = unpack4112_g55655;
+				float3 temp_output_13_0_g55699 = Main_Normal137_g55655;
+				float3 switchResult12_g55699 = (((ase_vface>0)?(temp_output_13_0_g55699):(( temp_output_13_0_g55699 * _render_normals_options ))));
+				half3 Blend_Normal312_g55655 = switchResult12_g55699;
+				half3 Final_Normal366_g55655 = Blend_Normal312_g55655;
 				
-				float4 temp_output_4214_0_g54597 = ( _EmissiveColor * _EmissiveIntensityParams.x );
-				float2 vertexToFrag11_g55682 = IN.ase_texcoord9.zw;
-				half2 Emissive_UVs2468_g54597 = vertexToFrag11_g55682;
-				half Global_Extras_Emissive4203_g54597 = break89_g55688.r;
-				float lerpResult4206_g54597 = lerp( 1.0 , Global_Extras_Emissive4203_g54597 , _GlobalEmissive);
-				half3 Final_Emissive2476_g54597 = ( (( temp_output_4214_0_g54597 * SAMPLE_TEXTURE2D( _EmissiveTex, sampler_EmissiveTex, Emissive_UVs2468_g54597 ) )).rgb * lerpResult4206_g54597 );
+				float4 temp_output_4214_0_g55655 = ( _EmissiveColor * _EmissiveIntensityParams.x );
+				float2 vertexToFrag11_g55707 = IN.ase_texcoord9.zw;
+				half2 Emissive_UVs2468_g55655 = vertexToFrag11_g55707;
+				half Global_Extras_Emissive4203_g55655 = break89_g55713.r;
+				float lerpResult4206_g55655 = lerp( 1.0 , Global_Extras_Emissive4203_g55655 , _GlobalEmissive);
+				half3 Final_Emissive2476_g55655 = ( (( temp_output_4214_0_g55655 * SAMPLE_TEXTURE2D( _EmissiveTex, sampler_EmissiveTex, Emissive_UVs2468_g55655 ) )).rgb * lerpResult4206_g55655 );
 				
 				float3 temp_cast_7 = (( 0.04 * _RenderSpecular )).xxx;
 				
-				half Main_Smoothness227_g54597 = ( tex2DNode35_g54597.a * _MainSmoothnessValue );
-				half Blend_Smoothness314_g54597 = Main_Smoothness227_g54597;
-				half Global_OverlaySmoothness311_g54597 = TVE_OverlaySmoothness;
-				float lerpResult343_g54597 = lerp( Blend_Smoothness314_g54597 , Global_OverlaySmoothness311_g54597 , Overlay_Mask269_g54597);
-				half Final_Smoothness371_g54597 = lerpResult343_g54597;
-				half Global_Extras_Wetness305_g54597 = break89_g55688.g;
-				float lerpResult3673_g54597 = lerp( 0.0 , Global_Extras_Wetness305_g54597 , _GlobalWetness);
-				half Final_SmoothnessAndWetness4130_g54597 = saturate( ( Final_Smoothness371_g54597 + lerpResult3673_g54597 ) );
+				half Main_Smoothness227_g55655 = ( tex2DNode35_g55655.a * _MainSmoothnessValue );
+				half Blend_Smoothness314_g55655 = Main_Smoothness227_g55655;
+				half Global_OverlaySmoothness311_g55655 = TVE_OverlaySmoothness;
+				float lerpResult343_g55655 = lerp( Blend_Smoothness314_g55655 , Global_OverlaySmoothness311_g55655 , Overlay_Mask269_g55655);
+				half Final_Smoothness371_g55655 = lerpResult343_g55655;
+				half Global_Extras_Wetness305_g55655 = break89_g55713.g;
+				float lerpResult3673_g55655 = lerp( 0.0 , Global_Extras_Wetness305_g55655 , _GlobalWetness);
+				half Final_SmoothnessAndWetness4130_g55655 = saturate( ( Final_Smoothness371_g55655 + lerpResult3673_g55655 ) );
 				
-				float lerpResult240_g54597 = lerp( 1.0 , tex2DNode35_g54597.g , _MainOcclusionValue);
-				half Main_Occlusion247_g54597 = lerpResult240_g54597;
-				half Blend_Occlusion323_g54597 = Main_Occlusion247_g54597;
+				float lerpResult240_g55655 = lerp( 1.0 , tex2DNode35_g55655.g , _MainOcclusionValue);
+				half Main_Occlusion247_g55655 = lerpResult240_g55655;
+				half Blend_Occlusion323_g55655 = Main_Occlusion247_g55655;
 				
-				float localCustomAlphaClip3735_g54597 = ( 0.0 );
-				float3 normalizeResult3971_g54597 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
-				float3 NormalsWS_Derivates3972_g54597 = normalizeResult3971_g54597;
-				float dotResult2161_g54597 = dot( ViewDir_Normalized3963_g54597 , NormalsWS_Derivates3972_g54597 );
-				float dotResult2212_g54597 = dot( ViewDir_Normalized3963_g54597 , float3(0,1,0) );
-				half Mask_HView2656_g54597 = dotResult2212_g54597;
-				float lerpResult2221_g54597 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g54597);
-				float lerpResult3992_g54597 = lerp( 1.0 , abs( dotResult2161_g54597 ) , lerpResult2221_g54597);
-				half Fade_Billboard2175_g54597 = lerpResult3992_g54597;
-				half Final_AlphaFade3727_g54597 = ( 1.0 * Fade_Billboard2175_g54597 );
-				float temp_output_41_0_g55665 = Final_AlphaFade3727_g54597;
-				float Main_Alpha316_g54597 = ( _MainColor.a * tex2DNode29_g54597.a );
-				half AlphaTreshold2132_g54597 = _Cutoff;
+				float localCustomAlphaClip3735_g55655 = ( 0.0 );
+				float3 normalizeResult3971_g55655 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float3 NormalsWS_Derivates3972_g55655 = normalizeResult3971_g55655;
+				float dotResult2161_g55655 = dot( ViewDir_Normalized3963_g55655 , NormalsWS_Derivates3972_g55655 );
+				float dotResult2212_g55655 = dot( ViewDir_Normalized3963_g55655 , float3(0,1,0) );
+				half Mask_HView2656_g55655 = dotResult2212_g55655;
+				float lerpResult2221_g55655 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g55655);
+				float lerpResult3992_g55655 = lerp( 1.0 , abs( dotResult2161_g55655 ) , lerpResult2221_g55655);
+				half Fade_Billboard2175_g55655 = lerpResult3992_g55655;
+				half Final_AlphaFade3727_g55655 = ( 1.0 * Fade_Billboard2175_g55655 );
+				float temp_output_41_0_g55692 = Final_AlphaFade3727_g55655;
+				float Main_Alpha316_g55655 = ( _MainColor.a * tex2DNode29_g55655.a );
+				half AlphaTreshold2132_g55655 = _Cutoff;
 				#ifdef TVE_ALPHA_CLIP
-				float staticSwitch3792_g54597 = ( Main_Alpha316_g54597 - ( AlphaTreshold2132_g54597 - 0.5 ) );
+				float staticSwitch3792_g55655 = ( Main_Alpha316_g55655 - ( AlphaTreshold2132_g55655 - 0.5 ) );
 				#else
-				float staticSwitch3792_g54597 = Main_Alpha316_g54597;
+				float staticSwitch3792_g55655 = Main_Alpha316_g55655;
 				#endif
-				half Final_Alpha3754_g54597 = staticSwitch3792_g54597;
-				float temp_output_661_0_g54597 = ( saturate( ( temp_output_41_0_g55665 + ( temp_output_41_0_g55665 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g54597 ) ).r ) ) ) * Final_Alpha3754_g54597 );
-				float Alpha3735_g54597 = temp_output_661_0_g54597;
-				float Treshold3735_g54597 = 0.5;
+				half Final_Alpha3754_g55655 = staticSwitch3792_g55655;
+				float temp_output_661_0_g55655 = ( saturate( ( temp_output_41_0_g55692 + ( temp_output_41_0_g55692 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g55655 ) ).r ) ) ) * Final_Alpha3754_g55655 );
+				float Alpha3735_g55655 = temp_output_661_0_g55655;
+				float Treshold3735_g55655 = 0.5;
 				{
 				#if TVE_ALPHA_CLIP
-				clip(Alpha3735_g54597 - Treshold3735_g54597);
+				clip(Alpha3735_g55655 - Treshold3735_g55655);
 				#endif
 				}
-				half Final_Clip914_g54597 = saturate( Alpha3735_g54597 );
+				half Final_Clip914_g55655 = saturate( Alpha3735_g55655 );
 				
-				float3 Albedo = Final_Albedo359_g54597;
-				float3 Normal = Final_Normal366_g54597;
-				float3 Emission = Final_Emissive2476_g54597;
+				float3 Albedo = Final_Albedo359_g55655;
+				float3 Normal = Final_Normal366_g55655;
+				float3 Emission = Final_Emissive2476_g55655;
 				float3 Specular = temp_cast_7;
 				float Metallic = 0;
-				float Smoothness = Final_SmoothnessAndWetness4130_g54597;
-				float Occlusion = Blend_Occlusion323_g54597;
-				float Alpha = Final_Clip914_g54597;
+				float Smoothness = Final_SmoothnessAndWetness4130_g55655;
+				float Occlusion = Blend_Occlusion323_g55655;
+				float Alpha = Final_Clip914_g55655;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				float3 BakedGI = 0;
@@ -1086,6 +1091,10 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				#ifdef _ASE_BAKEDGI
 					inputData.bakedGI = BakedGI;
 				#endif
+				
+				inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(IN.clipPos);
+				inputData.shadowMask = SAMPLE_SHADOWMASK(IN.lightmapUVOrVertexSH.xy);
+
 				half4 color = UniversalFragmentPBR(
 					inputData, 
 					Albedo, 
@@ -1176,7 +1185,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 						color.rgb = MixFog(color.rgb, IN.fogFactorAndVertexLight.x);
 					#endif
 				#endif
-				
+
 				#ifdef ASE_DEPTH_WRITE_ON
 					outputDepth = DepthValue;
 				#endif
@@ -1209,7 +1218,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _EMISSION
 			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 70403
+			#define ASE_SRP_VERSION 100202
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma prefer_hlslcc gles
@@ -1231,15 +1240,15 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#pragma shader_feature_local TVE_VERTEX_DATA_BATCHED
 			//TVE Shader Type Defines
 			#define TVE_IS_VEGETATION_SHADER
+			//TVE Pipeline Defines
+			#define THE_VEGETATION_ENGINE
+			#define TVE_IS_UNIVERSAL_PIPELINE
 			//TVE Injection Defines
 			//SHADER INJECTION POINT BEGIN
            //Nature Renderer (Procedural Instancing)
            #include "Assets/Visual Design Cafe/Nature Shaders/Common/Nodes/Integrations/Nature Renderer.cginc"
            #pragma instancing_options procedural:SetupNatureRenderer
 			//SHADER INJECTION POINT END
-			//TVE Pipeline Defines
-			#define THE_VEGETATION_ENGINE
-			#define TVE_IS_UNIVERSAL_PIPELINE
 
 
 			struct VertexInput
@@ -1268,33 +1277,32 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _Color;
-			half4 _VertexOcclusionRemap;
-			float4 _GradientMaskRemap;
-			half4 _MainColor;
-			half4 _GradientColorOne;
+			float4 _SubsurfaceDiffusion_asset;
 			half4 _SubsurfaceMaskRemap;
 			half4 _DetailBlendRemap;
 			half4 _SubsurfaceColor;
-			float4 _SubsurfaceDiffusion_asset;
-			half4 _OverlayMaskRemap;
-			half4 _EmissiveColor;
+			half4 _VertexOcclusionRemap;
+			half4 _MainColor;
+			half4 _ColorsMaskRemap;
 			float4 _NoiseMaskRemap;
-			half4 _EmissiveUVs;
+			float4 _GradientMaskRemap;
+			float4 _Color;
 			half4 _GradientColorTwo;
 			float4 _SubsurfaceDiffusion_Asset;
-			half4 _NoiseColorTwo;
-			float4 _MaxBoundsInfo;
-			half4 _NoiseColorOne;
-			half4 _MainUVs;
+			half4 _EmissiveColor;
 			float4 _EmissiveIntensityParams;
-			half4 _ColorsMaskRemap;
+			half4 _EmissiveUVs;
+			half4 _OverlayMaskRemap;
+			half4 _NoiseColorTwo;
+			half4 _NoiseColorOne;
+			float4 _MaxBoundsInfo;
+			half4 _MainUVs;
+			half4 _GradientColorOne;
 			half3 _render_normals_options;
 			half _GradientMinValue;
 			half _GradientMaxValue;
-			half _OcclusionCat;
-			half _VertexDataMode;
 			half _InteractionMaskValue;
+			half _VertexDataMode;
 			half _LayerReactValue;
 			half _InteractionAmplitude;
 			float _MotionScale_10;
@@ -1304,7 +1312,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _MotionAmplitude_10;
 			half _GlobalSize;
 			half _NoiseScaleValue;
-			half _ColorsMaskMinValue;
+			half _IsStandardShader;
 			half _NoiseMaxValue;
 			half _MainOcclusionValue;
 			half _GlobalWetness;
@@ -1315,54 +1323,49 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _OverlayMaskMaxValue;
 			half _OverlayMaskMinValue;
 			half _LayerExtrasValue;
+			half _NoiseMinValue;
 			half _GlobalOverlay;
-			half _MainLightScatteringValue;
 			half _MainLightAngleValue;
 			half _SubsurfaceMaskMaxValue;
 			half _SubsurfaceMaskMinValue;
 			half _SubsurfaceValue;
 			half _ColorsMaskMaxValue;
-			half _render_zw;
+			half _ColorsMaskMinValue;
+			half _TranslucencyScatteringValue;
 			half _GlobalColors;
 			half _LayerColorsValue;
-			half _NoiseMinValue;
-			half _render_cull;
+			half _MainLightScatteringValue;
 			half _TranslucencyDirectValue;
-			half _render_src;
-			half _TranslucencyAmbientValue;
-			half _RenderCull;
-			half _LayersSpace;
-			half _FadeSpace;
-			half _TranslucencyHDMessage;
-			half _SubsurfaceCat;
+			half _SizeFadeMessage;
+			half _DetailTypeMode;
 			half _VertexMasksMode;
 			half _NoiseCat;
 			half _SizeFadeCat;
-			half _VariationGlobalsMessage;
 			half _VariationMotionMessage;
+			half _RenderNormals;
 			half _TranslucencyIntensityValue;
 			half _IsTVEShader;
 			half _DetailMode;
 			half _DetailCat;
+			half _SubsurfaceCat;
 			half _EmissiveFlagMode;
-			half _MotionSpace;
 			half _EmissiveCat;
 			half _Cutoff;
 			half _GradientCat;
-			half _RenderNormals;
-			half _TranslucencyNormalValue;
-			half _RenderClip;
-			half _RenderMode;
+			half _OcclusionCat;
+			half _render_src;
+			half _render_cull;
+			half _render_dst;
+			half _render_zw;
 			half _IsCrossShader;
-			half _IsStandardShader;
-			half _TranslucencyScatteringValue;
-			half _FadeHorizontalValue;
-			half _IsVersion;
-			half _DetailTypeMode;
+			half _MotionSpace;
+			half _TranslucencyHDMessage;
+			half _FadeSpace;
+			half _LayersSpace;
 			half _RenderSSR;
 			half _DetailBlendMode;
 			half _ReceiveSpace;
-			half _SizeFadeMessage;
+			half _FadeHorizontalValue;
 			half _RenderingCat;
 			half _PerspectiveCat;
 			half _TranslucencyShadowValue;
@@ -1374,7 +1377,13 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			float _SubsurfaceDiffusion;
 			half _RenderDecals;
 			half _VertexVariationMode;
-			half _render_dst;
+			half _RenderMode;
+			half _RenderClip;
+			half _TranslucencyNormalValue;
+			half _VariationGlobalsMessage;
+			half _TranslucencyAmbientValue;
+			half _RenderCull;
+			half _IsVersion;
 			half _FadeVerticalValue;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -1431,143 +1440,143 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float3 VertexPosition3588_g54597 = v.vertex.xyz;
-				half3 Mesh_PivotsOS2291_g54597 = half3(0,0,0);
-				float3 temp_output_2283_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				half3 VertexPos40_g55654 = temp_output_2283_0_g54597;
-				float3 appendResult74_g55654 = (float3(VertexPos40_g55654.x , 0.0 , 0.0));
-				half3 VertexPosRotationAxis50_g55654 = appendResult74_g55654;
-				float3 break84_g55654 = VertexPos40_g55654;
-				float3 appendResult81_g55654 = (float3(0.0 , break84_g55654.y , break84_g55654.z));
-				half3 VertexPosOtherAxis82_g55654 = appendResult81_g55654;
-				half ObjectData20_g55685 = 3.14;
-				float Bounds_Height374_g54597 = _MaxBoundsInfo.y;
-				half WorldData19_g55685 = ( Bounds_Height374_g54597 * 3.14 );
+				float3 VertexPosition3588_g55655 = v.vertex.xyz;
+				half3 Mesh_PivotsOS2291_g55655 = half3(0,0,0);
+				float3 temp_output_2283_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				half3 VertexPos40_g55681 = temp_output_2283_0_g55655;
+				float3 appendResult74_g55681 = (float3(VertexPos40_g55681.x , 0.0 , 0.0));
+				half3 VertexPosRotationAxis50_g55681 = appendResult74_g55681;
+				float3 break84_g55681 = VertexPos40_g55681;
+				float3 appendResult81_g55681 = (float3(0.0 , break84_g55681.y , break84_g55681.z));
+				half3 VertexPosOtherAxis82_g55681 = appendResult81_g55681;
+				half ObjectData20_g55710 = 3.14;
+				float Bounds_Height374_g55655 = _MaxBoundsInfo.y;
+				half WorldData19_g55710 = ( Bounds_Height374_g55655 * 3.14 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55685 = WorldData19_g55685;
+				float staticSwitch14_g55710 = WorldData19_g55710;
 				#else
-				float staticSwitch14_g55685 = ObjectData20_g55685;
+				float staticSwitch14_g55710 = ObjectData20_g55710;
 				#endif
-				float Motion_Max_Bending1133_g54597 = staticSwitch14_g55685;
-				float4x4 break19_g55659 = GetObjectToWorldMatrix();
-				float3 appendResult20_g55659 = (float3(break19_g55659[ 0 ][ 3 ] , break19_g55659[ 1 ][ 3 ] , break19_g55659[ 2 ][ 3 ]));
-				half3 ObjectData20_g55660 = appendResult20_g55659;
+				float Motion_Max_Bending1133_g55655 = staticSwitch14_g55710;
+				float4x4 break19_g55686 = GetObjectToWorldMatrix();
+				float3 appendResult20_g55686 = (float3(break19_g55686[ 0 ][ 3 ] , break19_g55686[ 1 ][ 3 ] , break19_g55686[ 2 ][ 3 ]));
+				half3 ObjectData20_g55687 = appendResult20_g55686;
 				float3 ase_worldPos = mul(GetObjectToWorldMatrix(), v.vertex).xyz;
-				half3 WorldData19_g55660 = ase_worldPos;
+				half3 WorldData19_g55687 = ase_worldPos;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55660 = WorldData19_g55660;
+				float3 staticSwitch14_g55687 = WorldData19_g55687;
 				#else
-				float3 staticSwitch14_g55660 = ObjectData20_g55660;
+				float3 staticSwitch14_g55687 = ObjectData20_g55687;
 				#endif
-				float3 temp_output_114_0_g55659 = staticSwitch14_g55660;
-				float3 vertexToFrag4224_g54597 = temp_output_114_0_g55659;
-				half3 ObjectData20_g55680 = vertexToFrag4224_g54597;
-				float3 vertexToFrag3890_g54597 = ase_worldPos;
-				half3 WorldData19_g55680 = vertexToFrag3890_g54597;
+				float3 temp_output_114_0_g55686 = staticSwitch14_g55687;
+				float3 vertexToFrag4224_g55655 = temp_output_114_0_g55686;
+				half3 ObjectData20_g55705 = vertexToFrag4224_g55655;
+				float3 vertexToFrag3890_g55655 = ase_worldPos;
+				half3 WorldData19_g55705 = vertexToFrag3890_g55655;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55680 = WorldData19_g55680;
+				float3 staticSwitch14_g55705 = WorldData19_g55705;
 				#else
-				float3 staticSwitch14_g55680 = ObjectData20_g55680;
+				float3 staticSwitch14_g55705 = ObjectData20_g55705;
 				#endif
-				float3 ObjectPosition4223_g54597 = staticSwitch14_g55680;
-				float3 Position83_g55689 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55689 = _LayerMotionValue;
-				float4 lerpResult87_g55689 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55689).xz ) ),temp_output_84_0_g55689, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55689]);
-				half4 Global_Motion_Params3909_g54597 = lerpResult87_g55689;
-				float4 break322_g55695 = Global_Motion_Params3909_g54597;
-				half Wind_Power369_g55695 = break322_g55695.z;
-				float lerpResult376_g55695 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55695);
-				half Wind_Power_103106_g54597 = lerpResult376_g55695;
-				float2 panner73_g55630 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g54597).xz * TVE_NoiseParams.z ));
-				float4 tex2DNode75_g55630 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55630, 0.0 );
-				float4 saferPower77_g55630 = max( abs( tex2DNode75_g55630 ) , 0.0001 );
-				half Wind_Power2223_g54597 = Wind_Power369_g55695;
-				float temp_output_167_0_g55630 = Wind_Power2223_g54597;
-				float lerpResult168_g55630 = lerp( 1.4 , 0.2 , temp_output_167_0_g55630);
-				float4 temp_cast_3 = (lerpResult168_g55630).xxxx;
-				float4 break174_g55630 = pow( saferPower77_g55630 , temp_cast_3 );
-				half Global_NoiseTex_R34_g54597 = break174_g55630.r;
-				float3 appendResult397_g55695 = (float3(break322_g55695.x , 0.0 , break322_g55695.y));
-				float3 temp_output_398_0_g55695 = (appendResult397_g55695*2.0 + -1.0);
+				float3 ObjectPosition4223_g55655 = staticSwitch14_g55705;
+				float3 Position83_g55714 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55714 = _LayerMotionValue;
+				float4 lerpResult87_g55714 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55714).xz ) ),temp_output_84_0_g55714, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55714]);
+				half4 Global_Motion_Params3909_g55655 = lerpResult87_g55714;
+				float4 break322_g55720 = Global_Motion_Params3909_g55655;
+				half Wind_Power369_g55720 = break322_g55720.z;
+				float lerpResult376_g55720 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55720);
+				half Wind_Power_103106_g55655 = lerpResult376_g55720;
+				float2 panner73_g55658 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g55655).xz * TVE_NoiseParams.z ));
+				float4 tex2DNode75_g55658 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55658, 0.0 );
+				float4 saferPower77_g55658 = max( abs( tex2DNode75_g55658 ) , 0.0001 );
+				half Wind_Power2223_g55655 = Wind_Power369_g55720;
+				float temp_output_167_0_g55658 = Wind_Power2223_g55655;
+				float lerpResult168_g55658 = lerp( 1.4 , 0.2 , temp_output_167_0_g55658);
+				float4 temp_cast_3 = (lerpResult168_g55658).xxxx;
+				float4 break174_g55658 = pow( saferPower77_g55658 , temp_cast_3 );
+				half Global_NoiseTex_R34_g55655 = break174_g55658.r;
+				float3 appendResult397_g55720 = (float3(break322_g55720.x , 0.0 , break322_g55720.y));
+				float3 temp_output_398_0_g55720 = (appendResult397_g55720*2.0 + -1.0);
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
-				float3 temp_output_339_0_g55695 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55695 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Wind_DirectionOS39_g54597 = (temp_output_339_0_g55695).xz;
-				half Input_Speed62_g55653 = _MotionSpeed_10;
-				float mulTime373_g55653 = _TimeParameters.x * Input_Speed62_g55653;
-				float3 break111_g55678 = ObjectPosition4223_g54597;
-				half Variation_Complex102_g55678 = frac( ( v.ase_color.r + ( break111_g55678.x + break111_g55678.z ) ) );
-				half ObjectData20_g55679 = Variation_Complex102_g55678;
-				half Variation_Simple105_g55678 = v.ase_color.r;
-				half WorldData19_g55679 = Variation_Simple105_g55678;
+				float3 temp_output_339_0_g55720 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55720 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Wind_DirectionOS39_g55655 = (temp_output_339_0_g55720).xz;
+				half Input_Speed62_g55680 = _MotionSpeed_10;
+				float mulTime373_g55680 = _TimeParameters.x * Input_Speed62_g55680;
+				float3 break111_g55703 = ObjectPosition4223_g55655;
+				half Variation_Complex102_g55703 = frac( ( v.ase_color.r + ( break111_g55703.x + break111_g55703.z ) ) );
+				half ObjectData20_g55704 = Variation_Complex102_g55703;
+				half Variation_Simple105_g55703 = v.ase_color.r;
+				half WorldData19_g55704 = Variation_Simple105_g55703;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55679 = WorldData19_g55679;
+				float staticSwitch14_g55704 = WorldData19_g55704;
 				#else
-				float staticSwitch14_g55679 = ObjectData20_g55679;
+				float staticSwitch14_g55704 = ObjectData20_g55704;
 				#endif
-				half Motion_Variation3073_g54597 = staticSwitch14_g55679;
-				half Motion_Variation284_g55653 = ( _MotionVariation_10 * Motion_Variation3073_g54597 );
-				float Motion_Scale287_g55653 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
-				half Sine_MinusOneToOne281_g55653 = sin( ( mulTime373_g55653 + Motion_Variation284_g55653 + Motion_Scale287_g55653 ) );
-				half Wind_Squash4479_g54597 = TVE_MotionTweaks.w;
-				half Input_WindSquash419_g55653 = Wind_Squash4479_g54597;
-				half Input_WindPower327_g55653 = Wind_Power_103106_g54597;
-				float lerpResult321_g55653 = lerp( Sine_MinusOneToOne281_g55653 , (Sine_MinusOneToOne281_g55653*Input_WindSquash419_g55653 + 1.0) , Input_WindPower327_g55653);
-				half Mesh_Motion_1082_g54597 = v.ase_texcoord3.x;
-				half2 Motion_10_Bending2258_g54597 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g54597 ) * Wind_Power_103106_g54597 * Global_NoiseTex_R34_g54597 * Wind_DirectionOS39_g54597 * lerpResult321_g55653 * Mesh_Motion_1082_g54597 );
-				half Interaction_Amplitude4137_g54597 = _InteractionAmplitude;
-				float3 Position83_g55652 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55652 = _LayerReactValue;
-				float4 lerpResult87_g55652 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55652).xz ) ),temp_output_84_0_g55652, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55652]);
-				half4 Global_React_Params4173_g54597 = lerpResult87_g55652;
-				float4 break322_g55631 = Global_React_Params4173_g54597;
-				half Interaction_Mask66_g54597 = break322_g55631.z;
-				float3 appendResult397_g55631 = (float3(break322_g55631.x , 0.0 , break322_g55631.y));
-				float3 temp_output_398_0_g55631 = (appendResult397_g55631*2.0 + -1.0);
-				float3 temp_output_339_0_g55631 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55631 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Interaction_DirectionOS4158_g54597 = (temp_output_339_0_g55631).xz;
-				float lerpResult4494_g54597 = lerp( 1.0 , Mesh_Motion_1082_g54597 , _InteractionMaskValue);
-				half2 Motion_10_Interaction53_g54597 = ( Interaction_Amplitude4137_g54597 * Motion_Max_Bending1133_g54597 * Interaction_Mask66_g54597 * Interaction_Mask66_g54597 * Interaction_DirectionOS4158_g54597 * lerpResult4494_g54597 );
-				float2 lerpResult109_g54597 = lerp( Motion_10_Bending2258_g54597 , Motion_10_Interaction53_g54597 , ( Interaction_Mask66_g54597 * saturate( Interaction_Amplitude4137_g54597 ) ));
-				float2 break143_g54597 = lerpResult109_g54597;
-				half Motion_10_ZAxis190_g54597 = break143_g54597.y;
-				half Angle44_g55654 = Motion_10_ZAxis190_g54597;
-				half3 VertexPos40_g55663 = ( VertexPosRotationAxis50_g55654 + ( VertexPosOtherAxis82_g55654 * cos( Angle44_g55654 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55654 ) * sin( Angle44_g55654 ) ) );
-				float3 appendResult74_g55663 = (float3(0.0 , 0.0 , VertexPos40_g55663.z));
-				half3 VertexPosRotationAxis50_g55663 = appendResult74_g55663;
-				float3 break84_g55663 = VertexPos40_g55663;
-				float3 appendResult81_g55663 = (float3(break84_g55663.x , break84_g55663.y , 0.0));
-				half3 VertexPosOtherAxis82_g55663 = appendResult81_g55663;
-				half Motion_10_XAxis216_g54597 = break143_g54597.x;
-				half Angle44_g55663 = -Motion_10_XAxis216_g54597;
-				float3 Vertex_Motion_Object833_g54597 = ( VertexPosRotationAxis50_g55663 + ( VertexPosOtherAxis82_g55663 * cos( Angle44_g55663 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55663 ) * sin( Angle44_g55663 ) ) );
-				float3 temp_output_3474_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				float3 appendResult2043_g54597 = (float3(Motion_10_XAxis216_g54597 , 0.0 , Motion_10_ZAxis190_g54597));
-				float3 Vertex_Motion_World1118_g54597 = ( temp_output_3474_0_g54597 + appendResult2043_g54597 );
+				half Motion_Variation3073_g55655 = staticSwitch14_g55704;
+				half Motion_Variation284_g55680 = ( _MotionVariation_10 * Motion_Variation3073_g55655 );
+				float Motion_Scale287_g55680 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
+				half Sine_MinusOneToOne281_g55680 = sin( ( mulTime373_g55680 + Motion_Variation284_g55680 + Motion_Scale287_g55680 ) );
+				half Wind_Squash4479_g55655 = TVE_MotionTweaks.w;
+				half Input_WindSquash419_g55680 = Wind_Squash4479_g55655;
+				half Input_WindPower327_g55680 = Wind_Power_103106_g55655;
+				float lerpResult321_g55680 = lerp( Sine_MinusOneToOne281_g55680 , (Sine_MinusOneToOne281_g55680*Input_WindSquash419_g55680 + 1.0) , Input_WindPower327_g55680);
+				half Mesh_Motion_1082_g55655 = v.ase_texcoord3.x;
+				half2 Motion_10_Bending2258_g55655 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g55655 ) * Wind_Power_103106_g55655 * Global_NoiseTex_R34_g55655 * Wind_DirectionOS39_g55655 * lerpResult321_g55680 * Mesh_Motion_1082_g55655 );
+				half Interaction_Amplitude4137_g55655 = _InteractionAmplitude;
+				float3 Position83_g55679 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55679 = _LayerReactValue;
+				float4 lerpResult87_g55679 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55679).xz ) ),temp_output_84_0_g55679, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55679]);
+				half4 Global_React_Params4173_g55655 = lerpResult87_g55679;
+				float4 break322_g55659 = Global_React_Params4173_g55655;
+				half Interaction_Mask66_g55655 = break322_g55659.z;
+				float3 appendResult397_g55659 = (float3(break322_g55659.x , 0.0 , break322_g55659.y));
+				float3 temp_output_398_0_g55659 = (appendResult397_g55659*2.0 + -1.0);
+				float3 temp_output_339_0_g55659 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55659 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Interaction_DirectionOS4158_g55655 = (temp_output_339_0_g55659).xz;
+				float lerpResult4494_g55655 = lerp( 1.0 , Mesh_Motion_1082_g55655 , _InteractionMaskValue);
+				half2 Motion_10_Interaction53_g55655 = ( Interaction_Amplitude4137_g55655 * Motion_Max_Bending1133_g55655 * Interaction_Mask66_g55655 * Interaction_Mask66_g55655 * Interaction_DirectionOS4158_g55655 * lerpResult4494_g55655 );
+				float2 lerpResult109_g55655 = lerp( Motion_10_Bending2258_g55655 , Motion_10_Interaction53_g55655 , ( Interaction_Mask66_g55655 * saturate( Interaction_Amplitude4137_g55655 ) ));
+				float2 break143_g55655 = lerpResult109_g55655;
+				half Motion_10_ZAxis190_g55655 = break143_g55655.y;
+				half Angle44_g55681 = Motion_10_ZAxis190_g55655;
+				half3 VertexPos40_g55690 = ( VertexPosRotationAxis50_g55681 + ( VertexPosOtherAxis82_g55681 * cos( Angle44_g55681 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55681 ) * sin( Angle44_g55681 ) ) );
+				float3 appendResult74_g55690 = (float3(0.0 , 0.0 , VertexPos40_g55690.z));
+				half3 VertexPosRotationAxis50_g55690 = appendResult74_g55690;
+				float3 break84_g55690 = VertexPos40_g55690;
+				float3 appendResult81_g55690 = (float3(break84_g55690.x , break84_g55690.y , 0.0));
+				half3 VertexPosOtherAxis82_g55690 = appendResult81_g55690;
+				half Motion_10_XAxis216_g55655 = break143_g55655.x;
+				half Angle44_g55690 = -Motion_10_XAxis216_g55655;
+				float3 Vertex_Motion_Object833_g55655 = ( VertexPosRotationAxis50_g55690 + ( VertexPosOtherAxis82_g55690 * cos( Angle44_g55690 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55690 ) * sin( Angle44_g55690 ) ) );
+				float3 temp_output_3474_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				float3 appendResult2043_g55655 = (float3(Motion_10_XAxis216_g55655 , 0.0 , Motion_10_ZAxis190_g55655));
+				float3 Vertex_Motion_World1118_g55655 = ( temp_output_3474_0_g55655 + appendResult2043_g55655 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch3312_g54597 = Vertex_Motion_World1118_g54597;
+				float3 staticSwitch3312_g55655 = Vertex_Motion_World1118_g55655;
 				#else
-				float3 staticSwitch3312_g54597 = ( Vertex_Motion_Object833_g54597 + ( 0.0 * _VertexDataMode ) );
+				float3 staticSwitch3312_g55655 = ( Vertex_Motion_Object833_g55655 + ( 0.0 * _VertexDataMode ) );
 				#endif
-				half Global_Vertex_Size174_g54597 = break322_g55631.w;
-				float lerpResult346_g54597 = lerp( 1.0 , Global_Vertex_Size174_g54597 , _GlobalSize);
-				float3 appendResult3480_g54597 = (float3(lerpResult346_g54597 , lerpResult346_g54597 , lerpResult346_g54597));
-				half3 ObjectData20_g55694 = appendResult3480_g54597;
+				half Global_Vertex_Size174_g55655 = break322_g55659.w;
+				float lerpResult346_g55655 = lerp( 1.0 , Global_Vertex_Size174_g55655 , _GlobalSize);
+				float3 appendResult3480_g55655 = (float3(lerpResult346_g55655 , lerpResult346_g55655 , lerpResult346_g55655));
+				half3 ObjectData20_g55719 = appendResult3480_g55655;
 				half3 _Vector11 = half3(1,1,1);
-				half3 WorldData19_g55694 = _Vector11;
+				half3 WorldData19_g55719 = _Vector11;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55694 = WorldData19_g55694;
+				float3 staticSwitch14_g55719 = WorldData19_g55719;
 				#else
-				float3 staticSwitch14_g55694 = ObjectData20_g55694;
+				float3 staticSwitch14_g55719 = ObjectData20_g55719;
 				#endif
-				half3 Vertex_Size1741_g54597 = staticSwitch14_g55694;
+				half3 Vertex_Size1741_g55655 = staticSwitch14_g55719;
 				half3 _Vector5 = half3(1,1,1);
-				float3 Vertex_SizeFade1740_g54597 = _Vector5;
-				half3 Grass_Coverage2661_g54597 = half3(0,0,0);
-				float3 Final_VertexPosition890_g54597 = ( ( staticSwitch3312_g54597 * Vertex_Size1741_g54597 * Vertex_SizeFade1740_g54597 ) + Mesh_PivotsOS2291_g54597 + Grass_Coverage2661_g54597 );
+				float3 Vertex_SizeFade1740_g55655 = _Vector5;
+				half3 Grass_Coverage2661_g55655 = half3(0,0,0);
+				float3 Final_VertexPosition890_g55655 = ( ( staticSwitch3312_g55655 * Vertex_Size1741_g55655 * Vertex_SizeFade1740_g55655 ) + Mesh_PivotsOS2291_g55655 + Grass_Coverage2661_g55655 );
 				
-				o.ase_texcoord2.xyz = vertexToFrag3890_g54597;
-				float2 vertexToFrag11_g55638 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
-				o.ase_texcoord3.xy = vertexToFrag11_g55638;
+				o.ase_texcoord2.xyz = vertexToFrag3890_g55655;
+				float2 vertexToFrag11_g55666 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
+				o.ase_texcoord3.xy = vertexToFrag11_g55666;
 				
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -1578,7 +1587,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = Final_VertexPosition890_g54597;
+				float3 vertexValue = Final_VertexPosition890_g55655;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -1724,45 +1733,45 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 					#endif
 				#endif
 
-				float localCustomAlphaClip3735_g54597 = ( 0.0 );
+				float localCustomAlphaClip3735_g55655 = ( 0.0 );
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float3 normalizeResult2169_g54597 = normalize( ase_worldViewDir );
-				float3 ViewDir_Normalized3963_g54597 = normalizeResult2169_g54597;
-				float3 normalizeResult3971_g54597 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
-				float3 NormalsWS_Derivates3972_g54597 = normalizeResult3971_g54597;
-				float dotResult2161_g54597 = dot( ViewDir_Normalized3963_g54597 , NormalsWS_Derivates3972_g54597 );
-				float dotResult2212_g54597 = dot( ViewDir_Normalized3963_g54597 , float3(0,1,0) );
-				half Mask_HView2656_g54597 = dotResult2212_g54597;
-				float lerpResult2221_g54597 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g54597);
-				float lerpResult3992_g54597 = lerp( 1.0 , abs( dotResult2161_g54597 ) , lerpResult2221_g54597);
-				half Fade_Billboard2175_g54597 = lerpResult3992_g54597;
-				half Final_AlphaFade3727_g54597 = ( 1.0 * Fade_Billboard2175_g54597 );
-				float temp_output_41_0_g55665 = Final_AlphaFade3727_g54597;
-				float3 vertexToFrag3890_g54597 = IN.ase_texcoord2.xyz;
-				float3 WorldPosition3905_g54597 = vertexToFrag3890_g54597;
-				float2 vertexToFrag11_g55638 = IN.ase_texcoord3.xy;
-				half2 Main_UVs15_g54597 = vertexToFrag11_g55638;
-				float4 tex2DNode29_g54597 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g54597 );
-				float Main_Alpha316_g54597 = ( _MainColor.a * tex2DNode29_g54597.a );
-				half AlphaTreshold2132_g54597 = _Cutoff;
+				float3 normalizeResult2169_g55655 = normalize( ase_worldViewDir );
+				float3 ViewDir_Normalized3963_g55655 = normalizeResult2169_g55655;
+				float3 normalizeResult3971_g55655 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float3 NormalsWS_Derivates3972_g55655 = normalizeResult3971_g55655;
+				float dotResult2161_g55655 = dot( ViewDir_Normalized3963_g55655 , NormalsWS_Derivates3972_g55655 );
+				float dotResult2212_g55655 = dot( ViewDir_Normalized3963_g55655 , float3(0,1,0) );
+				half Mask_HView2656_g55655 = dotResult2212_g55655;
+				float lerpResult2221_g55655 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g55655);
+				float lerpResult3992_g55655 = lerp( 1.0 , abs( dotResult2161_g55655 ) , lerpResult2221_g55655);
+				half Fade_Billboard2175_g55655 = lerpResult3992_g55655;
+				half Final_AlphaFade3727_g55655 = ( 1.0 * Fade_Billboard2175_g55655 );
+				float temp_output_41_0_g55692 = Final_AlphaFade3727_g55655;
+				float3 vertexToFrag3890_g55655 = IN.ase_texcoord2.xyz;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float2 vertexToFrag11_g55666 = IN.ase_texcoord3.xy;
+				half2 Main_UVs15_g55655 = vertexToFrag11_g55666;
+				float4 tex2DNode29_g55655 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				float Main_Alpha316_g55655 = ( _MainColor.a * tex2DNode29_g55655.a );
+				half AlphaTreshold2132_g55655 = _Cutoff;
 				#ifdef TVE_ALPHA_CLIP
-				float staticSwitch3792_g54597 = ( Main_Alpha316_g54597 - ( AlphaTreshold2132_g54597 - 0.5 ) );
+				float staticSwitch3792_g55655 = ( Main_Alpha316_g55655 - ( AlphaTreshold2132_g55655 - 0.5 ) );
 				#else
-				float staticSwitch3792_g54597 = Main_Alpha316_g54597;
+				float staticSwitch3792_g55655 = Main_Alpha316_g55655;
 				#endif
-				half Final_Alpha3754_g54597 = staticSwitch3792_g54597;
-				float temp_output_661_0_g54597 = ( saturate( ( temp_output_41_0_g55665 + ( temp_output_41_0_g55665 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g54597 ) ).r ) ) ) * Final_Alpha3754_g54597 );
-				float Alpha3735_g54597 = temp_output_661_0_g54597;
-				float Treshold3735_g54597 = 0.5;
+				half Final_Alpha3754_g55655 = staticSwitch3792_g55655;
+				float temp_output_661_0_g55655 = ( saturate( ( temp_output_41_0_g55692 + ( temp_output_41_0_g55692 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g55655 ) ).r ) ) ) * Final_Alpha3754_g55655 );
+				float Alpha3735_g55655 = temp_output_661_0_g55655;
+				float Treshold3735_g55655 = 0.5;
 				{
 				#if TVE_ALPHA_CLIP
-				clip(Alpha3735_g54597 - Treshold3735_g54597);
+				clip(Alpha3735_g55655 - Treshold3735_g55655);
 				#endif
 				}
-				half Final_Clip914_g54597 = saturate( Alpha3735_g54597 );
+				half Final_Clip914_g55655 = saturate( Alpha3735_g55655 );
 				
-				float Alpha = Final_Clip914_g54597;
+				float Alpha = Final_Clip914_g55655;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
@@ -1811,7 +1820,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _EMISSION
 			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 70403
+			#define ASE_SRP_VERSION 100202
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma prefer_hlslcc gles
@@ -1833,15 +1842,15 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#pragma shader_feature_local TVE_VERTEX_DATA_BATCHED
 			//TVE Shader Type Defines
 			#define TVE_IS_VEGETATION_SHADER
+			//TVE Pipeline Defines
+			#define THE_VEGETATION_ENGINE
+			#define TVE_IS_UNIVERSAL_PIPELINE
 			//TVE Injection Defines
 			//SHADER INJECTION POINT BEGIN
            //Nature Renderer (Procedural Instancing)
            #include "Assets/Visual Design Cafe/Nature Shaders/Common/Nodes/Integrations/Nature Renderer.cginc"
            #pragma instancing_options procedural:SetupNatureRenderer
 			//SHADER INJECTION POINT END
-			//TVE Pipeline Defines
-			#define THE_VEGETATION_ENGINE
-			#define TVE_IS_UNIVERSAL_PIPELINE
 
 
 			struct VertexInput
@@ -1870,33 +1879,32 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _Color;
-			half4 _VertexOcclusionRemap;
-			float4 _GradientMaskRemap;
-			half4 _MainColor;
-			half4 _GradientColorOne;
+			float4 _SubsurfaceDiffusion_asset;
 			half4 _SubsurfaceMaskRemap;
 			half4 _DetailBlendRemap;
 			half4 _SubsurfaceColor;
-			float4 _SubsurfaceDiffusion_asset;
-			half4 _OverlayMaskRemap;
-			half4 _EmissiveColor;
+			half4 _VertexOcclusionRemap;
+			half4 _MainColor;
+			half4 _ColorsMaskRemap;
 			float4 _NoiseMaskRemap;
-			half4 _EmissiveUVs;
+			float4 _GradientMaskRemap;
+			float4 _Color;
 			half4 _GradientColorTwo;
 			float4 _SubsurfaceDiffusion_Asset;
-			half4 _NoiseColorTwo;
-			float4 _MaxBoundsInfo;
-			half4 _NoiseColorOne;
-			half4 _MainUVs;
+			half4 _EmissiveColor;
 			float4 _EmissiveIntensityParams;
-			half4 _ColorsMaskRemap;
+			half4 _EmissiveUVs;
+			half4 _OverlayMaskRemap;
+			half4 _NoiseColorTwo;
+			half4 _NoiseColorOne;
+			float4 _MaxBoundsInfo;
+			half4 _MainUVs;
+			half4 _GradientColorOne;
 			half3 _render_normals_options;
 			half _GradientMinValue;
 			half _GradientMaxValue;
-			half _OcclusionCat;
-			half _VertexDataMode;
 			half _InteractionMaskValue;
+			half _VertexDataMode;
 			half _LayerReactValue;
 			half _InteractionAmplitude;
 			float _MotionScale_10;
@@ -1906,7 +1914,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _MotionAmplitude_10;
 			half _GlobalSize;
 			half _NoiseScaleValue;
-			half _ColorsMaskMinValue;
+			half _IsStandardShader;
 			half _NoiseMaxValue;
 			half _MainOcclusionValue;
 			half _GlobalWetness;
@@ -1917,54 +1925,49 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _OverlayMaskMaxValue;
 			half _OverlayMaskMinValue;
 			half _LayerExtrasValue;
+			half _NoiseMinValue;
 			half _GlobalOverlay;
-			half _MainLightScatteringValue;
 			half _MainLightAngleValue;
 			half _SubsurfaceMaskMaxValue;
 			half _SubsurfaceMaskMinValue;
 			half _SubsurfaceValue;
 			half _ColorsMaskMaxValue;
-			half _render_zw;
+			half _ColorsMaskMinValue;
+			half _TranslucencyScatteringValue;
 			half _GlobalColors;
 			half _LayerColorsValue;
-			half _NoiseMinValue;
-			half _render_cull;
+			half _MainLightScatteringValue;
 			half _TranslucencyDirectValue;
-			half _render_src;
-			half _TranslucencyAmbientValue;
-			half _RenderCull;
-			half _LayersSpace;
-			half _FadeSpace;
-			half _TranslucencyHDMessage;
-			half _SubsurfaceCat;
+			half _SizeFadeMessage;
+			half _DetailTypeMode;
 			half _VertexMasksMode;
 			half _NoiseCat;
 			half _SizeFadeCat;
-			half _VariationGlobalsMessage;
 			half _VariationMotionMessage;
+			half _RenderNormals;
 			half _TranslucencyIntensityValue;
 			half _IsTVEShader;
 			half _DetailMode;
 			half _DetailCat;
+			half _SubsurfaceCat;
 			half _EmissiveFlagMode;
-			half _MotionSpace;
 			half _EmissiveCat;
 			half _Cutoff;
 			half _GradientCat;
-			half _RenderNormals;
-			half _TranslucencyNormalValue;
-			half _RenderClip;
-			half _RenderMode;
+			half _OcclusionCat;
+			half _render_src;
+			half _render_cull;
+			half _render_dst;
+			half _render_zw;
 			half _IsCrossShader;
-			half _IsStandardShader;
-			half _TranslucencyScatteringValue;
-			half _FadeHorizontalValue;
-			half _IsVersion;
-			half _DetailTypeMode;
+			half _MotionSpace;
+			half _TranslucencyHDMessage;
+			half _FadeSpace;
+			half _LayersSpace;
 			half _RenderSSR;
 			half _DetailBlendMode;
 			half _ReceiveSpace;
-			half _SizeFadeMessage;
+			half _FadeHorizontalValue;
 			half _RenderingCat;
 			half _PerspectiveCat;
 			half _TranslucencyShadowValue;
@@ -1976,7 +1979,13 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			float _SubsurfaceDiffusion;
 			half _RenderDecals;
 			half _VertexVariationMode;
-			half _render_dst;
+			half _RenderMode;
+			half _RenderClip;
+			half _TranslucencyNormalValue;
+			half _VariationGlobalsMessage;
+			half _TranslucencyAmbientValue;
+			half _RenderCull;
+			half _IsVersion;
 			half _FadeVerticalValue;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -2031,143 +2040,143 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 VertexPosition3588_g54597 = v.vertex.xyz;
-				half3 Mesh_PivotsOS2291_g54597 = half3(0,0,0);
-				float3 temp_output_2283_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				half3 VertexPos40_g55654 = temp_output_2283_0_g54597;
-				float3 appendResult74_g55654 = (float3(VertexPos40_g55654.x , 0.0 , 0.0));
-				half3 VertexPosRotationAxis50_g55654 = appendResult74_g55654;
-				float3 break84_g55654 = VertexPos40_g55654;
-				float3 appendResult81_g55654 = (float3(0.0 , break84_g55654.y , break84_g55654.z));
-				half3 VertexPosOtherAxis82_g55654 = appendResult81_g55654;
-				half ObjectData20_g55685 = 3.14;
-				float Bounds_Height374_g54597 = _MaxBoundsInfo.y;
-				half WorldData19_g55685 = ( Bounds_Height374_g54597 * 3.14 );
+				float3 VertexPosition3588_g55655 = v.vertex.xyz;
+				half3 Mesh_PivotsOS2291_g55655 = half3(0,0,0);
+				float3 temp_output_2283_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				half3 VertexPos40_g55681 = temp_output_2283_0_g55655;
+				float3 appendResult74_g55681 = (float3(VertexPos40_g55681.x , 0.0 , 0.0));
+				half3 VertexPosRotationAxis50_g55681 = appendResult74_g55681;
+				float3 break84_g55681 = VertexPos40_g55681;
+				float3 appendResult81_g55681 = (float3(0.0 , break84_g55681.y , break84_g55681.z));
+				half3 VertexPosOtherAxis82_g55681 = appendResult81_g55681;
+				half ObjectData20_g55710 = 3.14;
+				float Bounds_Height374_g55655 = _MaxBoundsInfo.y;
+				half WorldData19_g55710 = ( Bounds_Height374_g55655 * 3.14 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55685 = WorldData19_g55685;
+				float staticSwitch14_g55710 = WorldData19_g55710;
 				#else
-				float staticSwitch14_g55685 = ObjectData20_g55685;
+				float staticSwitch14_g55710 = ObjectData20_g55710;
 				#endif
-				float Motion_Max_Bending1133_g54597 = staticSwitch14_g55685;
-				float4x4 break19_g55659 = GetObjectToWorldMatrix();
-				float3 appendResult20_g55659 = (float3(break19_g55659[ 0 ][ 3 ] , break19_g55659[ 1 ][ 3 ] , break19_g55659[ 2 ][ 3 ]));
-				half3 ObjectData20_g55660 = appendResult20_g55659;
+				float Motion_Max_Bending1133_g55655 = staticSwitch14_g55710;
+				float4x4 break19_g55686 = GetObjectToWorldMatrix();
+				float3 appendResult20_g55686 = (float3(break19_g55686[ 0 ][ 3 ] , break19_g55686[ 1 ][ 3 ] , break19_g55686[ 2 ][ 3 ]));
+				half3 ObjectData20_g55687 = appendResult20_g55686;
 				float3 ase_worldPos = mul(GetObjectToWorldMatrix(), v.vertex).xyz;
-				half3 WorldData19_g55660 = ase_worldPos;
+				half3 WorldData19_g55687 = ase_worldPos;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55660 = WorldData19_g55660;
+				float3 staticSwitch14_g55687 = WorldData19_g55687;
 				#else
-				float3 staticSwitch14_g55660 = ObjectData20_g55660;
+				float3 staticSwitch14_g55687 = ObjectData20_g55687;
 				#endif
-				float3 temp_output_114_0_g55659 = staticSwitch14_g55660;
-				float3 vertexToFrag4224_g54597 = temp_output_114_0_g55659;
-				half3 ObjectData20_g55680 = vertexToFrag4224_g54597;
-				float3 vertexToFrag3890_g54597 = ase_worldPos;
-				half3 WorldData19_g55680 = vertexToFrag3890_g54597;
+				float3 temp_output_114_0_g55686 = staticSwitch14_g55687;
+				float3 vertexToFrag4224_g55655 = temp_output_114_0_g55686;
+				half3 ObjectData20_g55705 = vertexToFrag4224_g55655;
+				float3 vertexToFrag3890_g55655 = ase_worldPos;
+				half3 WorldData19_g55705 = vertexToFrag3890_g55655;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55680 = WorldData19_g55680;
+				float3 staticSwitch14_g55705 = WorldData19_g55705;
 				#else
-				float3 staticSwitch14_g55680 = ObjectData20_g55680;
+				float3 staticSwitch14_g55705 = ObjectData20_g55705;
 				#endif
-				float3 ObjectPosition4223_g54597 = staticSwitch14_g55680;
-				float3 Position83_g55689 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55689 = _LayerMotionValue;
-				float4 lerpResult87_g55689 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55689).xz ) ),temp_output_84_0_g55689, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55689]);
-				half4 Global_Motion_Params3909_g54597 = lerpResult87_g55689;
-				float4 break322_g55695 = Global_Motion_Params3909_g54597;
-				half Wind_Power369_g55695 = break322_g55695.z;
-				float lerpResult376_g55695 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55695);
-				half Wind_Power_103106_g54597 = lerpResult376_g55695;
-				float2 panner73_g55630 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g54597).xz * TVE_NoiseParams.z ));
-				float4 tex2DNode75_g55630 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55630, 0.0 );
-				float4 saferPower77_g55630 = max( abs( tex2DNode75_g55630 ) , 0.0001 );
-				half Wind_Power2223_g54597 = Wind_Power369_g55695;
-				float temp_output_167_0_g55630 = Wind_Power2223_g54597;
-				float lerpResult168_g55630 = lerp( 1.4 , 0.2 , temp_output_167_0_g55630);
-				float4 temp_cast_3 = (lerpResult168_g55630).xxxx;
-				float4 break174_g55630 = pow( saferPower77_g55630 , temp_cast_3 );
-				half Global_NoiseTex_R34_g54597 = break174_g55630.r;
-				float3 appendResult397_g55695 = (float3(break322_g55695.x , 0.0 , break322_g55695.y));
-				float3 temp_output_398_0_g55695 = (appendResult397_g55695*2.0 + -1.0);
+				float3 ObjectPosition4223_g55655 = staticSwitch14_g55705;
+				float3 Position83_g55714 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55714 = _LayerMotionValue;
+				float4 lerpResult87_g55714 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55714).xz ) ),temp_output_84_0_g55714, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55714]);
+				half4 Global_Motion_Params3909_g55655 = lerpResult87_g55714;
+				float4 break322_g55720 = Global_Motion_Params3909_g55655;
+				half Wind_Power369_g55720 = break322_g55720.z;
+				float lerpResult376_g55720 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55720);
+				half Wind_Power_103106_g55655 = lerpResult376_g55720;
+				float2 panner73_g55658 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g55655).xz * TVE_NoiseParams.z ));
+				float4 tex2DNode75_g55658 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55658, 0.0 );
+				float4 saferPower77_g55658 = max( abs( tex2DNode75_g55658 ) , 0.0001 );
+				half Wind_Power2223_g55655 = Wind_Power369_g55720;
+				float temp_output_167_0_g55658 = Wind_Power2223_g55655;
+				float lerpResult168_g55658 = lerp( 1.4 , 0.2 , temp_output_167_0_g55658);
+				float4 temp_cast_3 = (lerpResult168_g55658).xxxx;
+				float4 break174_g55658 = pow( saferPower77_g55658 , temp_cast_3 );
+				half Global_NoiseTex_R34_g55655 = break174_g55658.r;
+				float3 appendResult397_g55720 = (float3(break322_g55720.x , 0.0 , break322_g55720.y));
+				float3 temp_output_398_0_g55720 = (appendResult397_g55720*2.0 + -1.0);
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
-				float3 temp_output_339_0_g55695 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55695 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Wind_DirectionOS39_g54597 = (temp_output_339_0_g55695).xz;
-				half Input_Speed62_g55653 = _MotionSpeed_10;
-				float mulTime373_g55653 = _TimeParameters.x * Input_Speed62_g55653;
-				float3 break111_g55678 = ObjectPosition4223_g54597;
-				half Variation_Complex102_g55678 = frac( ( v.ase_color.r + ( break111_g55678.x + break111_g55678.z ) ) );
-				half ObjectData20_g55679 = Variation_Complex102_g55678;
-				half Variation_Simple105_g55678 = v.ase_color.r;
-				half WorldData19_g55679 = Variation_Simple105_g55678;
+				float3 temp_output_339_0_g55720 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55720 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Wind_DirectionOS39_g55655 = (temp_output_339_0_g55720).xz;
+				half Input_Speed62_g55680 = _MotionSpeed_10;
+				float mulTime373_g55680 = _TimeParameters.x * Input_Speed62_g55680;
+				float3 break111_g55703 = ObjectPosition4223_g55655;
+				half Variation_Complex102_g55703 = frac( ( v.ase_color.r + ( break111_g55703.x + break111_g55703.z ) ) );
+				half ObjectData20_g55704 = Variation_Complex102_g55703;
+				half Variation_Simple105_g55703 = v.ase_color.r;
+				half WorldData19_g55704 = Variation_Simple105_g55703;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55679 = WorldData19_g55679;
+				float staticSwitch14_g55704 = WorldData19_g55704;
 				#else
-				float staticSwitch14_g55679 = ObjectData20_g55679;
+				float staticSwitch14_g55704 = ObjectData20_g55704;
 				#endif
-				half Motion_Variation3073_g54597 = staticSwitch14_g55679;
-				half Motion_Variation284_g55653 = ( _MotionVariation_10 * Motion_Variation3073_g54597 );
-				float Motion_Scale287_g55653 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
-				half Sine_MinusOneToOne281_g55653 = sin( ( mulTime373_g55653 + Motion_Variation284_g55653 + Motion_Scale287_g55653 ) );
-				half Wind_Squash4479_g54597 = TVE_MotionTweaks.w;
-				half Input_WindSquash419_g55653 = Wind_Squash4479_g54597;
-				half Input_WindPower327_g55653 = Wind_Power_103106_g54597;
-				float lerpResult321_g55653 = lerp( Sine_MinusOneToOne281_g55653 , (Sine_MinusOneToOne281_g55653*Input_WindSquash419_g55653 + 1.0) , Input_WindPower327_g55653);
-				half Mesh_Motion_1082_g54597 = v.ase_texcoord3.x;
-				half2 Motion_10_Bending2258_g54597 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g54597 ) * Wind_Power_103106_g54597 * Global_NoiseTex_R34_g54597 * Wind_DirectionOS39_g54597 * lerpResult321_g55653 * Mesh_Motion_1082_g54597 );
-				half Interaction_Amplitude4137_g54597 = _InteractionAmplitude;
-				float3 Position83_g55652 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55652 = _LayerReactValue;
-				float4 lerpResult87_g55652 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55652).xz ) ),temp_output_84_0_g55652, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55652]);
-				half4 Global_React_Params4173_g54597 = lerpResult87_g55652;
-				float4 break322_g55631 = Global_React_Params4173_g54597;
-				half Interaction_Mask66_g54597 = break322_g55631.z;
-				float3 appendResult397_g55631 = (float3(break322_g55631.x , 0.0 , break322_g55631.y));
-				float3 temp_output_398_0_g55631 = (appendResult397_g55631*2.0 + -1.0);
-				float3 temp_output_339_0_g55631 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55631 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Interaction_DirectionOS4158_g54597 = (temp_output_339_0_g55631).xz;
-				float lerpResult4494_g54597 = lerp( 1.0 , Mesh_Motion_1082_g54597 , _InteractionMaskValue);
-				half2 Motion_10_Interaction53_g54597 = ( Interaction_Amplitude4137_g54597 * Motion_Max_Bending1133_g54597 * Interaction_Mask66_g54597 * Interaction_Mask66_g54597 * Interaction_DirectionOS4158_g54597 * lerpResult4494_g54597 );
-				float2 lerpResult109_g54597 = lerp( Motion_10_Bending2258_g54597 , Motion_10_Interaction53_g54597 , ( Interaction_Mask66_g54597 * saturate( Interaction_Amplitude4137_g54597 ) ));
-				float2 break143_g54597 = lerpResult109_g54597;
-				half Motion_10_ZAxis190_g54597 = break143_g54597.y;
-				half Angle44_g55654 = Motion_10_ZAxis190_g54597;
-				half3 VertexPos40_g55663 = ( VertexPosRotationAxis50_g55654 + ( VertexPosOtherAxis82_g55654 * cos( Angle44_g55654 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55654 ) * sin( Angle44_g55654 ) ) );
-				float3 appendResult74_g55663 = (float3(0.0 , 0.0 , VertexPos40_g55663.z));
-				half3 VertexPosRotationAxis50_g55663 = appendResult74_g55663;
-				float3 break84_g55663 = VertexPos40_g55663;
-				float3 appendResult81_g55663 = (float3(break84_g55663.x , break84_g55663.y , 0.0));
-				half3 VertexPosOtherAxis82_g55663 = appendResult81_g55663;
-				half Motion_10_XAxis216_g54597 = break143_g54597.x;
-				half Angle44_g55663 = -Motion_10_XAxis216_g54597;
-				float3 Vertex_Motion_Object833_g54597 = ( VertexPosRotationAxis50_g55663 + ( VertexPosOtherAxis82_g55663 * cos( Angle44_g55663 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55663 ) * sin( Angle44_g55663 ) ) );
-				float3 temp_output_3474_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				float3 appendResult2043_g54597 = (float3(Motion_10_XAxis216_g54597 , 0.0 , Motion_10_ZAxis190_g54597));
-				float3 Vertex_Motion_World1118_g54597 = ( temp_output_3474_0_g54597 + appendResult2043_g54597 );
+				half Motion_Variation3073_g55655 = staticSwitch14_g55704;
+				half Motion_Variation284_g55680 = ( _MotionVariation_10 * Motion_Variation3073_g55655 );
+				float Motion_Scale287_g55680 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
+				half Sine_MinusOneToOne281_g55680 = sin( ( mulTime373_g55680 + Motion_Variation284_g55680 + Motion_Scale287_g55680 ) );
+				half Wind_Squash4479_g55655 = TVE_MotionTweaks.w;
+				half Input_WindSquash419_g55680 = Wind_Squash4479_g55655;
+				half Input_WindPower327_g55680 = Wind_Power_103106_g55655;
+				float lerpResult321_g55680 = lerp( Sine_MinusOneToOne281_g55680 , (Sine_MinusOneToOne281_g55680*Input_WindSquash419_g55680 + 1.0) , Input_WindPower327_g55680);
+				half Mesh_Motion_1082_g55655 = v.ase_texcoord3.x;
+				half2 Motion_10_Bending2258_g55655 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g55655 ) * Wind_Power_103106_g55655 * Global_NoiseTex_R34_g55655 * Wind_DirectionOS39_g55655 * lerpResult321_g55680 * Mesh_Motion_1082_g55655 );
+				half Interaction_Amplitude4137_g55655 = _InteractionAmplitude;
+				float3 Position83_g55679 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55679 = _LayerReactValue;
+				float4 lerpResult87_g55679 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55679).xz ) ),temp_output_84_0_g55679, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55679]);
+				half4 Global_React_Params4173_g55655 = lerpResult87_g55679;
+				float4 break322_g55659 = Global_React_Params4173_g55655;
+				half Interaction_Mask66_g55655 = break322_g55659.z;
+				float3 appendResult397_g55659 = (float3(break322_g55659.x , 0.0 , break322_g55659.y));
+				float3 temp_output_398_0_g55659 = (appendResult397_g55659*2.0 + -1.0);
+				float3 temp_output_339_0_g55659 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55659 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Interaction_DirectionOS4158_g55655 = (temp_output_339_0_g55659).xz;
+				float lerpResult4494_g55655 = lerp( 1.0 , Mesh_Motion_1082_g55655 , _InteractionMaskValue);
+				half2 Motion_10_Interaction53_g55655 = ( Interaction_Amplitude4137_g55655 * Motion_Max_Bending1133_g55655 * Interaction_Mask66_g55655 * Interaction_Mask66_g55655 * Interaction_DirectionOS4158_g55655 * lerpResult4494_g55655 );
+				float2 lerpResult109_g55655 = lerp( Motion_10_Bending2258_g55655 , Motion_10_Interaction53_g55655 , ( Interaction_Mask66_g55655 * saturate( Interaction_Amplitude4137_g55655 ) ));
+				float2 break143_g55655 = lerpResult109_g55655;
+				half Motion_10_ZAxis190_g55655 = break143_g55655.y;
+				half Angle44_g55681 = Motion_10_ZAxis190_g55655;
+				half3 VertexPos40_g55690 = ( VertexPosRotationAxis50_g55681 + ( VertexPosOtherAxis82_g55681 * cos( Angle44_g55681 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55681 ) * sin( Angle44_g55681 ) ) );
+				float3 appendResult74_g55690 = (float3(0.0 , 0.0 , VertexPos40_g55690.z));
+				half3 VertexPosRotationAxis50_g55690 = appendResult74_g55690;
+				float3 break84_g55690 = VertexPos40_g55690;
+				float3 appendResult81_g55690 = (float3(break84_g55690.x , break84_g55690.y , 0.0));
+				half3 VertexPosOtherAxis82_g55690 = appendResult81_g55690;
+				half Motion_10_XAxis216_g55655 = break143_g55655.x;
+				half Angle44_g55690 = -Motion_10_XAxis216_g55655;
+				float3 Vertex_Motion_Object833_g55655 = ( VertexPosRotationAxis50_g55690 + ( VertexPosOtherAxis82_g55690 * cos( Angle44_g55690 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55690 ) * sin( Angle44_g55690 ) ) );
+				float3 temp_output_3474_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				float3 appendResult2043_g55655 = (float3(Motion_10_XAxis216_g55655 , 0.0 , Motion_10_ZAxis190_g55655));
+				float3 Vertex_Motion_World1118_g55655 = ( temp_output_3474_0_g55655 + appendResult2043_g55655 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch3312_g54597 = Vertex_Motion_World1118_g54597;
+				float3 staticSwitch3312_g55655 = Vertex_Motion_World1118_g55655;
 				#else
-				float3 staticSwitch3312_g54597 = ( Vertex_Motion_Object833_g54597 + ( 0.0 * _VertexDataMode ) );
+				float3 staticSwitch3312_g55655 = ( Vertex_Motion_Object833_g55655 + ( 0.0 * _VertexDataMode ) );
 				#endif
-				half Global_Vertex_Size174_g54597 = break322_g55631.w;
-				float lerpResult346_g54597 = lerp( 1.0 , Global_Vertex_Size174_g54597 , _GlobalSize);
-				float3 appendResult3480_g54597 = (float3(lerpResult346_g54597 , lerpResult346_g54597 , lerpResult346_g54597));
-				half3 ObjectData20_g55694 = appendResult3480_g54597;
+				half Global_Vertex_Size174_g55655 = break322_g55659.w;
+				float lerpResult346_g55655 = lerp( 1.0 , Global_Vertex_Size174_g55655 , _GlobalSize);
+				float3 appendResult3480_g55655 = (float3(lerpResult346_g55655 , lerpResult346_g55655 , lerpResult346_g55655));
+				half3 ObjectData20_g55719 = appendResult3480_g55655;
 				half3 _Vector11 = half3(1,1,1);
-				half3 WorldData19_g55694 = _Vector11;
+				half3 WorldData19_g55719 = _Vector11;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55694 = WorldData19_g55694;
+				float3 staticSwitch14_g55719 = WorldData19_g55719;
 				#else
-				float3 staticSwitch14_g55694 = ObjectData20_g55694;
+				float3 staticSwitch14_g55719 = ObjectData20_g55719;
 				#endif
-				half3 Vertex_Size1741_g54597 = staticSwitch14_g55694;
+				half3 Vertex_Size1741_g55655 = staticSwitch14_g55719;
 				half3 _Vector5 = half3(1,1,1);
-				float3 Vertex_SizeFade1740_g54597 = _Vector5;
-				half3 Grass_Coverage2661_g54597 = half3(0,0,0);
-				float3 Final_VertexPosition890_g54597 = ( ( staticSwitch3312_g54597 * Vertex_Size1741_g54597 * Vertex_SizeFade1740_g54597 ) + Mesh_PivotsOS2291_g54597 + Grass_Coverage2661_g54597 );
+				float3 Vertex_SizeFade1740_g55655 = _Vector5;
+				half3 Grass_Coverage2661_g55655 = half3(0,0,0);
+				float3 Final_VertexPosition890_g55655 = ( ( staticSwitch3312_g55655 * Vertex_Size1741_g55655 * Vertex_SizeFade1740_g55655 ) + Mesh_PivotsOS2291_g55655 + Grass_Coverage2661_g55655 );
 				
-				o.ase_texcoord2.xyz = vertexToFrag3890_g54597;
-				float2 vertexToFrag11_g55638 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
-				o.ase_texcoord3.xy = vertexToFrag11_g55638;
+				o.ase_texcoord2.xyz = vertexToFrag3890_g55655;
+				float2 vertexToFrag11_g55666 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
+				o.ase_texcoord3.xy = vertexToFrag11_g55666;
 				
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2178,7 +2187,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = Final_VertexPosition890_g54597;
+				float3 vertexValue = Final_VertexPosition890_g55655;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2316,45 +2325,45 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 					#endif
 				#endif
 
-				float localCustomAlphaClip3735_g54597 = ( 0.0 );
+				float localCustomAlphaClip3735_g55655 = ( 0.0 );
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float3 normalizeResult2169_g54597 = normalize( ase_worldViewDir );
-				float3 ViewDir_Normalized3963_g54597 = normalizeResult2169_g54597;
-				float3 normalizeResult3971_g54597 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
-				float3 NormalsWS_Derivates3972_g54597 = normalizeResult3971_g54597;
-				float dotResult2161_g54597 = dot( ViewDir_Normalized3963_g54597 , NormalsWS_Derivates3972_g54597 );
-				float dotResult2212_g54597 = dot( ViewDir_Normalized3963_g54597 , float3(0,1,0) );
-				half Mask_HView2656_g54597 = dotResult2212_g54597;
-				float lerpResult2221_g54597 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g54597);
-				float lerpResult3992_g54597 = lerp( 1.0 , abs( dotResult2161_g54597 ) , lerpResult2221_g54597);
-				half Fade_Billboard2175_g54597 = lerpResult3992_g54597;
-				half Final_AlphaFade3727_g54597 = ( 1.0 * Fade_Billboard2175_g54597 );
-				float temp_output_41_0_g55665 = Final_AlphaFade3727_g54597;
-				float3 vertexToFrag3890_g54597 = IN.ase_texcoord2.xyz;
-				float3 WorldPosition3905_g54597 = vertexToFrag3890_g54597;
-				float2 vertexToFrag11_g55638 = IN.ase_texcoord3.xy;
-				half2 Main_UVs15_g54597 = vertexToFrag11_g55638;
-				float4 tex2DNode29_g54597 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g54597 );
-				float Main_Alpha316_g54597 = ( _MainColor.a * tex2DNode29_g54597.a );
-				half AlphaTreshold2132_g54597 = _Cutoff;
+				float3 normalizeResult2169_g55655 = normalize( ase_worldViewDir );
+				float3 ViewDir_Normalized3963_g55655 = normalizeResult2169_g55655;
+				float3 normalizeResult3971_g55655 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float3 NormalsWS_Derivates3972_g55655 = normalizeResult3971_g55655;
+				float dotResult2161_g55655 = dot( ViewDir_Normalized3963_g55655 , NormalsWS_Derivates3972_g55655 );
+				float dotResult2212_g55655 = dot( ViewDir_Normalized3963_g55655 , float3(0,1,0) );
+				half Mask_HView2656_g55655 = dotResult2212_g55655;
+				float lerpResult2221_g55655 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g55655);
+				float lerpResult3992_g55655 = lerp( 1.0 , abs( dotResult2161_g55655 ) , lerpResult2221_g55655);
+				half Fade_Billboard2175_g55655 = lerpResult3992_g55655;
+				half Final_AlphaFade3727_g55655 = ( 1.0 * Fade_Billboard2175_g55655 );
+				float temp_output_41_0_g55692 = Final_AlphaFade3727_g55655;
+				float3 vertexToFrag3890_g55655 = IN.ase_texcoord2.xyz;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float2 vertexToFrag11_g55666 = IN.ase_texcoord3.xy;
+				half2 Main_UVs15_g55655 = vertexToFrag11_g55666;
+				float4 tex2DNode29_g55655 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				float Main_Alpha316_g55655 = ( _MainColor.a * tex2DNode29_g55655.a );
+				half AlphaTreshold2132_g55655 = _Cutoff;
 				#ifdef TVE_ALPHA_CLIP
-				float staticSwitch3792_g54597 = ( Main_Alpha316_g54597 - ( AlphaTreshold2132_g54597 - 0.5 ) );
+				float staticSwitch3792_g55655 = ( Main_Alpha316_g55655 - ( AlphaTreshold2132_g55655 - 0.5 ) );
 				#else
-				float staticSwitch3792_g54597 = Main_Alpha316_g54597;
+				float staticSwitch3792_g55655 = Main_Alpha316_g55655;
 				#endif
-				half Final_Alpha3754_g54597 = staticSwitch3792_g54597;
-				float temp_output_661_0_g54597 = ( saturate( ( temp_output_41_0_g55665 + ( temp_output_41_0_g55665 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g54597 ) ).r ) ) ) * Final_Alpha3754_g54597 );
-				float Alpha3735_g54597 = temp_output_661_0_g54597;
-				float Treshold3735_g54597 = 0.5;
+				half Final_Alpha3754_g55655 = staticSwitch3792_g55655;
+				float temp_output_661_0_g55655 = ( saturate( ( temp_output_41_0_g55692 + ( temp_output_41_0_g55692 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g55655 ) ).r ) ) ) * Final_Alpha3754_g55655 );
+				float Alpha3735_g55655 = temp_output_661_0_g55655;
+				float Treshold3735_g55655 = 0.5;
 				{
 				#if TVE_ALPHA_CLIP
-				clip(Alpha3735_g54597 - Treshold3735_g54597);
+				clip(Alpha3735_g55655 - Treshold3735_g55655);
 				#endif
 				}
-				half Final_Clip914_g54597 = saturate( Alpha3735_g54597 );
+				half Final_Clip914_g55655 = saturate( Alpha3735_g55655 );
 				
-				float Alpha = Final_Clip914_g54597;
+				float Alpha = Final_Clip914_g55655;
 				float AlphaClipThreshold = 0.5;
 				#ifdef ASE_DEPTH_WRITE_ON
 				float DepthValue = 0;
@@ -2370,11 +2379,12 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				#ifdef ASE_DEPTH_WRITE_ON
 				outputDepth = DepthValue;
 				#endif
+
 				return 0;
 			}
 			ENDHLSL
 		}
-
+		
 		
 		Pass
 		{
@@ -2395,7 +2405,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _EMISSION
 			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 70403
+			#define ASE_SRP_VERSION 100202
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma prefer_hlslcc gles
@@ -2417,15 +2427,15 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#pragma shader_feature_local TVE_VERTEX_DATA_BATCHED
 			//TVE Shader Type Defines
 			#define TVE_IS_VEGETATION_SHADER
+			//TVE Pipeline Defines
+			#define THE_VEGETATION_ENGINE
+			#define TVE_IS_UNIVERSAL_PIPELINE
 			//TVE Injection Defines
 			//SHADER INJECTION POINT BEGIN
            //Nature Renderer (Procedural Instancing)
            #include "Assets/Visual Design Cafe/Nature Shaders/Common/Nodes/Integrations/Nature Renderer.cginc"
            #pragma instancing_options procedural:SetupNatureRenderer
 			//SHADER INJECTION POINT END
-			//TVE Pipeline Defines
-			#define THE_VEGETATION_ENGINE
-			#define TVE_IS_UNIVERSAL_PIPELINE
 
 
 			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
@@ -2460,33 +2470,32 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _Color;
-			half4 _VertexOcclusionRemap;
-			float4 _GradientMaskRemap;
-			half4 _MainColor;
-			half4 _GradientColorOne;
+			float4 _SubsurfaceDiffusion_asset;
 			half4 _SubsurfaceMaskRemap;
 			half4 _DetailBlendRemap;
 			half4 _SubsurfaceColor;
-			float4 _SubsurfaceDiffusion_asset;
-			half4 _OverlayMaskRemap;
-			half4 _EmissiveColor;
+			half4 _VertexOcclusionRemap;
+			half4 _MainColor;
+			half4 _ColorsMaskRemap;
 			float4 _NoiseMaskRemap;
-			half4 _EmissiveUVs;
+			float4 _GradientMaskRemap;
+			float4 _Color;
 			half4 _GradientColorTwo;
 			float4 _SubsurfaceDiffusion_Asset;
-			half4 _NoiseColorTwo;
-			float4 _MaxBoundsInfo;
-			half4 _NoiseColorOne;
-			half4 _MainUVs;
+			half4 _EmissiveColor;
 			float4 _EmissiveIntensityParams;
-			half4 _ColorsMaskRemap;
+			half4 _EmissiveUVs;
+			half4 _OverlayMaskRemap;
+			half4 _NoiseColorTwo;
+			half4 _NoiseColorOne;
+			float4 _MaxBoundsInfo;
+			half4 _MainUVs;
+			half4 _GradientColorOne;
 			half3 _render_normals_options;
 			half _GradientMinValue;
 			half _GradientMaxValue;
-			half _OcclusionCat;
-			half _VertexDataMode;
 			half _InteractionMaskValue;
+			half _VertexDataMode;
 			half _LayerReactValue;
 			half _InteractionAmplitude;
 			float _MotionScale_10;
@@ -2496,7 +2505,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _MotionAmplitude_10;
 			half _GlobalSize;
 			half _NoiseScaleValue;
-			half _ColorsMaskMinValue;
+			half _IsStandardShader;
 			half _NoiseMaxValue;
 			half _MainOcclusionValue;
 			half _GlobalWetness;
@@ -2507,54 +2516,49 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _OverlayMaskMaxValue;
 			half _OverlayMaskMinValue;
 			half _LayerExtrasValue;
+			half _NoiseMinValue;
 			half _GlobalOverlay;
-			half _MainLightScatteringValue;
 			half _MainLightAngleValue;
 			half _SubsurfaceMaskMaxValue;
 			half _SubsurfaceMaskMinValue;
 			half _SubsurfaceValue;
 			half _ColorsMaskMaxValue;
-			half _render_zw;
+			half _ColorsMaskMinValue;
+			half _TranslucencyScatteringValue;
 			half _GlobalColors;
 			half _LayerColorsValue;
-			half _NoiseMinValue;
-			half _render_cull;
+			half _MainLightScatteringValue;
 			half _TranslucencyDirectValue;
-			half _render_src;
-			half _TranslucencyAmbientValue;
-			half _RenderCull;
-			half _LayersSpace;
-			half _FadeSpace;
-			half _TranslucencyHDMessage;
-			half _SubsurfaceCat;
+			half _SizeFadeMessage;
+			half _DetailTypeMode;
 			half _VertexMasksMode;
 			half _NoiseCat;
 			half _SizeFadeCat;
-			half _VariationGlobalsMessage;
 			half _VariationMotionMessage;
+			half _RenderNormals;
 			half _TranslucencyIntensityValue;
 			half _IsTVEShader;
 			half _DetailMode;
 			half _DetailCat;
+			half _SubsurfaceCat;
 			half _EmissiveFlagMode;
-			half _MotionSpace;
 			half _EmissiveCat;
 			half _Cutoff;
 			half _GradientCat;
-			half _RenderNormals;
-			half _TranslucencyNormalValue;
-			half _RenderClip;
-			half _RenderMode;
+			half _OcclusionCat;
+			half _render_src;
+			half _render_cull;
+			half _render_dst;
+			half _render_zw;
 			half _IsCrossShader;
-			half _IsStandardShader;
-			half _TranslucencyScatteringValue;
-			half _FadeHorizontalValue;
-			half _IsVersion;
-			half _DetailTypeMode;
+			half _MotionSpace;
+			half _TranslucencyHDMessage;
+			half _FadeSpace;
+			half _LayersSpace;
 			half _RenderSSR;
 			half _DetailBlendMode;
 			half _ReceiveSpace;
-			half _SizeFadeMessage;
+			half _FadeHorizontalValue;
 			half _RenderingCat;
 			half _PerspectiveCat;
 			half _TranslucencyShadowValue;
@@ -2566,7 +2570,13 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			float _SubsurfaceDiffusion;
 			half _RenderDecals;
 			half _VertexVariationMode;
-			half _render_dst;
+			half _RenderMode;
+			half _RenderClip;
+			half _TranslucencyNormalValue;
+			half _VariationGlobalsMessage;
+			half _TranslucencyAmbientValue;
+			half _RenderCull;
+			half _IsVersion;
 			half _FadeVerticalValue;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -2639,165 +2649,165 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-				float3 VertexPosition3588_g54597 = v.vertex.xyz;
-				half3 Mesh_PivotsOS2291_g54597 = half3(0,0,0);
-				float3 temp_output_2283_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				half3 VertexPos40_g55654 = temp_output_2283_0_g54597;
-				float3 appendResult74_g55654 = (float3(VertexPos40_g55654.x , 0.0 , 0.0));
-				half3 VertexPosRotationAxis50_g55654 = appendResult74_g55654;
-				float3 break84_g55654 = VertexPos40_g55654;
-				float3 appendResult81_g55654 = (float3(0.0 , break84_g55654.y , break84_g55654.z));
-				half3 VertexPosOtherAxis82_g55654 = appendResult81_g55654;
-				half ObjectData20_g55685 = 3.14;
-				float Bounds_Height374_g54597 = _MaxBoundsInfo.y;
-				half WorldData19_g55685 = ( Bounds_Height374_g54597 * 3.14 );
+				float3 VertexPosition3588_g55655 = v.vertex.xyz;
+				half3 Mesh_PivotsOS2291_g55655 = half3(0,0,0);
+				float3 temp_output_2283_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				half3 VertexPos40_g55681 = temp_output_2283_0_g55655;
+				float3 appendResult74_g55681 = (float3(VertexPos40_g55681.x , 0.0 , 0.0));
+				half3 VertexPosRotationAxis50_g55681 = appendResult74_g55681;
+				float3 break84_g55681 = VertexPos40_g55681;
+				float3 appendResult81_g55681 = (float3(0.0 , break84_g55681.y , break84_g55681.z));
+				half3 VertexPosOtherAxis82_g55681 = appendResult81_g55681;
+				half ObjectData20_g55710 = 3.14;
+				float Bounds_Height374_g55655 = _MaxBoundsInfo.y;
+				half WorldData19_g55710 = ( Bounds_Height374_g55655 * 3.14 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55685 = WorldData19_g55685;
+				float staticSwitch14_g55710 = WorldData19_g55710;
 				#else
-				float staticSwitch14_g55685 = ObjectData20_g55685;
+				float staticSwitch14_g55710 = ObjectData20_g55710;
 				#endif
-				float Motion_Max_Bending1133_g54597 = staticSwitch14_g55685;
-				float4x4 break19_g55659 = GetObjectToWorldMatrix();
-				float3 appendResult20_g55659 = (float3(break19_g55659[ 0 ][ 3 ] , break19_g55659[ 1 ][ 3 ] , break19_g55659[ 2 ][ 3 ]));
-				half3 ObjectData20_g55660 = appendResult20_g55659;
+				float Motion_Max_Bending1133_g55655 = staticSwitch14_g55710;
+				float4x4 break19_g55686 = GetObjectToWorldMatrix();
+				float3 appendResult20_g55686 = (float3(break19_g55686[ 0 ][ 3 ] , break19_g55686[ 1 ][ 3 ] , break19_g55686[ 2 ][ 3 ]));
+				half3 ObjectData20_g55687 = appendResult20_g55686;
 				float3 ase_worldPos = mul(GetObjectToWorldMatrix(), v.vertex).xyz;
-				half3 WorldData19_g55660 = ase_worldPos;
+				half3 WorldData19_g55687 = ase_worldPos;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55660 = WorldData19_g55660;
+				float3 staticSwitch14_g55687 = WorldData19_g55687;
 				#else
-				float3 staticSwitch14_g55660 = ObjectData20_g55660;
+				float3 staticSwitch14_g55687 = ObjectData20_g55687;
 				#endif
-				float3 temp_output_114_0_g55659 = staticSwitch14_g55660;
-				float3 vertexToFrag4224_g54597 = temp_output_114_0_g55659;
-				half3 ObjectData20_g55680 = vertexToFrag4224_g54597;
-				float3 vertexToFrag3890_g54597 = ase_worldPos;
-				half3 WorldData19_g55680 = vertexToFrag3890_g54597;
+				float3 temp_output_114_0_g55686 = staticSwitch14_g55687;
+				float3 vertexToFrag4224_g55655 = temp_output_114_0_g55686;
+				half3 ObjectData20_g55705 = vertexToFrag4224_g55655;
+				float3 vertexToFrag3890_g55655 = ase_worldPos;
+				half3 WorldData19_g55705 = vertexToFrag3890_g55655;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55680 = WorldData19_g55680;
+				float3 staticSwitch14_g55705 = WorldData19_g55705;
 				#else
-				float3 staticSwitch14_g55680 = ObjectData20_g55680;
+				float3 staticSwitch14_g55705 = ObjectData20_g55705;
 				#endif
-				float3 ObjectPosition4223_g54597 = staticSwitch14_g55680;
-				float3 Position83_g55689 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55689 = _LayerMotionValue;
-				float4 lerpResult87_g55689 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55689).xz ) ),temp_output_84_0_g55689, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55689]);
-				half4 Global_Motion_Params3909_g54597 = lerpResult87_g55689;
-				float4 break322_g55695 = Global_Motion_Params3909_g54597;
-				half Wind_Power369_g55695 = break322_g55695.z;
-				float lerpResult376_g55695 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55695);
-				half Wind_Power_103106_g54597 = lerpResult376_g55695;
-				float2 panner73_g55630 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g54597).xz * TVE_NoiseParams.z ));
-				float4 tex2DNode75_g55630 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55630, 0.0 );
-				float4 saferPower77_g55630 = max( abs( tex2DNode75_g55630 ) , 0.0001 );
-				half Wind_Power2223_g54597 = Wind_Power369_g55695;
-				float temp_output_167_0_g55630 = Wind_Power2223_g54597;
-				float lerpResult168_g55630 = lerp( 1.4 , 0.2 , temp_output_167_0_g55630);
-				float4 temp_cast_3 = (lerpResult168_g55630).xxxx;
-				float4 break174_g55630 = pow( saferPower77_g55630 , temp_cast_3 );
-				half Global_NoiseTex_R34_g54597 = break174_g55630.r;
-				float3 appendResult397_g55695 = (float3(break322_g55695.x , 0.0 , break322_g55695.y));
-				float3 temp_output_398_0_g55695 = (appendResult397_g55695*2.0 + -1.0);
+				float3 ObjectPosition4223_g55655 = staticSwitch14_g55705;
+				float3 Position83_g55714 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55714 = _LayerMotionValue;
+				float4 lerpResult87_g55714 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55714).xz ) ),temp_output_84_0_g55714, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55714]);
+				half4 Global_Motion_Params3909_g55655 = lerpResult87_g55714;
+				float4 break322_g55720 = Global_Motion_Params3909_g55655;
+				half Wind_Power369_g55720 = break322_g55720.z;
+				float lerpResult376_g55720 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55720);
+				half Wind_Power_103106_g55655 = lerpResult376_g55720;
+				float2 panner73_g55658 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g55655).xz * TVE_NoiseParams.z ));
+				float4 tex2DNode75_g55658 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55658, 0.0 );
+				float4 saferPower77_g55658 = max( abs( tex2DNode75_g55658 ) , 0.0001 );
+				half Wind_Power2223_g55655 = Wind_Power369_g55720;
+				float temp_output_167_0_g55658 = Wind_Power2223_g55655;
+				float lerpResult168_g55658 = lerp( 1.4 , 0.2 , temp_output_167_0_g55658);
+				float4 temp_cast_3 = (lerpResult168_g55658).xxxx;
+				float4 break174_g55658 = pow( saferPower77_g55658 , temp_cast_3 );
+				half Global_NoiseTex_R34_g55655 = break174_g55658.r;
+				float3 appendResult397_g55720 = (float3(break322_g55720.x , 0.0 , break322_g55720.y));
+				float3 temp_output_398_0_g55720 = (appendResult397_g55720*2.0 + -1.0);
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
-				float3 temp_output_339_0_g55695 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55695 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Wind_DirectionOS39_g54597 = (temp_output_339_0_g55695).xz;
-				half Input_Speed62_g55653 = _MotionSpeed_10;
-				float mulTime373_g55653 = _TimeParameters.x * Input_Speed62_g55653;
-				float3 break111_g55678 = ObjectPosition4223_g54597;
-				half Variation_Complex102_g55678 = frac( ( v.ase_color.r + ( break111_g55678.x + break111_g55678.z ) ) );
-				half ObjectData20_g55679 = Variation_Complex102_g55678;
-				half Variation_Simple105_g55678 = v.ase_color.r;
-				half WorldData19_g55679 = Variation_Simple105_g55678;
+				float3 temp_output_339_0_g55720 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55720 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Wind_DirectionOS39_g55655 = (temp_output_339_0_g55720).xz;
+				half Input_Speed62_g55680 = _MotionSpeed_10;
+				float mulTime373_g55680 = _TimeParameters.x * Input_Speed62_g55680;
+				float3 break111_g55703 = ObjectPosition4223_g55655;
+				half Variation_Complex102_g55703 = frac( ( v.ase_color.r + ( break111_g55703.x + break111_g55703.z ) ) );
+				half ObjectData20_g55704 = Variation_Complex102_g55703;
+				half Variation_Simple105_g55703 = v.ase_color.r;
+				half WorldData19_g55704 = Variation_Simple105_g55703;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55679 = WorldData19_g55679;
+				float staticSwitch14_g55704 = WorldData19_g55704;
 				#else
-				float staticSwitch14_g55679 = ObjectData20_g55679;
+				float staticSwitch14_g55704 = ObjectData20_g55704;
 				#endif
-				half Motion_Variation3073_g54597 = staticSwitch14_g55679;
-				half Motion_Variation284_g55653 = ( _MotionVariation_10 * Motion_Variation3073_g54597 );
-				float Motion_Scale287_g55653 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
-				half Sine_MinusOneToOne281_g55653 = sin( ( mulTime373_g55653 + Motion_Variation284_g55653 + Motion_Scale287_g55653 ) );
-				half Wind_Squash4479_g54597 = TVE_MotionTweaks.w;
-				half Input_WindSquash419_g55653 = Wind_Squash4479_g54597;
-				half Input_WindPower327_g55653 = Wind_Power_103106_g54597;
-				float lerpResult321_g55653 = lerp( Sine_MinusOneToOne281_g55653 , (Sine_MinusOneToOne281_g55653*Input_WindSquash419_g55653 + 1.0) , Input_WindPower327_g55653);
-				half Mesh_Motion_1082_g54597 = v.ase_texcoord3.x;
-				half2 Motion_10_Bending2258_g54597 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g54597 ) * Wind_Power_103106_g54597 * Global_NoiseTex_R34_g54597 * Wind_DirectionOS39_g54597 * lerpResult321_g55653 * Mesh_Motion_1082_g54597 );
-				half Interaction_Amplitude4137_g54597 = _InteractionAmplitude;
-				float3 Position83_g55652 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55652 = _LayerReactValue;
-				float4 lerpResult87_g55652 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55652).xz ) ),temp_output_84_0_g55652, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55652]);
-				half4 Global_React_Params4173_g54597 = lerpResult87_g55652;
-				float4 break322_g55631 = Global_React_Params4173_g54597;
-				half Interaction_Mask66_g54597 = break322_g55631.z;
-				float3 appendResult397_g55631 = (float3(break322_g55631.x , 0.0 , break322_g55631.y));
-				float3 temp_output_398_0_g55631 = (appendResult397_g55631*2.0 + -1.0);
-				float3 temp_output_339_0_g55631 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55631 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Interaction_DirectionOS4158_g54597 = (temp_output_339_0_g55631).xz;
-				float lerpResult4494_g54597 = lerp( 1.0 , Mesh_Motion_1082_g54597 , _InteractionMaskValue);
-				half2 Motion_10_Interaction53_g54597 = ( Interaction_Amplitude4137_g54597 * Motion_Max_Bending1133_g54597 * Interaction_Mask66_g54597 * Interaction_Mask66_g54597 * Interaction_DirectionOS4158_g54597 * lerpResult4494_g54597 );
-				float2 lerpResult109_g54597 = lerp( Motion_10_Bending2258_g54597 , Motion_10_Interaction53_g54597 , ( Interaction_Mask66_g54597 * saturate( Interaction_Amplitude4137_g54597 ) ));
-				float2 break143_g54597 = lerpResult109_g54597;
-				half Motion_10_ZAxis190_g54597 = break143_g54597.y;
-				half Angle44_g55654 = Motion_10_ZAxis190_g54597;
-				half3 VertexPos40_g55663 = ( VertexPosRotationAxis50_g55654 + ( VertexPosOtherAxis82_g55654 * cos( Angle44_g55654 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55654 ) * sin( Angle44_g55654 ) ) );
-				float3 appendResult74_g55663 = (float3(0.0 , 0.0 , VertexPos40_g55663.z));
-				half3 VertexPosRotationAxis50_g55663 = appendResult74_g55663;
-				float3 break84_g55663 = VertexPos40_g55663;
-				float3 appendResult81_g55663 = (float3(break84_g55663.x , break84_g55663.y , 0.0));
-				half3 VertexPosOtherAxis82_g55663 = appendResult81_g55663;
-				half Motion_10_XAxis216_g54597 = break143_g54597.x;
-				half Angle44_g55663 = -Motion_10_XAxis216_g54597;
-				float3 Vertex_Motion_Object833_g54597 = ( VertexPosRotationAxis50_g55663 + ( VertexPosOtherAxis82_g55663 * cos( Angle44_g55663 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55663 ) * sin( Angle44_g55663 ) ) );
-				float3 temp_output_3474_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				float3 appendResult2043_g54597 = (float3(Motion_10_XAxis216_g54597 , 0.0 , Motion_10_ZAxis190_g54597));
-				float3 Vertex_Motion_World1118_g54597 = ( temp_output_3474_0_g54597 + appendResult2043_g54597 );
+				half Motion_Variation3073_g55655 = staticSwitch14_g55704;
+				half Motion_Variation284_g55680 = ( _MotionVariation_10 * Motion_Variation3073_g55655 );
+				float Motion_Scale287_g55680 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
+				half Sine_MinusOneToOne281_g55680 = sin( ( mulTime373_g55680 + Motion_Variation284_g55680 + Motion_Scale287_g55680 ) );
+				half Wind_Squash4479_g55655 = TVE_MotionTweaks.w;
+				half Input_WindSquash419_g55680 = Wind_Squash4479_g55655;
+				half Input_WindPower327_g55680 = Wind_Power_103106_g55655;
+				float lerpResult321_g55680 = lerp( Sine_MinusOneToOne281_g55680 , (Sine_MinusOneToOne281_g55680*Input_WindSquash419_g55680 + 1.0) , Input_WindPower327_g55680);
+				half Mesh_Motion_1082_g55655 = v.ase_texcoord3.x;
+				half2 Motion_10_Bending2258_g55655 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g55655 ) * Wind_Power_103106_g55655 * Global_NoiseTex_R34_g55655 * Wind_DirectionOS39_g55655 * lerpResult321_g55680 * Mesh_Motion_1082_g55655 );
+				half Interaction_Amplitude4137_g55655 = _InteractionAmplitude;
+				float3 Position83_g55679 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55679 = _LayerReactValue;
+				float4 lerpResult87_g55679 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55679).xz ) ),temp_output_84_0_g55679, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55679]);
+				half4 Global_React_Params4173_g55655 = lerpResult87_g55679;
+				float4 break322_g55659 = Global_React_Params4173_g55655;
+				half Interaction_Mask66_g55655 = break322_g55659.z;
+				float3 appendResult397_g55659 = (float3(break322_g55659.x , 0.0 , break322_g55659.y));
+				float3 temp_output_398_0_g55659 = (appendResult397_g55659*2.0 + -1.0);
+				float3 temp_output_339_0_g55659 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55659 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Interaction_DirectionOS4158_g55655 = (temp_output_339_0_g55659).xz;
+				float lerpResult4494_g55655 = lerp( 1.0 , Mesh_Motion_1082_g55655 , _InteractionMaskValue);
+				half2 Motion_10_Interaction53_g55655 = ( Interaction_Amplitude4137_g55655 * Motion_Max_Bending1133_g55655 * Interaction_Mask66_g55655 * Interaction_Mask66_g55655 * Interaction_DirectionOS4158_g55655 * lerpResult4494_g55655 );
+				float2 lerpResult109_g55655 = lerp( Motion_10_Bending2258_g55655 , Motion_10_Interaction53_g55655 , ( Interaction_Mask66_g55655 * saturate( Interaction_Amplitude4137_g55655 ) ));
+				float2 break143_g55655 = lerpResult109_g55655;
+				half Motion_10_ZAxis190_g55655 = break143_g55655.y;
+				half Angle44_g55681 = Motion_10_ZAxis190_g55655;
+				half3 VertexPos40_g55690 = ( VertexPosRotationAxis50_g55681 + ( VertexPosOtherAxis82_g55681 * cos( Angle44_g55681 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55681 ) * sin( Angle44_g55681 ) ) );
+				float3 appendResult74_g55690 = (float3(0.0 , 0.0 , VertexPos40_g55690.z));
+				half3 VertexPosRotationAxis50_g55690 = appendResult74_g55690;
+				float3 break84_g55690 = VertexPos40_g55690;
+				float3 appendResult81_g55690 = (float3(break84_g55690.x , break84_g55690.y , 0.0));
+				half3 VertexPosOtherAxis82_g55690 = appendResult81_g55690;
+				half Motion_10_XAxis216_g55655 = break143_g55655.x;
+				half Angle44_g55690 = -Motion_10_XAxis216_g55655;
+				float3 Vertex_Motion_Object833_g55655 = ( VertexPosRotationAxis50_g55690 + ( VertexPosOtherAxis82_g55690 * cos( Angle44_g55690 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55690 ) * sin( Angle44_g55690 ) ) );
+				float3 temp_output_3474_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				float3 appendResult2043_g55655 = (float3(Motion_10_XAxis216_g55655 , 0.0 , Motion_10_ZAxis190_g55655));
+				float3 Vertex_Motion_World1118_g55655 = ( temp_output_3474_0_g55655 + appendResult2043_g55655 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch3312_g54597 = Vertex_Motion_World1118_g54597;
+				float3 staticSwitch3312_g55655 = Vertex_Motion_World1118_g55655;
 				#else
-				float3 staticSwitch3312_g54597 = ( Vertex_Motion_Object833_g54597 + ( 0.0 * _VertexDataMode ) );
+				float3 staticSwitch3312_g55655 = ( Vertex_Motion_Object833_g55655 + ( 0.0 * _VertexDataMode ) );
 				#endif
-				half Global_Vertex_Size174_g54597 = break322_g55631.w;
-				float lerpResult346_g54597 = lerp( 1.0 , Global_Vertex_Size174_g54597 , _GlobalSize);
-				float3 appendResult3480_g54597 = (float3(lerpResult346_g54597 , lerpResult346_g54597 , lerpResult346_g54597));
-				half3 ObjectData20_g55694 = appendResult3480_g54597;
+				half Global_Vertex_Size174_g55655 = break322_g55659.w;
+				float lerpResult346_g55655 = lerp( 1.0 , Global_Vertex_Size174_g55655 , _GlobalSize);
+				float3 appendResult3480_g55655 = (float3(lerpResult346_g55655 , lerpResult346_g55655 , lerpResult346_g55655));
+				half3 ObjectData20_g55719 = appendResult3480_g55655;
 				half3 _Vector11 = half3(1,1,1);
-				half3 WorldData19_g55694 = _Vector11;
+				half3 WorldData19_g55719 = _Vector11;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55694 = WorldData19_g55694;
+				float3 staticSwitch14_g55719 = WorldData19_g55719;
 				#else
-				float3 staticSwitch14_g55694 = ObjectData20_g55694;
+				float3 staticSwitch14_g55719 = ObjectData20_g55719;
 				#endif
-				half3 Vertex_Size1741_g54597 = staticSwitch14_g55694;
+				half3 Vertex_Size1741_g55655 = staticSwitch14_g55719;
 				half3 _Vector5 = half3(1,1,1);
-				float3 Vertex_SizeFade1740_g54597 = _Vector5;
-				half3 Grass_Coverage2661_g54597 = half3(0,0,0);
-				float3 Final_VertexPosition890_g54597 = ( ( staticSwitch3312_g54597 * Vertex_Size1741_g54597 * Vertex_SizeFade1740_g54597 ) + Mesh_PivotsOS2291_g54597 + Grass_Coverage2661_g54597 );
+				float3 Vertex_SizeFade1740_g55655 = _Vector5;
+				half3 Grass_Coverage2661_g55655 = half3(0,0,0);
+				float3 Final_VertexPosition890_g55655 = ( ( staticSwitch3312_g55655 * Vertex_Size1741_g55655 * Vertex_SizeFade1740_g55655 ) + Mesh_PivotsOS2291_g55655 + Grass_Coverage2661_g55655 );
 				
-				float temp_output_7_0_g55657 = _GradientMinValue;
-				float4 lerpResult2779_g54597 = lerp( _GradientColorTwo , _GradientColorOne , saturate( ( ( v.ase_color.a - temp_output_7_0_g55657 ) / ( _GradientMaxValue - temp_output_7_0_g55657 ) ) ));
-				half3 Gradient_Tint2784_g54597 = (lerpResult2779_g54597).rgb;
-				float3 vertexToFrag11_g55640 = Gradient_Tint2784_g54597;
-				o.ase_texcoord2.xyz = vertexToFrag11_g55640;
+				float temp_output_7_0_g55684 = _GradientMinValue;
+				float4 lerpResult2779_g55655 = lerp( _GradientColorTwo , _GradientColorOne , saturate( ( ( v.ase_color.a - temp_output_7_0_g55684 ) / ( _GradientMaxValue - temp_output_7_0_g55684 ) ) ));
+				half3 Gradient_Tint2784_g55655 = (lerpResult2779_g55655).rgb;
+				float3 vertexToFrag11_g55667 = Gradient_Tint2784_g55655;
+				o.ase_texcoord2.xyz = vertexToFrag11_g55667;
 				float3 temp_cast_11 = (_NoiseScaleValue).xxx;
-				float3 WorldPosition3905_g54597 = vertexToFrag3890_g54597;
-				float temp_output_7_0_g55666 = _NoiseMinValue;
-				half Noise_Mask3162_g54597 = saturate( ( ( SAMPLE_TEXTURE3D_LOD( TVE_WorldTex3D, samplerTVE_WorldTex3D, ( temp_cast_11 * WorldPosition3905_g54597 * 0.1 ), 0.0 ).r - temp_output_7_0_g55666 ) / ( _NoiseMaxValue - temp_output_7_0_g55666 ) ) );
-				float4 lerpResult2800_g54597 = lerp( _NoiseColorTwo , _NoiseColorOne , Noise_Mask3162_g54597);
-				half3 Noise_Tint2802_g54597 = (lerpResult2800_g54597).rgb;
-				float3 vertexToFrag11_g55642 = Noise_Tint2802_g54597;
-				o.ase_texcoord3.xyz = vertexToFrag11_g55642;
-				float2 vertexToFrag11_g55638 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
-				o.ase_texcoord4.xy = vertexToFrag11_g55638;
-				float3 Position58_g55622 = WorldPosition3905_g54597;
-				float temp_output_82_0_g55622 = _LayerColorsValue;
-				float4 lerpResult88_g55622 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55622).xz ) ),temp_output_82_0_g55622, 0.0 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55622]);
-				half Global_ColorsTex_A1701_g54597 = (lerpResult88_g55622).a;
-				float vertexToFrag11_g55644 = Global_ColorsTex_A1701_g54597;
-				o.ase_texcoord2.w = vertexToFrag11_g55644;
-				o.ase_texcoord5.xyz = vertexToFrag3890_g54597;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float temp_output_7_0_g55693 = _NoiseMinValue;
+				half Noise_Mask3162_g55655 = saturate( ( ( SAMPLE_TEXTURE3D_LOD( TVE_WorldTex3D, samplerTVE_WorldTex3D, ( temp_cast_11 * WorldPosition3905_g55655 * 0.1 ), 0.0 ).r - temp_output_7_0_g55693 ) / ( _NoiseMaxValue - temp_output_7_0_g55693 ) ) );
+				float4 lerpResult2800_g55655 = lerp( _NoiseColorTwo , _NoiseColorOne , Noise_Mask3162_g55655);
+				half3 Noise_Tint2802_g55655 = (lerpResult2800_g55655).rgb;
+				float3 vertexToFrag11_g55669 = Noise_Tint2802_g55655;
+				o.ase_texcoord3.xyz = vertexToFrag11_g55669;
+				float2 vertexToFrag11_g55666 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
+				o.ase_texcoord4.xy = vertexToFrag11_g55666;
+				float3 Position58_g55656 = WorldPosition3905_g55655;
+				float temp_output_82_0_g55656 = _LayerColorsValue;
+				float4 lerpResult88_g55656 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55656).xz ) ),temp_output_82_0_g55656, 0.0 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55656]);
+				half Global_ColorsTex_A1701_g55655 = (lerpResult88_g55656).a;
+				float vertexToFrag11_g55671 = Global_ColorsTex_A1701_g55655;
+				o.ase_texcoord2.w = vertexToFrag11_g55671;
+				o.ase_texcoord5.xyz = vertexToFrag3890_g55655;
 				
-				float2 vertexToFrag11_g55682 = ( ( v.ase_texcoord.xy * (_EmissiveUVs).xy ) + (_EmissiveUVs).zw );
-				o.ase_texcoord4.zw = vertexToFrag11_g55682;
+				float2 vertexToFrag11_g55707 = ( ( v.ase_texcoord.xy * (_EmissiveUVs).xy ) + (_EmissiveUVs).zw );
+				o.ase_texcoord4.zw = vertexToFrag11_g55707;
 				
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -2809,7 +2819,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = Final_VertexPosition890_g54597;
+				float3 vertexValue = Final_VertexPosition890_g55655;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -2943,119 +2953,119 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 					#endif
 				#endif
 
-				float3 vertexToFrag11_g55640 = IN.ase_texcoord2.xyz;
-				float3 vertexToFrag11_g55642 = IN.ase_texcoord3.xyz;
-				float2 vertexToFrag11_g55638 = IN.ase_texcoord4.xy;
-				half2 Main_UVs15_g54597 = vertexToFrag11_g55638;
-				float4 tex2DNode29_g54597 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g54597 );
-				float3 temp_output_51_0_g54597 = ( (_MainColor).rgb * (tex2DNode29_g54597).rgb );
-				half3 Main_Albedo99_g54597 = temp_output_51_0_g54597;
-				half3 Blend_Albedo265_g54597 = Main_Albedo99_g54597;
-				half3 Blend_AlbedoTinted2808_g54597 = ( vertexToFrag11_g55640 * vertexToFrag11_g55642 * float3(1,1,1) * Blend_Albedo265_g54597 );
-				float dotResult3616_g54597 = dot( Blend_AlbedoTinted2808_g54597 , float3(0.2126,0.7152,0.0722) );
-				float3 temp_cast_0 = (dotResult3616_g54597).xxx;
-				float vertexToFrag11_g55644 = IN.ase_texcoord2.w;
-				half Global_Colors_Influence3668_g54597 = vertexToFrag11_g55644;
-				float3 lerpResult3618_g54597 = lerp( Blend_AlbedoTinted2808_g54597 , temp_cast_0 , Global_Colors_Influence3668_g54597);
-				float3 vertexToFrag3890_g54597 = IN.ase_texcoord5.xyz;
-				float3 WorldPosition3905_g54597 = vertexToFrag3890_g54597;
-				float3 Position58_g55622 = WorldPosition3905_g54597;
-				float temp_output_82_0_g55622 = _LayerColorsValue;
-				float4 lerpResult88_g55622 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55622).xz ) ),temp_output_82_0_g55622 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55622]);
-				half3 Global_ColorsTex_RGB1700_g54597 = (lerpResult88_g55622).rgb;
+				float3 vertexToFrag11_g55667 = IN.ase_texcoord2.xyz;
+				float3 vertexToFrag11_g55669 = IN.ase_texcoord3.xyz;
+				float2 vertexToFrag11_g55666 = IN.ase_texcoord4.xy;
+				half2 Main_UVs15_g55655 = vertexToFrag11_g55666;
+				float4 tex2DNode29_g55655 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				float3 temp_output_51_0_g55655 = ( (_MainColor).rgb * (tex2DNode29_g55655).rgb );
+				half3 Main_Albedo99_g55655 = temp_output_51_0_g55655;
+				half3 Blend_Albedo265_g55655 = Main_Albedo99_g55655;
+				half3 Blend_AlbedoTinted2808_g55655 = ( vertexToFrag11_g55667 * vertexToFrag11_g55669 * float3(1,1,1) * Blend_Albedo265_g55655 );
+				float dotResult3616_g55655 = dot( Blend_AlbedoTinted2808_g55655 , float3(0.2126,0.7152,0.0722) );
+				float3 temp_cast_0 = (dotResult3616_g55655).xxx;
+				float vertexToFrag11_g55671 = IN.ase_texcoord2.w;
+				half Global_Colors_Influence3668_g55655 = vertexToFrag11_g55671;
+				float3 lerpResult3618_g55655 = lerp( Blend_AlbedoTinted2808_g55655 , temp_cast_0 , Global_Colors_Influence3668_g55655);
+				float3 vertexToFrag3890_g55655 = IN.ase_texcoord5.xyz;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float3 Position58_g55656 = WorldPosition3905_g55655;
+				float temp_output_82_0_g55656 = _LayerColorsValue;
+				float4 lerpResult88_g55656 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55656).xz ) ),temp_output_82_0_g55656 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55656]);
+				half3 Global_ColorsTex_RGB1700_g55655 = (lerpResult88_g55656).rgb;
 				#ifdef UNITY_COLORSPACE_GAMMA
-				float staticSwitch1_g55676 = 2.0;
+				float staticSwitch1_g55701 = 2.0;
 				#else
-				float staticSwitch1_g55676 = 4.594794;
+				float staticSwitch1_g55701 = 4.594794;
 				#endif
-				half3 Global_Colors1954_g54597 = ( Global_ColorsTex_RGB1700_g54597 * staticSwitch1_g55676 );
-				half Global_Colors_Value3650_g54597 = _GlobalColors;
-				float4 tex2DNode35_g54597 = SAMPLE_TEXTURE2D( _MainMaskTex, sampler_MainAlbedoTex, Main_UVs15_g54597 );
-				half Main_Mask57_g54597 = tex2DNode35_g54597.b;
-				float temp_output_7_0_g55677 = _ColorsMaskMinValue;
-				half Global_Colors_Mask3692_g54597 = saturate( ( ( Main_Mask57_g54597 - temp_output_7_0_g55677 ) / ( _ColorsMaskMaxValue - temp_output_7_0_g55677 ) ) );
-				float3 lerpResult3628_g54597 = lerp( Blend_AlbedoTinted2808_g54597 , ( lerpResult3618_g54597 * Global_Colors1954_g54597 ) , ( Global_Colors_Value3650_g54597 * Global_Colors_Mask3692_g54597 ));
-				half3 Blend_AlbedoColored863_g54597 = lerpResult3628_g54597;
-				float3 temp_output_799_0_g54597 = (_SubsurfaceColor).rgb;
-				float dotResult3930_g54597 = dot( temp_output_799_0_g54597 , float3(0.2126,0.7152,0.0722) );
-				float3 temp_cast_3 = (dotResult3930_g54597).xxx;
-				float3 lerpResult3932_g54597 = lerp( temp_output_799_0_g54597 , temp_cast_3 , Global_Colors_Influence3668_g54597);
-				float3 lerpResult3942_g54597 = lerp( temp_output_799_0_g54597 , ( lerpResult3932_g54597 * Global_Colors1954_g54597 ) , ( Global_Colors_Value3650_g54597 * Global_Colors_Mask3692_g54597 ));
-				half3 Subsurface_Color1722_g54597 = lerpResult3942_g54597;
-				half MainLight_Subsurface4041_g54597 = TVE_MainLightParams.a;
-				half Subsurface_Intensity1752_g54597 = ( _SubsurfaceValue * MainLight_Subsurface4041_g54597 );
-				float temp_output_7_0_g55662 = _SubsurfaceMaskMinValue;
-				half Subsurface_Mask1557_g54597 = saturate( ( ( Main_Mask57_g54597 - temp_output_7_0_g55662 ) / ( _SubsurfaceMaskMaxValue - temp_output_7_0_g55662 ) ) );
-				half3 Subsurface_Transmission884_g54597 = ( Subsurface_Color1722_g54597 * Subsurface_Intensity1752_g54597 * Subsurface_Mask1557_g54597 );
-				half3 MainLight_Direction3926_g54597 = TVE_MainLightDirection;
+				half3 Global_Colors1954_g55655 = ( Global_ColorsTex_RGB1700_g55655 * staticSwitch1_g55701 );
+				half Global_Colors_Value3650_g55655 = _GlobalColors;
+				float4 tex2DNode35_g55655 = SAMPLE_TEXTURE2D( _MainMaskTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				half Main_Mask57_g55655 = tex2DNode35_g55655.b;
+				float temp_output_7_0_g55702 = _ColorsMaskMinValue;
+				half Global_Colors_Mask3692_g55655 = saturate( ( ( Main_Mask57_g55655 - temp_output_7_0_g55702 ) / ( _ColorsMaskMaxValue - temp_output_7_0_g55702 ) ) );
+				float3 lerpResult3628_g55655 = lerp( Blend_AlbedoTinted2808_g55655 , ( lerpResult3618_g55655 * Global_Colors1954_g55655 ) , ( Global_Colors_Value3650_g55655 * Global_Colors_Mask3692_g55655 ));
+				half3 Blend_AlbedoColored863_g55655 = lerpResult3628_g55655;
+				float3 temp_output_799_0_g55655 = (_SubsurfaceColor).rgb;
+				float dotResult3930_g55655 = dot( temp_output_799_0_g55655 , float3(0.2126,0.7152,0.0722) );
+				float3 temp_cast_3 = (dotResult3930_g55655).xxx;
+				float3 lerpResult3932_g55655 = lerp( temp_output_799_0_g55655 , temp_cast_3 , Global_Colors_Influence3668_g55655);
+				float3 lerpResult3942_g55655 = lerp( temp_output_799_0_g55655 , ( lerpResult3932_g55655 * Global_Colors1954_g55655 ) , ( Global_Colors_Value3650_g55655 * Global_Colors_Mask3692_g55655 ));
+				half3 Subsurface_Color1722_g55655 = lerpResult3942_g55655;
+				half MainLight_Subsurface4041_g55655 = TVE_MainLightParams.a;
+				half Subsurface_Intensity1752_g55655 = ( _SubsurfaceValue * MainLight_Subsurface4041_g55655 );
+				float temp_output_7_0_g55689 = _SubsurfaceMaskMinValue;
+				half Subsurface_Mask1557_g55655 = saturate( ( ( Main_Mask57_g55655 - temp_output_7_0_g55689 ) / ( _SubsurfaceMaskMaxValue - temp_output_7_0_g55689 ) ) );
+				half3 Subsurface_Transmission884_g55655 = ( Subsurface_Color1722_g55655 * Subsurface_Intensity1752_g55655 * Subsurface_Mask1557_g55655 );
+				half3 MainLight_Direction3926_g55655 = TVE_MainLightDirection;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float3 normalizeResult2169_g54597 = normalize( ase_worldViewDir );
-				float3 ViewDir_Normalized3963_g54597 = normalizeResult2169_g54597;
-				float dotResult785_g54597 = dot( -MainLight_Direction3926_g54597 , ViewDir_Normalized3963_g54597 );
-				float saferPower1624_g54597 = max( (dotResult785_g54597*0.5 + 0.5) , 0.0001 );
+				float3 normalizeResult2169_g55655 = normalize( ase_worldViewDir );
+				float3 ViewDir_Normalized3963_g55655 = normalizeResult2169_g55655;
+				float dotResult785_g55655 = dot( -MainLight_Direction3926_g55655 , ViewDir_Normalized3963_g55655 );
+				float saferPower1624_g55655 = max( (dotResult785_g55655*0.5 + 0.5) , 0.0001 );
 				#ifdef UNITY_PASS_FORWARDADD
-				float staticSwitch1602_g54597 = 0.0;
+				float staticSwitch1602_g55655 = 0.0;
 				#else
-				float staticSwitch1602_g54597 = ( pow( saferPower1624_g54597 , _MainLightAngleValue ) * _MainLightScatteringValue );
+				float staticSwitch1602_g55655 = ( pow( saferPower1624_g55655 , _MainLightAngleValue ) * _MainLightScatteringValue );
 				#endif
-				half Mask_Subsurface_View782_g54597 = staticSwitch1602_g54597;
-				half3 Subsurface_Scattering1693_g54597 = ( Subsurface_Transmission884_g54597 * Blend_AlbedoColored863_g54597 * Mask_Subsurface_View782_g54597 );
-				half3 Blend_AlbedoAndSubsurface149_g54597 = ( Blend_AlbedoColored863_g54597 + Subsurface_Scattering1693_g54597 );
-				half3 Global_OverlayColor1758_g54597 = (TVE_OverlayColor).rgb;
-				half Main_AlbedoTex_G3526_g54597 = tex2DNode29_g54597.g;
-				float3 Position82_g55688 = WorldPosition3905_g54597;
-				float temp_output_84_0_g55688 = _LayerExtrasValue;
-				float4 lerpResult88_g55688 = lerp( TVE_ExtrasParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ExtrasTex, samplerTVE_ExtrasTex, ( (TVE_ExtrasCoord).zw + ( (TVE_ExtrasCoord).xy * (Position82_g55688).xz ) ),temp_output_84_0_g55688 ) , TVE_ExtrasUsage[(int)temp_output_84_0_g55688]);
-				float4 break89_g55688 = lerpResult88_g55688;
-				half Global_Extras_Overlay156_g54597 = break89_g55688.b;
-				float temp_output_1025_0_g54597 = ( _GlobalOverlay * Global_Extras_Overlay156_g54597 );
-				half Overlay_Commons1365_g54597 = temp_output_1025_0_g54597;
-				float temp_output_7_0_g55646 = _OverlayMaskMinValue;
-				half Overlay_Mask269_g54597 = saturate( ( ( ( ( 0.5 + Main_AlbedoTex_G3526_g54597 ) * Overlay_Commons1365_g54597 ) - temp_output_7_0_g55646 ) / ( _OverlayMaskMaxValue - temp_output_7_0_g55646 ) ) );
-				float3 lerpResult336_g54597 = lerp( Blend_AlbedoAndSubsurface149_g54597 , Global_OverlayColor1758_g54597 , Overlay_Mask269_g54597);
-				half3 Final_Albedo359_g54597 = lerpResult336_g54597;
+				half Mask_Subsurface_View782_g55655 = staticSwitch1602_g55655;
+				half3 Subsurface_Scattering1693_g55655 = ( Subsurface_Transmission884_g55655 * Blend_AlbedoColored863_g55655 * Mask_Subsurface_View782_g55655 );
+				half3 Blend_AlbedoAndSubsurface149_g55655 = ( Blend_AlbedoColored863_g55655 + Subsurface_Scattering1693_g55655 );
+				half3 Global_OverlayColor1758_g55655 = (TVE_OverlayColor).rgb;
+				half Main_AlbedoTex_G3526_g55655 = tex2DNode29_g55655.g;
+				float3 Position82_g55713 = WorldPosition3905_g55655;
+				float temp_output_84_0_g55713 = _LayerExtrasValue;
+				float4 lerpResult88_g55713 = lerp( TVE_ExtrasParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ExtrasTex, samplerTVE_ExtrasTex, ( (TVE_ExtrasCoord).zw + ( (TVE_ExtrasCoord).xy * (Position82_g55713).xz ) ),temp_output_84_0_g55713 ) , TVE_ExtrasUsage[(int)temp_output_84_0_g55713]);
+				float4 break89_g55713 = lerpResult88_g55713;
+				half Global_Extras_Overlay156_g55655 = break89_g55713.b;
+				float temp_output_1025_0_g55655 = ( _GlobalOverlay * Global_Extras_Overlay156_g55655 );
+				half Overlay_Commons1365_g55655 = temp_output_1025_0_g55655;
+				float temp_output_7_0_g55673 = _OverlayMaskMinValue;
+				half Overlay_Mask269_g55655 = saturate( ( ( ( ( 0.5 + Main_AlbedoTex_G3526_g55655 ) * Overlay_Commons1365_g55655 ) - temp_output_7_0_g55673 ) / ( _OverlayMaskMaxValue - temp_output_7_0_g55673 ) ) );
+				float3 lerpResult336_g55655 = lerp( Blend_AlbedoAndSubsurface149_g55655 , Global_OverlayColor1758_g55655 , Overlay_Mask269_g55655);
+				half3 Final_Albedo359_g55655 = lerpResult336_g55655;
 				
-				float4 temp_output_4214_0_g54597 = ( _EmissiveColor * _EmissiveIntensityParams.x );
-				float2 vertexToFrag11_g55682 = IN.ase_texcoord4.zw;
-				half2 Emissive_UVs2468_g54597 = vertexToFrag11_g55682;
-				half Global_Extras_Emissive4203_g54597 = break89_g55688.r;
-				float lerpResult4206_g54597 = lerp( 1.0 , Global_Extras_Emissive4203_g54597 , _GlobalEmissive);
-				half3 Final_Emissive2476_g54597 = ( (( temp_output_4214_0_g54597 * SAMPLE_TEXTURE2D( _EmissiveTex, sampler_EmissiveTex, Emissive_UVs2468_g54597 ) )).rgb * lerpResult4206_g54597 );
+				float4 temp_output_4214_0_g55655 = ( _EmissiveColor * _EmissiveIntensityParams.x );
+				float2 vertexToFrag11_g55707 = IN.ase_texcoord4.zw;
+				half2 Emissive_UVs2468_g55655 = vertexToFrag11_g55707;
+				half Global_Extras_Emissive4203_g55655 = break89_g55713.r;
+				float lerpResult4206_g55655 = lerp( 1.0 , Global_Extras_Emissive4203_g55655 , _GlobalEmissive);
+				half3 Final_Emissive2476_g55655 = ( (( temp_output_4214_0_g55655 * SAMPLE_TEXTURE2D( _EmissiveTex, sampler_EmissiveTex, Emissive_UVs2468_g55655 ) )).rgb * lerpResult4206_g55655 );
 				
-				float localCustomAlphaClip3735_g54597 = ( 0.0 );
-				float3 normalizeResult3971_g54597 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
-				float3 NormalsWS_Derivates3972_g54597 = normalizeResult3971_g54597;
-				float dotResult2161_g54597 = dot( ViewDir_Normalized3963_g54597 , NormalsWS_Derivates3972_g54597 );
-				float dotResult2212_g54597 = dot( ViewDir_Normalized3963_g54597 , float3(0,1,0) );
-				half Mask_HView2656_g54597 = dotResult2212_g54597;
-				float lerpResult2221_g54597 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g54597);
-				float lerpResult3992_g54597 = lerp( 1.0 , abs( dotResult2161_g54597 ) , lerpResult2221_g54597);
-				half Fade_Billboard2175_g54597 = lerpResult3992_g54597;
-				half Final_AlphaFade3727_g54597 = ( 1.0 * Fade_Billboard2175_g54597 );
-				float temp_output_41_0_g55665 = Final_AlphaFade3727_g54597;
-				float Main_Alpha316_g54597 = ( _MainColor.a * tex2DNode29_g54597.a );
-				half AlphaTreshold2132_g54597 = _Cutoff;
+				float localCustomAlphaClip3735_g55655 = ( 0.0 );
+				float3 normalizeResult3971_g55655 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float3 NormalsWS_Derivates3972_g55655 = normalizeResult3971_g55655;
+				float dotResult2161_g55655 = dot( ViewDir_Normalized3963_g55655 , NormalsWS_Derivates3972_g55655 );
+				float dotResult2212_g55655 = dot( ViewDir_Normalized3963_g55655 , float3(0,1,0) );
+				half Mask_HView2656_g55655 = dotResult2212_g55655;
+				float lerpResult2221_g55655 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g55655);
+				float lerpResult3992_g55655 = lerp( 1.0 , abs( dotResult2161_g55655 ) , lerpResult2221_g55655);
+				half Fade_Billboard2175_g55655 = lerpResult3992_g55655;
+				half Final_AlphaFade3727_g55655 = ( 1.0 * Fade_Billboard2175_g55655 );
+				float temp_output_41_0_g55692 = Final_AlphaFade3727_g55655;
+				float Main_Alpha316_g55655 = ( _MainColor.a * tex2DNode29_g55655.a );
+				half AlphaTreshold2132_g55655 = _Cutoff;
 				#ifdef TVE_ALPHA_CLIP
-				float staticSwitch3792_g54597 = ( Main_Alpha316_g54597 - ( AlphaTreshold2132_g54597 - 0.5 ) );
+				float staticSwitch3792_g55655 = ( Main_Alpha316_g55655 - ( AlphaTreshold2132_g55655 - 0.5 ) );
 				#else
-				float staticSwitch3792_g54597 = Main_Alpha316_g54597;
+				float staticSwitch3792_g55655 = Main_Alpha316_g55655;
 				#endif
-				half Final_Alpha3754_g54597 = staticSwitch3792_g54597;
-				float temp_output_661_0_g54597 = ( saturate( ( temp_output_41_0_g55665 + ( temp_output_41_0_g55665 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g54597 ) ).r ) ) ) * Final_Alpha3754_g54597 );
-				float Alpha3735_g54597 = temp_output_661_0_g54597;
-				float Treshold3735_g54597 = 0.5;
+				half Final_Alpha3754_g55655 = staticSwitch3792_g55655;
+				float temp_output_661_0_g55655 = ( saturate( ( temp_output_41_0_g55692 + ( temp_output_41_0_g55692 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g55655 ) ).r ) ) ) * Final_Alpha3754_g55655 );
+				float Alpha3735_g55655 = temp_output_661_0_g55655;
+				float Treshold3735_g55655 = 0.5;
 				{
 				#if TVE_ALPHA_CLIP
-				clip(Alpha3735_g54597 - Treshold3735_g54597);
+				clip(Alpha3735_g55655 - Treshold3735_g55655);
 				#endif
 				}
-				half Final_Clip914_g54597 = saturate( Alpha3735_g54597 );
+				half Final_Clip914_g55655 = saturate( Alpha3735_g55655 );
 				
 				
-				float3 Albedo = Final_Albedo359_g54597;
-				float3 Emission = Final_Emissive2476_g54597;
-				float Alpha = Final_Clip914_g54597;
+				float3 Albedo = Final_Albedo359_g55655;
+				float3 Emission = Final_Emissive2476_g55655;
+				float Alpha = Final_Clip914_g55655;
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -3095,7 +3105,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#define ASE_ABSOLUTE_VERTEX_POS 1
 			#define _EMISSION
 			#define _NORMALMAP 1
-			#define ASE_SRP_VERSION 70403
+			#define ASE_SRP_VERSION 100202
 			#define ASE_USING_SAMPLING_MACROS 1
 
 			#pragma prefer_hlslcc gles
@@ -3118,15 +3128,15 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			#pragma shader_feature_local TVE_VERTEX_DATA_BATCHED
 			//TVE Shader Type Defines
 			#define TVE_IS_VEGETATION_SHADER
+			//TVE Pipeline Defines
+			#define THE_VEGETATION_ENGINE
+			#define TVE_IS_UNIVERSAL_PIPELINE
 			//TVE Injection Defines
 			//SHADER INJECTION POINT BEGIN
            //Nature Renderer (Procedural Instancing)
            #include "Assets/Visual Design Cafe/Nature Shaders/Common/Nodes/Integrations/Nature Renderer.cginc"
            #pragma instancing_options procedural:SetupNatureRenderer
 			//SHADER INJECTION POINT END
-			//TVE Pipeline Defines
-			#define THE_VEGETATION_ENGINE
-			#define TVE_IS_UNIVERSAL_PIPELINE
 
 
 			#pragma shader_feature _ _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
@@ -3159,33 +3169,32 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			};
 
 			CBUFFER_START(UnityPerMaterial)
-			float4 _Color;
-			half4 _VertexOcclusionRemap;
-			float4 _GradientMaskRemap;
-			half4 _MainColor;
-			half4 _GradientColorOne;
+			float4 _SubsurfaceDiffusion_asset;
 			half4 _SubsurfaceMaskRemap;
 			half4 _DetailBlendRemap;
 			half4 _SubsurfaceColor;
-			float4 _SubsurfaceDiffusion_asset;
-			half4 _OverlayMaskRemap;
-			half4 _EmissiveColor;
+			half4 _VertexOcclusionRemap;
+			half4 _MainColor;
+			half4 _ColorsMaskRemap;
 			float4 _NoiseMaskRemap;
-			half4 _EmissiveUVs;
+			float4 _GradientMaskRemap;
+			float4 _Color;
 			half4 _GradientColorTwo;
 			float4 _SubsurfaceDiffusion_Asset;
-			half4 _NoiseColorTwo;
-			float4 _MaxBoundsInfo;
-			half4 _NoiseColorOne;
-			half4 _MainUVs;
+			half4 _EmissiveColor;
 			float4 _EmissiveIntensityParams;
-			half4 _ColorsMaskRemap;
+			half4 _EmissiveUVs;
+			half4 _OverlayMaskRemap;
+			half4 _NoiseColorTwo;
+			half4 _NoiseColorOne;
+			float4 _MaxBoundsInfo;
+			half4 _MainUVs;
+			half4 _GradientColorOne;
 			half3 _render_normals_options;
 			half _GradientMinValue;
 			half _GradientMaxValue;
-			half _OcclusionCat;
-			half _VertexDataMode;
 			half _InteractionMaskValue;
+			half _VertexDataMode;
 			half _LayerReactValue;
 			half _InteractionAmplitude;
 			float _MotionScale_10;
@@ -3195,7 +3204,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _MotionAmplitude_10;
 			half _GlobalSize;
 			half _NoiseScaleValue;
-			half _ColorsMaskMinValue;
+			half _IsStandardShader;
 			half _NoiseMaxValue;
 			half _MainOcclusionValue;
 			half _GlobalWetness;
@@ -3206,54 +3215,49 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			half _OverlayMaskMaxValue;
 			half _OverlayMaskMinValue;
 			half _LayerExtrasValue;
+			half _NoiseMinValue;
 			half _GlobalOverlay;
-			half _MainLightScatteringValue;
 			half _MainLightAngleValue;
 			half _SubsurfaceMaskMaxValue;
 			half _SubsurfaceMaskMinValue;
 			half _SubsurfaceValue;
 			half _ColorsMaskMaxValue;
-			half _render_zw;
+			half _ColorsMaskMinValue;
+			half _TranslucencyScatteringValue;
 			half _GlobalColors;
 			half _LayerColorsValue;
-			half _NoiseMinValue;
-			half _render_cull;
+			half _MainLightScatteringValue;
 			half _TranslucencyDirectValue;
-			half _render_src;
-			half _TranslucencyAmbientValue;
-			half _RenderCull;
-			half _LayersSpace;
-			half _FadeSpace;
-			half _TranslucencyHDMessage;
-			half _SubsurfaceCat;
+			half _SizeFadeMessage;
+			half _DetailTypeMode;
 			half _VertexMasksMode;
 			half _NoiseCat;
 			half _SizeFadeCat;
-			half _VariationGlobalsMessage;
 			half _VariationMotionMessage;
+			half _RenderNormals;
 			half _TranslucencyIntensityValue;
 			half _IsTVEShader;
 			half _DetailMode;
 			half _DetailCat;
+			half _SubsurfaceCat;
 			half _EmissiveFlagMode;
-			half _MotionSpace;
 			half _EmissiveCat;
 			half _Cutoff;
 			half _GradientCat;
-			half _RenderNormals;
-			half _TranslucencyNormalValue;
-			half _RenderClip;
-			half _RenderMode;
+			half _OcclusionCat;
+			half _render_src;
+			half _render_cull;
+			half _render_dst;
+			half _render_zw;
 			half _IsCrossShader;
-			half _IsStandardShader;
-			half _TranslucencyScatteringValue;
-			half _FadeHorizontalValue;
-			half _IsVersion;
-			half _DetailTypeMode;
+			half _MotionSpace;
+			half _TranslucencyHDMessage;
+			half _FadeSpace;
+			half _LayersSpace;
 			half _RenderSSR;
 			half _DetailBlendMode;
 			half _ReceiveSpace;
-			half _SizeFadeMessage;
+			half _FadeHorizontalValue;
 			half _RenderingCat;
 			half _PerspectiveCat;
 			half _TranslucencyShadowValue;
@@ -3265,7 +3269,13 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			float _SubsurfaceDiffusion;
 			half _RenderDecals;
 			half _VertexVariationMode;
-			half _render_dst;
+			half _RenderMode;
+			half _RenderClip;
+			half _TranslucencyNormalValue;
+			half _VariationGlobalsMessage;
+			half _TranslucencyAmbientValue;
+			half _RenderCull;
+			half _IsVersion;
 			half _FadeVerticalValue;
 			#ifdef _TRANSMISSION_ASE
 				float _TransmissionShadow;
@@ -3336,162 +3346,162 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
-				float3 VertexPosition3588_g54597 = v.vertex.xyz;
-				half3 Mesh_PivotsOS2291_g54597 = half3(0,0,0);
-				float3 temp_output_2283_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				half3 VertexPos40_g55654 = temp_output_2283_0_g54597;
-				float3 appendResult74_g55654 = (float3(VertexPos40_g55654.x , 0.0 , 0.0));
-				half3 VertexPosRotationAxis50_g55654 = appendResult74_g55654;
-				float3 break84_g55654 = VertexPos40_g55654;
-				float3 appendResult81_g55654 = (float3(0.0 , break84_g55654.y , break84_g55654.z));
-				half3 VertexPosOtherAxis82_g55654 = appendResult81_g55654;
-				half ObjectData20_g55685 = 3.14;
-				float Bounds_Height374_g54597 = _MaxBoundsInfo.y;
-				half WorldData19_g55685 = ( Bounds_Height374_g54597 * 3.14 );
+				float3 VertexPosition3588_g55655 = v.vertex.xyz;
+				half3 Mesh_PivotsOS2291_g55655 = half3(0,0,0);
+				float3 temp_output_2283_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				half3 VertexPos40_g55681 = temp_output_2283_0_g55655;
+				float3 appendResult74_g55681 = (float3(VertexPos40_g55681.x , 0.0 , 0.0));
+				half3 VertexPosRotationAxis50_g55681 = appendResult74_g55681;
+				float3 break84_g55681 = VertexPos40_g55681;
+				float3 appendResult81_g55681 = (float3(0.0 , break84_g55681.y , break84_g55681.z));
+				half3 VertexPosOtherAxis82_g55681 = appendResult81_g55681;
+				half ObjectData20_g55710 = 3.14;
+				float Bounds_Height374_g55655 = _MaxBoundsInfo.y;
+				half WorldData19_g55710 = ( Bounds_Height374_g55655 * 3.14 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55685 = WorldData19_g55685;
+				float staticSwitch14_g55710 = WorldData19_g55710;
 				#else
-				float staticSwitch14_g55685 = ObjectData20_g55685;
+				float staticSwitch14_g55710 = ObjectData20_g55710;
 				#endif
-				float Motion_Max_Bending1133_g54597 = staticSwitch14_g55685;
-				float4x4 break19_g55659 = GetObjectToWorldMatrix();
-				float3 appendResult20_g55659 = (float3(break19_g55659[ 0 ][ 3 ] , break19_g55659[ 1 ][ 3 ] , break19_g55659[ 2 ][ 3 ]));
-				half3 ObjectData20_g55660 = appendResult20_g55659;
+				float Motion_Max_Bending1133_g55655 = staticSwitch14_g55710;
+				float4x4 break19_g55686 = GetObjectToWorldMatrix();
+				float3 appendResult20_g55686 = (float3(break19_g55686[ 0 ][ 3 ] , break19_g55686[ 1 ][ 3 ] , break19_g55686[ 2 ][ 3 ]));
+				half3 ObjectData20_g55687 = appendResult20_g55686;
 				float3 ase_worldPos = mul(GetObjectToWorldMatrix(), v.vertex).xyz;
-				half3 WorldData19_g55660 = ase_worldPos;
+				half3 WorldData19_g55687 = ase_worldPos;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55660 = WorldData19_g55660;
+				float3 staticSwitch14_g55687 = WorldData19_g55687;
 				#else
-				float3 staticSwitch14_g55660 = ObjectData20_g55660;
+				float3 staticSwitch14_g55687 = ObjectData20_g55687;
 				#endif
-				float3 temp_output_114_0_g55659 = staticSwitch14_g55660;
-				float3 vertexToFrag4224_g54597 = temp_output_114_0_g55659;
-				half3 ObjectData20_g55680 = vertexToFrag4224_g54597;
-				float3 vertexToFrag3890_g54597 = ase_worldPos;
-				half3 WorldData19_g55680 = vertexToFrag3890_g54597;
+				float3 temp_output_114_0_g55686 = staticSwitch14_g55687;
+				float3 vertexToFrag4224_g55655 = temp_output_114_0_g55686;
+				half3 ObjectData20_g55705 = vertexToFrag4224_g55655;
+				float3 vertexToFrag3890_g55655 = ase_worldPos;
+				half3 WorldData19_g55705 = vertexToFrag3890_g55655;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55680 = WorldData19_g55680;
+				float3 staticSwitch14_g55705 = WorldData19_g55705;
 				#else
-				float3 staticSwitch14_g55680 = ObjectData20_g55680;
+				float3 staticSwitch14_g55705 = ObjectData20_g55705;
 				#endif
-				float3 ObjectPosition4223_g54597 = staticSwitch14_g55680;
-				float3 Position83_g55689 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55689 = _LayerMotionValue;
-				float4 lerpResult87_g55689 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55689).xz ) ),temp_output_84_0_g55689, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55689]);
-				half4 Global_Motion_Params3909_g54597 = lerpResult87_g55689;
-				float4 break322_g55695 = Global_Motion_Params3909_g54597;
-				half Wind_Power369_g55695 = break322_g55695.z;
-				float lerpResult376_g55695 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55695);
-				half Wind_Power_103106_g54597 = lerpResult376_g55695;
-				float2 panner73_g55630 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g54597).xz * TVE_NoiseParams.z ));
-				float4 tex2DNode75_g55630 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55630, 0.0 );
-				float4 saferPower77_g55630 = max( abs( tex2DNode75_g55630 ) , 0.0001 );
-				half Wind_Power2223_g54597 = Wind_Power369_g55695;
-				float temp_output_167_0_g55630 = Wind_Power2223_g54597;
-				float lerpResult168_g55630 = lerp( 1.4 , 0.2 , temp_output_167_0_g55630);
-				float4 temp_cast_3 = (lerpResult168_g55630).xxxx;
-				float4 break174_g55630 = pow( saferPower77_g55630 , temp_cast_3 );
-				half Global_NoiseTex_R34_g54597 = break174_g55630.r;
-				float3 appendResult397_g55695 = (float3(break322_g55695.x , 0.0 , break322_g55695.y));
-				float3 temp_output_398_0_g55695 = (appendResult397_g55695*2.0 + -1.0);
+				float3 ObjectPosition4223_g55655 = staticSwitch14_g55705;
+				float3 Position83_g55714 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55714 = _LayerMotionValue;
+				float4 lerpResult87_g55714 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55714).xz ) ),temp_output_84_0_g55714, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55714]);
+				half4 Global_Motion_Params3909_g55655 = lerpResult87_g55714;
+				float4 break322_g55720 = Global_Motion_Params3909_g55655;
+				half Wind_Power369_g55720 = break322_g55720.z;
+				float lerpResult376_g55720 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55720);
+				half Wind_Power_103106_g55655 = lerpResult376_g55720;
+				float2 panner73_g55658 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g55655).xz * TVE_NoiseParams.z ));
+				float4 tex2DNode75_g55658 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55658, 0.0 );
+				float4 saferPower77_g55658 = max( abs( tex2DNode75_g55658 ) , 0.0001 );
+				half Wind_Power2223_g55655 = Wind_Power369_g55720;
+				float temp_output_167_0_g55658 = Wind_Power2223_g55655;
+				float lerpResult168_g55658 = lerp( 1.4 , 0.2 , temp_output_167_0_g55658);
+				float4 temp_cast_3 = (lerpResult168_g55658).xxxx;
+				float4 break174_g55658 = pow( saferPower77_g55658 , temp_cast_3 );
+				half Global_NoiseTex_R34_g55655 = break174_g55658.r;
+				float3 appendResult397_g55720 = (float3(break322_g55720.x , 0.0 , break322_g55720.y));
+				float3 temp_output_398_0_g55720 = (appendResult397_g55720*2.0 + -1.0);
 				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
-				float3 temp_output_339_0_g55695 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55695 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Wind_DirectionOS39_g54597 = (temp_output_339_0_g55695).xz;
-				half Input_Speed62_g55653 = _MotionSpeed_10;
-				float mulTime373_g55653 = _TimeParameters.x * Input_Speed62_g55653;
-				float3 break111_g55678 = ObjectPosition4223_g54597;
-				half Variation_Complex102_g55678 = frac( ( v.ase_color.r + ( break111_g55678.x + break111_g55678.z ) ) );
-				half ObjectData20_g55679 = Variation_Complex102_g55678;
-				half Variation_Simple105_g55678 = v.ase_color.r;
-				half WorldData19_g55679 = Variation_Simple105_g55678;
+				float3 temp_output_339_0_g55720 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55720 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Wind_DirectionOS39_g55655 = (temp_output_339_0_g55720).xz;
+				half Input_Speed62_g55680 = _MotionSpeed_10;
+				float mulTime373_g55680 = _TimeParameters.x * Input_Speed62_g55680;
+				float3 break111_g55703 = ObjectPosition4223_g55655;
+				half Variation_Complex102_g55703 = frac( ( v.ase_color.r + ( break111_g55703.x + break111_g55703.z ) ) );
+				half ObjectData20_g55704 = Variation_Complex102_g55703;
+				half Variation_Simple105_g55703 = v.ase_color.r;
+				half WorldData19_g55704 = Variation_Simple105_g55703;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float staticSwitch14_g55679 = WorldData19_g55679;
+				float staticSwitch14_g55704 = WorldData19_g55704;
 				#else
-				float staticSwitch14_g55679 = ObjectData20_g55679;
+				float staticSwitch14_g55704 = ObjectData20_g55704;
 				#endif
-				half Motion_Variation3073_g54597 = staticSwitch14_g55679;
-				half Motion_Variation284_g55653 = ( _MotionVariation_10 * Motion_Variation3073_g54597 );
-				float Motion_Scale287_g55653 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
-				half Sine_MinusOneToOne281_g55653 = sin( ( mulTime373_g55653 + Motion_Variation284_g55653 + Motion_Scale287_g55653 ) );
-				half Wind_Squash4479_g54597 = TVE_MotionTweaks.w;
-				half Input_WindSquash419_g55653 = Wind_Squash4479_g54597;
-				half Input_WindPower327_g55653 = Wind_Power_103106_g54597;
-				float lerpResult321_g55653 = lerp( Sine_MinusOneToOne281_g55653 , (Sine_MinusOneToOne281_g55653*Input_WindSquash419_g55653 + 1.0) , Input_WindPower327_g55653);
-				half Mesh_Motion_1082_g54597 = v.ase_texcoord3.x;
-				half2 Motion_10_Bending2258_g54597 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g54597 ) * Wind_Power_103106_g54597 * Global_NoiseTex_R34_g54597 * Wind_DirectionOS39_g54597 * lerpResult321_g55653 * Mesh_Motion_1082_g54597 );
-				half Interaction_Amplitude4137_g54597 = _InteractionAmplitude;
-				float3 Position83_g55652 = ObjectPosition4223_g54597;
-				float temp_output_84_0_g55652 = _LayerReactValue;
-				float4 lerpResult87_g55652 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55652).xz ) ),temp_output_84_0_g55652, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55652]);
-				half4 Global_React_Params4173_g54597 = lerpResult87_g55652;
-				float4 break322_g55631 = Global_React_Params4173_g54597;
-				half Interaction_Mask66_g54597 = break322_g55631.z;
-				float3 appendResult397_g55631 = (float3(break322_g55631.x , 0.0 , break322_g55631.y));
-				float3 temp_output_398_0_g55631 = (appendResult397_g55631*2.0 + -1.0);
-				float3 temp_output_339_0_g55631 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55631 , 0.0 ) ).xyz * ase_parentObjectScale );
-				half2 Interaction_DirectionOS4158_g54597 = (temp_output_339_0_g55631).xz;
-				float lerpResult4494_g54597 = lerp( 1.0 , Mesh_Motion_1082_g54597 , _InteractionMaskValue);
-				half2 Motion_10_Interaction53_g54597 = ( Interaction_Amplitude4137_g54597 * Motion_Max_Bending1133_g54597 * Interaction_Mask66_g54597 * Interaction_Mask66_g54597 * Interaction_DirectionOS4158_g54597 * lerpResult4494_g54597 );
-				float2 lerpResult109_g54597 = lerp( Motion_10_Bending2258_g54597 , Motion_10_Interaction53_g54597 , ( Interaction_Mask66_g54597 * saturate( Interaction_Amplitude4137_g54597 ) ));
-				float2 break143_g54597 = lerpResult109_g54597;
-				half Motion_10_ZAxis190_g54597 = break143_g54597.y;
-				half Angle44_g55654 = Motion_10_ZAxis190_g54597;
-				half3 VertexPos40_g55663 = ( VertexPosRotationAxis50_g55654 + ( VertexPosOtherAxis82_g55654 * cos( Angle44_g55654 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55654 ) * sin( Angle44_g55654 ) ) );
-				float3 appendResult74_g55663 = (float3(0.0 , 0.0 , VertexPos40_g55663.z));
-				half3 VertexPosRotationAxis50_g55663 = appendResult74_g55663;
-				float3 break84_g55663 = VertexPos40_g55663;
-				float3 appendResult81_g55663 = (float3(break84_g55663.x , break84_g55663.y , 0.0));
-				half3 VertexPosOtherAxis82_g55663 = appendResult81_g55663;
-				half Motion_10_XAxis216_g54597 = break143_g54597.x;
-				half Angle44_g55663 = -Motion_10_XAxis216_g54597;
-				float3 Vertex_Motion_Object833_g54597 = ( VertexPosRotationAxis50_g55663 + ( VertexPosOtherAxis82_g55663 * cos( Angle44_g55663 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55663 ) * sin( Angle44_g55663 ) ) );
-				float3 temp_output_3474_0_g54597 = ( VertexPosition3588_g54597 - Mesh_PivotsOS2291_g54597 );
-				float3 appendResult2043_g54597 = (float3(Motion_10_XAxis216_g54597 , 0.0 , Motion_10_ZAxis190_g54597));
-				float3 Vertex_Motion_World1118_g54597 = ( temp_output_3474_0_g54597 + appendResult2043_g54597 );
+				half Motion_Variation3073_g55655 = staticSwitch14_g55704;
+				half Motion_Variation284_g55680 = ( _MotionVariation_10 * Motion_Variation3073_g55655 );
+				float Motion_Scale287_g55680 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
+				half Sine_MinusOneToOne281_g55680 = sin( ( mulTime373_g55680 + Motion_Variation284_g55680 + Motion_Scale287_g55680 ) );
+				half Wind_Squash4479_g55655 = TVE_MotionTweaks.w;
+				half Input_WindSquash419_g55680 = Wind_Squash4479_g55655;
+				half Input_WindPower327_g55680 = Wind_Power_103106_g55655;
+				float lerpResult321_g55680 = lerp( Sine_MinusOneToOne281_g55680 , (Sine_MinusOneToOne281_g55680*Input_WindSquash419_g55680 + 1.0) , Input_WindPower327_g55680);
+				half Mesh_Motion_1082_g55655 = v.ase_texcoord3.x;
+				half2 Motion_10_Bending2258_g55655 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g55655 ) * Wind_Power_103106_g55655 * Global_NoiseTex_R34_g55655 * Wind_DirectionOS39_g55655 * lerpResult321_g55680 * Mesh_Motion_1082_g55655 );
+				half Interaction_Amplitude4137_g55655 = _InteractionAmplitude;
+				float3 Position83_g55679 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55679 = _LayerReactValue;
+				float4 lerpResult87_g55679 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55679).xz ) ),temp_output_84_0_g55679, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55679]);
+				half4 Global_React_Params4173_g55655 = lerpResult87_g55679;
+				float4 break322_g55659 = Global_React_Params4173_g55655;
+				half Interaction_Mask66_g55655 = break322_g55659.z;
+				float3 appendResult397_g55659 = (float3(break322_g55659.x , 0.0 , break322_g55659.y));
+				float3 temp_output_398_0_g55659 = (appendResult397_g55659*2.0 + -1.0);
+				float3 temp_output_339_0_g55659 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55659 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Interaction_DirectionOS4158_g55655 = (temp_output_339_0_g55659).xz;
+				float lerpResult4494_g55655 = lerp( 1.0 , Mesh_Motion_1082_g55655 , _InteractionMaskValue);
+				half2 Motion_10_Interaction53_g55655 = ( Interaction_Amplitude4137_g55655 * Motion_Max_Bending1133_g55655 * Interaction_Mask66_g55655 * Interaction_Mask66_g55655 * Interaction_DirectionOS4158_g55655 * lerpResult4494_g55655 );
+				float2 lerpResult109_g55655 = lerp( Motion_10_Bending2258_g55655 , Motion_10_Interaction53_g55655 , ( Interaction_Mask66_g55655 * saturate( Interaction_Amplitude4137_g55655 ) ));
+				float2 break143_g55655 = lerpResult109_g55655;
+				half Motion_10_ZAxis190_g55655 = break143_g55655.y;
+				half Angle44_g55681 = Motion_10_ZAxis190_g55655;
+				half3 VertexPos40_g55690 = ( VertexPosRotationAxis50_g55681 + ( VertexPosOtherAxis82_g55681 * cos( Angle44_g55681 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55681 ) * sin( Angle44_g55681 ) ) );
+				float3 appendResult74_g55690 = (float3(0.0 , 0.0 , VertexPos40_g55690.z));
+				half3 VertexPosRotationAxis50_g55690 = appendResult74_g55690;
+				float3 break84_g55690 = VertexPos40_g55690;
+				float3 appendResult81_g55690 = (float3(break84_g55690.x , break84_g55690.y , 0.0));
+				half3 VertexPosOtherAxis82_g55690 = appendResult81_g55690;
+				half Motion_10_XAxis216_g55655 = break143_g55655.x;
+				half Angle44_g55690 = -Motion_10_XAxis216_g55655;
+				float3 Vertex_Motion_Object833_g55655 = ( VertexPosRotationAxis50_g55690 + ( VertexPosOtherAxis82_g55690 * cos( Angle44_g55690 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55690 ) * sin( Angle44_g55690 ) ) );
+				float3 temp_output_3474_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				float3 appendResult2043_g55655 = (float3(Motion_10_XAxis216_g55655 , 0.0 , Motion_10_ZAxis190_g55655));
+				float3 Vertex_Motion_World1118_g55655 = ( temp_output_3474_0_g55655 + appendResult2043_g55655 );
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch3312_g54597 = Vertex_Motion_World1118_g54597;
+				float3 staticSwitch3312_g55655 = Vertex_Motion_World1118_g55655;
 				#else
-				float3 staticSwitch3312_g54597 = ( Vertex_Motion_Object833_g54597 + ( 0.0 * _VertexDataMode ) );
+				float3 staticSwitch3312_g55655 = ( Vertex_Motion_Object833_g55655 + ( 0.0 * _VertexDataMode ) );
 				#endif
-				half Global_Vertex_Size174_g54597 = break322_g55631.w;
-				float lerpResult346_g54597 = lerp( 1.0 , Global_Vertex_Size174_g54597 , _GlobalSize);
-				float3 appendResult3480_g54597 = (float3(lerpResult346_g54597 , lerpResult346_g54597 , lerpResult346_g54597));
-				half3 ObjectData20_g55694 = appendResult3480_g54597;
+				half Global_Vertex_Size174_g55655 = break322_g55659.w;
+				float lerpResult346_g55655 = lerp( 1.0 , Global_Vertex_Size174_g55655 , _GlobalSize);
+				float3 appendResult3480_g55655 = (float3(lerpResult346_g55655 , lerpResult346_g55655 , lerpResult346_g55655));
+				half3 ObjectData20_g55719 = appendResult3480_g55655;
 				half3 _Vector11 = half3(1,1,1);
-				half3 WorldData19_g55694 = _Vector11;
+				half3 WorldData19_g55719 = _Vector11;
 				#ifdef TVE_VERTEX_DATA_BATCHED
-				float3 staticSwitch14_g55694 = WorldData19_g55694;
+				float3 staticSwitch14_g55719 = WorldData19_g55719;
 				#else
-				float3 staticSwitch14_g55694 = ObjectData20_g55694;
+				float3 staticSwitch14_g55719 = ObjectData20_g55719;
 				#endif
-				half3 Vertex_Size1741_g54597 = staticSwitch14_g55694;
+				half3 Vertex_Size1741_g55655 = staticSwitch14_g55719;
 				half3 _Vector5 = half3(1,1,1);
-				float3 Vertex_SizeFade1740_g54597 = _Vector5;
-				half3 Grass_Coverage2661_g54597 = half3(0,0,0);
-				float3 Final_VertexPosition890_g54597 = ( ( staticSwitch3312_g54597 * Vertex_Size1741_g54597 * Vertex_SizeFade1740_g54597 ) + Mesh_PivotsOS2291_g54597 + Grass_Coverage2661_g54597 );
+				float3 Vertex_SizeFade1740_g55655 = _Vector5;
+				half3 Grass_Coverage2661_g55655 = half3(0,0,0);
+				float3 Final_VertexPosition890_g55655 = ( ( staticSwitch3312_g55655 * Vertex_Size1741_g55655 * Vertex_SizeFade1740_g55655 ) + Mesh_PivotsOS2291_g55655 + Grass_Coverage2661_g55655 );
 				
-				float temp_output_7_0_g55657 = _GradientMinValue;
-				float4 lerpResult2779_g54597 = lerp( _GradientColorTwo , _GradientColorOne , saturate( ( ( v.ase_color.a - temp_output_7_0_g55657 ) / ( _GradientMaxValue - temp_output_7_0_g55657 ) ) ));
-				half3 Gradient_Tint2784_g54597 = (lerpResult2779_g54597).rgb;
-				float3 vertexToFrag11_g55640 = Gradient_Tint2784_g54597;
-				o.ase_texcoord2.xyz = vertexToFrag11_g55640;
+				float temp_output_7_0_g55684 = _GradientMinValue;
+				float4 lerpResult2779_g55655 = lerp( _GradientColorTwo , _GradientColorOne , saturate( ( ( v.ase_color.a - temp_output_7_0_g55684 ) / ( _GradientMaxValue - temp_output_7_0_g55684 ) ) ));
+				half3 Gradient_Tint2784_g55655 = (lerpResult2779_g55655).rgb;
+				float3 vertexToFrag11_g55667 = Gradient_Tint2784_g55655;
+				o.ase_texcoord2.xyz = vertexToFrag11_g55667;
 				float3 temp_cast_11 = (_NoiseScaleValue).xxx;
-				float3 WorldPosition3905_g54597 = vertexToFrag3890_g54597;
-				float temp_output_7_0_g55666 = _NoiseMinValue;
-				half Noise_Mask3162_g54597 = saturate( ( ( SAMPLE_TEXTURE3D_LOD( TVE_WorldTex3D, samplerTVE_WorldTex3D, ( temp_cast_11 * WorldPosition3905_g54597 * 0.1 ), 0.0 ).r - temp_output_7_0_g55666 ) / ( _NoiseMaxValue - temp_output_7_0_g55666 ) ) );
-				float4 lerpResult2800_g54597 = lerp( _NoiseColorTwo , _NoiseColorOne , Noise_Mask3162_g54597);
-				half3 Noise_Tint2802_g54597 = (lerpResult2800_g54597).rgb;
-				float3 vertexToFrag11_g55642 = Noise_Tint2802_g54597;
-				o.ase_texcoord3.xyz = vertexToFrag11_g55642;
-				float2 vertexToFrag11_g55638 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
-				o.ase_texcoord4.xy = vertexToFrag11_g55638;
-				float3 Position58_g55622 = WorldPosition3905_g54597;
-				float temp_output_82_0_g55622 = _LayerColorsValue;
-				float4 lerpResult88_g55622 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55622).xz ) ),temp_output_82_0_g55622, 0.0 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55622]);
-				half Global_ColorsTex_A1701_g54597 = (lerpResult88_g55622).a;
-				float vertexToFrag11_g55644 = Global_ColorsTex_A1701_g54597;
-				o.ase_texcoord2.w = vertexToFrag11_g55644;
-				o.ase_texcoord5.xyz = vertexToFrag3890_g54597;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float temp_output_7_0_g55693 = _NoiseMinValue;
+				half Noise_Mask3162_g55655 = saturate( ( ( SAMPLE_TEXTURE3D_LOD( TVE_WorldTex3D, samplerTVE_WorldTex3D, ( temp_cast_11 * WorldPosition3905_g55655 * 0.1 ), 0.0 ).r - temp_output_7_0_g55693 ) / ( _NoiseMaxValue - temp_output_7_0_g55693 ) ) );
+				float4 lerpResult2800_g55655 = lerp( _NoiseColorTwo , _NoiseColorOne , Noise_Mask3162_g55655);
+				half3 Noise_Tint2802_g55655 = (lerpResult2800_g55655).rgb;
+				float3 vertexToFrag11_g55669 = Noise_Tint2802_g55655;
+				o.ase_texcoord3.xyz = vertexToFrag11_g55669;
+				float2 vertexToFrag11_g55666 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
+				o.ase_texcoord4.xy = vertexToFrag11_g55666;
+				float3 Position58_g55656 = WorldPosition3905_g55655;
+				float temp_output_82_0_g55656 = _LayerColorsValue;
+				float4 lerpResult88_g55656 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55656).xz ) ),temp_output_82_0_g55656, 0.0 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55656]);
+				half Global_ColorsTex_A1701_g55655 = (lerpResult88_g55656).a;
+				float vertexToFrag11_g55671 = Global_ColorsTex_A1701_g55655;
+				o.ase_texcoord2.w = vertexToFrag11_g55671;
+				o.ase_texcoord5.xyz = vertexToFrag3890_g55655;
 				
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
@@ -3504,7 +3514,7 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 				#else
 					float3 defaultVertexValue = float3(0, 0, 0);
 				#endif
-				float3 vertexValue = Final_VertexPosition890_g54597;
+				float3 vertexValue = Final_VertexPosition890_g55655;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					v.vertex.xyz = vertexValue;
 				#else
@@ -3635,111 +3645,111 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 					#endif
 				#endif
 
-				float3 vertexToFrag11_g55640 = IN.ase_texcoord2.xyz;
-				float3 vertexToFrag11_g55642 = IN.ase_texcoord3.xyz;
-				float2 vertexToFrag11_g55638 = IN.ase_texcoord4.xy;
-				half2 Main_UVs15_g54597 = vertexToFrag11_g55638;
-				float4 tex2DNode29_g54597 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g54597 );
-				float3 temp_output_51_0_g54597 = ( (_MainColor).rgb * (tex2DNode29_g54597).rgb );
-				half3 Main_Albedo99_g54597 = temp_output_51_0_g54597;
-				half3 Blend_Albedo265_g54597 = Main_Albedo99_g54597;
-				half3 Blend_AlbedoTinted2808_g54597 = ( vertexToFrag11_g55640 * vertexToFrag11_g55642 * float3(1,1,1) * Blend_Albedo265_g54597 );
-				float dotResult3616_g54597 = dot( Blend_AlbedoTinted2808_g54597 , float3(0.2126,0.7152,0.0722) );
-				float3 temp_cast_0 = (dotResult3616_g54597).xxx;
-				float vertexToFrag11_g55644 = IN.ase_texcoord2.w;
-				half Global_Colors_Influence3668_g54597 = vertexToFrag11_g55644;
-				float3 lerpResult3618_g54597 = lerp( Blend_AlbedoTinted2808_g54597 , temp_cast_0 , Global_Colors_Influence3668_g54597);
-				float3 vertexToFrag3890_g54597 = IN.ase_texcoord5.xyz;
-				float3 WorldPosition3905_g54597 = vertexToFrag3890_g54597;
-				float3 Position58_g55622 = WorldPosition3905_g54597;
-				float temp_output_82_0_g55622 = _LayerColorsValue;
-				float4 lerpResult88_g55622 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55622).xz ) ),temp_output_82_0_g55622 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55622]);
-				half3 Global_ColorsTex_RGB1700_g54597 = (lerpResult88_g55622).rgb;
+				float3 vertexToFrag11_g55667 = IN.ase_texcoord2.xyz;
+				float3 vertexToFrag11_g55669 = IN.ase_texcoord3.xyz;
+				float2 vertexToFrag11_g55666 = IN.ase_texcoord4.xy;
+				half2 Main_UVs15_g55655 = vertexToFrag11_g55666;
+				float4 tex2DNode29_g55655 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				float3 temp_output_51_0_g55655 = ( (_MainColor).rgb * (tex2DNode29_g55655).rgb );
+				half3 Main_Albedo99_g55655 = temp_output_51_0_g55655;
+				half3 Blend_Albedo265_g55655 = Main_Albedo99_g55655;
+				half3 Blend_AlbedoTinted2808_g55655 = ( vertexToFrag11_g55667 * vertexToFrag11_g55669 * float3(1,1,1) * Blend_Albedo265_g55655 );
+				float dotResult3616_g55655 = dot( Blend_AlbedoTinted2808_g55655 , float3(0.2126,0.7152,0.0722) );
+				float3 temp_cast_0 = (dotResult3616_g55655).xxx;
+				float vertexToFrag11_g55671 = IN.ase_texcoord2.w;
+				half Global_Colors_Influence3668_g55655 = vertexToFrag11_g55671;
+				float3 lerpResult3618_g55655 = lerp( Blend_AlbedoTinted2808_g55655 , temp_cast_0 , Global_Colors_Influence3668_g55655);
+				float3 vertexToFrag3890_g55655 = IN.ase_texcoord5.xyz;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float3 Position58_g55656 = WorldPosition3905_g55655;
+				float temp_output_82_0_g55656 = _LayerColorsValue;
+				float4 lerpResult88_g55656 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55656).xz ) ),temp_output_82_0_g55656 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55656]);
+				half3 Global_ColorsTex_RGB1700_g55655 = (lerpResult88_g55656).rgb;
 				#ifdef UNITY_COLORSPACE_GAMMA
-				float staticSwitch1_g55676 = 2.0;
+				float staticSwitch1_g55701 = 2.0;
 				#else
-				float staticSwitch1_g55676 = 4.594794;
+				float staticSwitch1_g55701 = 4.594794;
 				#endif
-				half3 Global_Colors1954_g54597 = ( Global_ColorsTex_RGB1700_g54597 * staticSwitch1_g55676 );
-				half Global_Colors_Value3650_g54597 = _GlobalColors;
-				float4 tex2DNode35_g54597 = SAMPLE_TEXTURE2D( _MainMaskTex, sampler_MainAlbedoTex, Main_UVs15_g54597 );
-				half Main_Mask57_g54597 = tex2DNode35_g54597.b;
-				float temp_output_7_0_g55677 = _ColorsMaskMinValue;
-				half Global_Colors_Mask3692_g54597 = saturate( ( ( Main_Mask57_g54597 - temp_output_7_0_g55677 ) / ( _ColorsMaskMaxValue - temp_output_7_0_g55677 ) ) );
-				float3 lerpResult3628_g54597 = lerp( Blend_AlbedoTinted2808_g54597 , ( lerpResult3618_g54597 * Global_Colors1954_g54597 ) , ( Global_Colors_Value3650_g54597 * Global_Colors_Mask3692_g54597 ));
-				half3 Blend_AlbedoColored863_g54597 = lerpResult3628_g54597;
-				float3 temp_output_799_0_g54597 = (_SubsurfaceColor).rgb;
-				float dotResult3930_g54597 = dot( temp_output_799_0_g54597 , float3(0.2126,0.7152,0.0722) );
-				float3 temp_cast_3 = (dotResult3930_g54597).xxx;
-				float3 lerpResult3932_g54597 = lerp( temp_output_799_0_g54597 , temp_cast_3 , Global_Colors_Influence3668_g54597);
-				float3 lerpResult3942_g54597 = lerp( temp_output_799_0_g54597 , ( lerpResult3932_g54597 * Global_Colors1954_g54597 ) , ( Global_Colors_Value3650_g54597 * Global_Colors_Mask3692_g54597 ));
-				half3 Subsurface_Color1722_g54597 = lerpResult3942_g54597;
-				half MainLight_Subsurface4041_g54597 = TVE_MainLightParams.a;
-				half Subsurface_Intensity1752_g54597 = ( _SubsurfaceValue * MainLight_Subsurface4041_g54597 );
-				float temp_output_7_0_g55662 = _SubsurfaceMaskMinValue;
-				half Subsurface_Mask1557_g54597 = saturate( ( ( Main_Mask57_g54597 - temp_output_7_0_g55662 ) / ( _SubsurfaceMaskMaxValue - temp_output_7_0_g55662 ) ) );
-				half3 Subsurface_Transmission884_g54597 = ( Subsurface_Color1722_g54597 * Subsurface_Intensity1752_g54597 * Subsurface_Mask1557_g54597 );
-				half3 MainLight_Direction3926_g54597 = TVE_MainLightDirection;
+				half3 Global_Colors1954_g55655 = ( Global_ColorsTex_RGB1700_g55655 * staticSwitch1_g55701 );
+				half Global_Colors_Value3650_g55655 = _GlobalColors;
+				float4 tex2DNode35_g55655 = SAMPLE_TEXTURE2D( _MainMaskTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				half Main_Mask57_g55655 = tex2DNode35_g55655.b;
+				float temp_output_7_0_g55702 = _ColorsMaskMinValue;
+				half Global_Colors_Mask3692_g55655 = saturate( ( ( Main_Mask57_g55655 - temp_output_7_0_g55702 ) / ( _ColorsMaskMaxValue - temp_output_7_0_g55702 ) ) );
+				float3 lerpResult3628_g55655 = lerp( Blend_AlbedoTinted2808_g55655 , ( lerpResult3618_g55655 * Global_Colors1954_g55655 ) , ( Global_Colors_Value3650_g55655 * Global_Colors_Mask3692_g55655 ));
+				half3 Blend_AlbedoColored863_g55655 = lerpResult3628_g55655;
+				float3 temp_output_799_0_g55655 = (_SubsurfaceColor).rgb;
+				float dotResult3930_g55655 = dot( temp_output_799_0_g55655 , float3(0.2126,0.7152,0.0722) );
+				float3 temp_cast_3 = (dotResult3930_g55655).xxx;
+				float3 lerpResult3932_g55655 = lerp( temp_output_799_0_g55655 , temp_cast_3 , Global_Colors_Influence3668_g55655);
+				float3 lerpResult3942_g55655 = lerp( temp_output_799_0_g55655 , ( lerpResult3932_g55655 * Global_Colors1954_g55655 ) , ( Global_Colors_Value3650_g55655 * Global_Colors_Mask3692_g55655 ));
+				half3 Subsurface_Color1722_g55655 = lerpResult3942_g55655;
+				half MainLight_Subsurface4041_g55655 = TVE_MainLightParams.a;
+				half Subsurface_Intensity1752_g55655 = ( _SubsurfaceValue * MainLight_Subsurface4041_g55655 );
+				float temp_output_7_0_g55689 = _SubsurfaceMaskMinValue;
+				half Subsurface_Mask1557_g55655 = saturate( ( ( Main_Mask57_g55655 - temp_output_7_0_g55689 ) / ( _SubsurfaceMaskMaxValue - temp_output_7_0_g55689 ) ) );
+				half3 Subsurface_Transmission884_g55655 = ( Subsurface_Color1722_g55655 * Subsurface_Intensity1752_g55655 * Subsurface_Mask1557_g55655 );
+				half3 MainLight_Direction3926_g55655 = TVE_MainLightDirection;
 				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
 				ase_worldViewDir = normalize(ase_worldViewDir);
-				float3 normalizeResult2169_g54597 = normalize( ase_worldViewDir );
-				float3 ViewDir_Normalized3963_g54597 = normalizeResult2169_g54597;
-				float dotResult785_g54597 = dot( -MainLight_Direction3926_g54597 , ViewDir_Normalized3963_g54597 );
-				float saferPower1624_g54597 = max( (dotResult785_g54597*0.5 + 0.5) , 0.0001 );
+				float3 normalizeResult2169_g55655 = normalize( ase_worldViewDir );
+				float3 ViewDir_Normalized3963_g55655 = normalizeResult2169_g55655;
+				float dotResult785_g55655 = dot( -MainLight_Direction3926_g55655 , ViewDir_Normalized3963_g55655 );
+				float saferPower1624_g55655 = max( (dotResult785_g55655*0.5 + 0.5) , 0.0001 );
 				#ifdef UNITY_PASS_FORWARDADD
-				float staticSwitch1602_g54597 = 0.0;
+				float staticSwitch1602_g55655 = 0.0;
 				#else
-				float staticSwitch1602_g54597 = ( pow( saferPower1624_g54597 , _MainLightAngleValue ) * _MainLightScatteringValue );
+				float staticSwitch1602_g55655 = ( pow( saferPower1624_g55655 , _MainLightAngleValue ) * _MainLightScatteringValue );
 				#endif
-				half Mask_Subsurface_View782_g54597 = staticSwitch1602_g54597;
-				half3 Subsurface_Scattering1693_g54597 = ( Subsurface_Transmission884_g54597 * Blend_AlbedoColored863_g54597 * Mask_Subsurface_View782_g54597 );
-				half3 Blend_AlbedoAndSubsurface149_g54597 = ( Blend_AlbedoColored863_g54597 + Subsurface_Scattering1693_g54597 );
-				half3 Global_OverlayColor1758_g54597 = (TVE_OverlayColor).rgb;
-				half Main_AlbedoTex_G3526_g54597 = tex2DNode29_g54597.g;
-				float3 Position82_g55688 = WorldPosition3905_g54597;
-				float temp_output_84_0_g55688 = _LayerExtrasValue;
-				float4 lerpResult88_g55688 = lerp( TVE_ExtrasParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ExtrasTex, samplerTVE_ExtrasTex, ( (TVE_ExtrasCoord).zw + ( (TVE_ExtrasCoord).xy * (Position82_g55688).xz ) ),temp_output_84_0_g55688 ) , TVE_ExtrasUsage[(int)temp_output_84_0_g55688]);
-				float4 break89_g55688 = lerpResult88_g55688;
-				half Global_Extras_Overlay156_g54597 = break89_g55688.b;
-				float temp_output_1025_0_g54597 = ( _GlobalOverlay * Global_Extras_Overlay156_g54597 );
-				half Overlay_Commons1365_g54597 = temp_output_1025_0_g54597;
-				float temp_output_7_0_g55646 = _OverlayMaskMinValue;
-				half Overlay_Mask269_g54597 = saturate( ( ( ( ( 0.5 + Main_AlbedoTex_G3526_g54597 ) * Overlay_Commons1365_g54597 ) - temp_output_7_0_g55646 ) / ( _OverlayMaskMaxValue - temp_output_7_0_g55646 ) ) );
-				float3 lerpResult336_g54597 = lerp( Blend_AlbedoAndSubsurface149_g54597 , Global_OverlayColor1758_g54597 , Overlay_Mask269_g54597);
-				half3 Final_Albedo359_g54597 = lerpResult336_g54597;
+				half Mask_Subsurface_View782_g55655 = staticSwitch1602_g55655;
+				half3 Subsurface_Scattering1693_g55655 = ( Subsurface_Transmission884_g55655 * Blend_AlbedoColored863_g55655 * Mask_Subsurface_View782_g55655 );
+				half3 Blend_AlbedoAndSubsurface149_g55655 = ( Blend_AlbedoColored863_g55655 + Subsurface_Scattering1693_g55655 );
+				half3 Global_OverlayColor1758_g55655 = (TVE_OverlayColor).rgb;
+				half Main_AlbedoTex_G3526_g55655 = tex2DNode29_g55655.g;
+				float3 Position82_g55713 = WorldPosition3905_g55655;
+				float temp_output_84_0_g55713 = _LayerExtrasValue;
+				float4 lerpResult88_g55713 = lerp( TVE_ExtrasParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ExtrasTex, samplerTVE_ExtrasTex, ( (TVE_ExtrasCoord).zw + ( (TVE_ExtrasCoord).xy * (Position82_g55713).xz ) ),temp_output_84_0_g55713 ) , TVE_ExtrasUsage[(int)temp_output_84_0_g55713]);
+				float4 break89_g55713 = lerpResult88_g55713;
+				half Global_Extras_Overlay156_g55655 = break89_g55713.b;
+				float temp_output_1025_0_g55655 = ( _GlobalOverlay * Global_Extras_Overlay156_g55655 );
+				half Overlay_Commons1365_g55655 = temp_output_1025_0_g55655;
+				float temp_output_7_0_g55673 = _OverlayMaskMinValue;
+				half Overlay_Mask269_g55655 = saturate( ( ( ( ( 0.5 + Main_AlbedoTex_G3526_g55655 ) * Overlay_Commons1365_g55655 ) - temp_output_7_0_g55673 ) / ( _OverlayMaskMaxValue - temp_output_7_0_g55673 ) ) );
+				float3 lerpResult336_g55655 = lerp( Blend_AlbedoAndSubsurface149_g55655 , Global_OverlayColor1758_g55655 , Overlay_Mask269_g55655);
+				half3 Final_Albedo359_g55655 = lerpResult336_g55655;
 				
-				float localCustomAlphaClip3735_g54597 = ( 0.0 );
-				float3 normalizeResult3971_g54597 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
-				float3 NormalsWS_Derivates3972_g54597 = normalizeResult3971_g54597;
-				float dotResult2161_g54597 = dot( ViewDir_Normalized3963_g54597 , NormalsWS_Derivates3972_g54597 );
-				float dotResult2212_g54597 = dot( ViewDir_Normalized3963_g54597 , float3(0,1,0) );
-				half Mask_HView2656_g54597 = dotResult2212_g54597;
-				float lerpResult2221_g54597 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g54597);
-				float lerpResult3992_g54597 = lerp( 1.0 , abs( dotResult2161_g54597 ) , lerpResult2221_g54597);
-				half Fade_Billboard2175_g54597 = lerpResult3992_g54597;
-				half Final_AlphaFade3727_g54597 = ( 1.0 * Fade_Billboard2175_g54597 );
-				float temp_output_41_0_g55665 = Final_AlphaFade3727_g54597;
-				float Main_Alpha316_g54597 = ( _MainColor.a * tex2DNode29_g54597.a );
-				half AlphaTreshold2132_g54597 = _Cutoff;
+				float localCustomAlphaClip3735_g55655 = ( 0.0 );
+				float3 normalizeResult3971_g55655 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float3 NormalsWS_Derivates3972_g55655 = normalizeResult3971_g55655;
+				float dotResult2161_g55655 = dot( ViewDir_Normalized3963_g55655 , NormalsWS_Derivates3972_g55655 );
+				float dotResult2212_g55655 = dot( ViewDir_Normalized3963_g55655 , float3(0,1,0) );
+				half Mask_HView2656_g55655 = dotResult2212_g55655;
+				float lerpResult2221_g55655 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g55655);
+				float lerpResult3992_g55655 = lerp( 1.0 , abs( dotResult2161_g55655 ) , lerpResult2221_g55655);
+				half Fade_Billboard2175_g55655 = lerpResult3992_g55655;
+				half Final_AlphaFade3727_g55655 = ( 1.0 * Fade_Billboard2175_g55655 );
+				float temp_output_41_0_g55692 = Final_AlphaFade3727_g55655;
+				float Main_Alpha316_g55655 = ( _MainColor.a * tex2DNode29_g55655.a );
+				half AlphaTreshold2132_g55655 = _Cutoff;
 				#ifdef TVE_ALPHA_CLIP
-				float staticSwitch3792_g54597 = ( Main_Alpha316_g54597 - ( AlphaTreshold2132_g54597 - 0.5 ) );
+				float staticSwitch3792_g55655 = ( Main_Alpha316_g55655 - ( AlphaTreshold2132_g55655 - 0.5 ) );
 				#else
-				float staticSwitch3792_g54597 = Main_Alpha316_g54597;
+				float staticSwitch3792_g55655 = Main_Alpha316_g55655;
 				#endif
-				half Final_Alpha3754_g54597 = staticSwitch3792_g54597;
-				float temp_output_661_0_g54597 = ( saturate( ( temp_output_41_0_g55665 + ( temp_output_41_0_g55665 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g54597 ) ).r ) ) ) * Final_Alpha3754_g54597 );
-				float Alpha3735_g54597 = temp_output_661_0_g54597;
-				float Treshold3735_g54597 = 0.5;
+				half Final_Alpha3754_g55655 = staticSwitch3792_g55655;
+				float temp_output_661_0_g55655 = ( saturate( ( temp_output_41_0_g55692 + ( temp_output_41_0_g55692 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g55655 ) ).r ) ) ) * Final_Alpha3754_g55655 );
+				float Alpha3735_g55655 = temp_output_661_0_g55655;
+				float Treshold3735_g55655 = 0.5;
 				{
 				#if TVE_ALPHA_CLIP
-				clip(Alpha3735_g54597 - Treshold3735_g54597);
+				clip(Alpha3735_g55655 - Treshold3735_g55655);
 				#endif
 				}
-				half Final_Clip914_g54597 = saturate( Alpha3735_g54597 );
+				half Final_Clip914_g55655 = saturate( Alpha3735_g55655 );
 				
 				
-				float3 Albedo = Final_Albedo359_g54597;
-				float Alpha = Final_Clip914_g54597;
+				float3 Albedo = Final_Albedo359_g55655;
+				float Alpha = Final_Clip914_g55655;
 				float AlphaClipThreshold = 0.5;
 
 				half4 color = half4( Albedo, Alpha );
@@ -3752,6 +3762,1455 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 			}
 			ENDHLSL
 		}
+
+		
+		Pass
+		{
+			
+			Name "DepthNormals"
+			Tags { "LightMode"="DepthNormals" }
+
+			ZWrite On
+			Blend One Zero
+            ZTest LEqual
+            ZWrite On
+
+			HLSLPROGRAM
+			#define _SPECULAR_SETUP 1
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_fog
+			#define ASE_FOG 1
+			#pragma multi_compile _ DOTS_INSTANCING_ON
+			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 100202
+			#define ASE_USING_SAMPLING_MACROS 1
+
+			#pragma prefer_hlslcc gles
+			#pragma exclude_renderers d3d11_9x
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SHADERPASS_DEPTHNORMALSONLY
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+
+			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#pragma shader_feature_local TVE_ALPHA_CLIP
+			#pragma shader_feature_local TVE_VERTEX_DATA_BATCHED
+			//TVE Shader Type Defines
+			#define TVE_IS_VEGETATION_SHADER
+			//TVE Pipeline Defines
+			#define THE_VEGETATION_ENGINE
+			#define TVE_IS_UNIVERSAL_PIPELINE
+			//TVE Injection Defines
+			//SHADER INJECTION POINT BEGIN
+           //Nature Renderer (Procedural Instancing)
+           #include "Assets/Visual Design Cafe/Nature Shaders/Common/Nodes/Integrations/Nature Renderer.cginc"
+           #pragma instancing_options procedural:SetupNatureRenderer
+			//SHADER INJECTION POINT END
+
+
+			struct VertexInput
+			{
+				float4 vertex : POSITION;
+				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
+				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord : TEXCOORD0;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				float4 clipPos : SV_POSITION;
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+				float3 worldPos : TEXCOORD0;
+				#endif
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+				float4 shadowCoord : TEXCOORD1;
+				#endif
+				float3 worldNormal : TEXCOORD2;
+				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord4 : TEXCOORD4;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _SubsurfaceDiffusion_asset;
+			half4 _SubsurfaceMaskRemap;
+			half4 _DetailBlendRemap;
+			half4 _SubsurfaceColor;
+			half4 _VertexOcclusionRemap;
+			half4 _MainColor;
+			half4 _ColorsMaskRemap;
+			float4 _NoiseMaskRemap;
+			float4 _GradientMaskRemap;
+			float4 _Color;
+			half4 _GradientColorTwo;
+			float4 _SubsurfaceDiffusion_Asset;
+			half4 _EmissiveColor;
+			float4 _EmissiveIntensityParams;
+			half4 _EmissiveUVs;
+			half4 _OverlayMaskRemap;
+			half4 _NoiseColorTwo;
+			half4 _NoiseColorOne;
+			float4 _MaxBoundsInfo;
+			half4 _MainUVs;
+			half4 _GradientColorOne;
+			half3 _render_normals_options;
+			half _GradientMinValue;
+			half _GradientMaxValue;
+			half _InteractionMaskValue;
+			half _VertexDataMode;
+			half _LayerReactValue;
+			half _InteractionAmplitude;
+			float _MotionScale_10;
+			half _MotionVariation_10;
+			float _MotionSpeed_10;
+			half _LayerMotionValue;
+			half _MotionAmplitude_10;
+			half _GlobalSize;
+			half _NoiseScaleValue;
+			half _IsStandardShader;
+			half _NoiseMaxValue;
+			half _MainOcclusionValue;
+			half _GlobalWetness;
+			half _MainSmoothnessValue;
+			half _RenderSpecular;
+			half _GlobalEmissive;
+			half _MainNormalValue;
+			half _OverlayMaskMaxValue;
+			half _OverlayMaskMinValue;
+			half _LayerExtrasValue;
+			half _NoiseMinValue;
+			half _GlobalOverlay;
+			half _MainLightAngleValue;
+			half _SubsurfaceMaskMaxValue;
+			half _SubsurfaceMaskMinValue;
+			half _SubsurfaceValue;
+			half _ColorsMaskMaxValue;
+			half _ColorsMaskMinValue;
+			half _TranslucencyScatteringValue;
+			half _GlobalColors;
+			half _LayerColorsValue;
+			half _MainLightScatteringValue;
+			half _TranslucencyDirectValue;
+			half _SizeFadeMessage;
+			half _DetailTypeMode;
+			half _VertexMasksMode;
+			half _NoiseCat;
+			half _SizeFadeCat;
+			half _VariationMotionMessage;
+			half _RenderNormals;
+			half _TranslucencyIntensityValue;
+			half _IsTVEShader;
+			half _DetailMode;
+			half _DetailCat;
+			half _SubsurfaceCat;
+			half _EmissiveFlagMode;
+			half _EmissiveCat;
+			half _Cutoff;
+			half _GradientCat;
+			half _OcclusionCat;
+			half _render_src;
+			half _render_cull;
+			half _render_dst;
+			half _render_zw;
+			half _IsCrossShader;
+			half _MotionSpace;
+			half _TranslucencyHDMessage;
+			half _FadeSpace;
+			half _LayersSpace;
+			half _RenderSSR;
+			half _DetailBlendMode;
+			half _ReceiveSpace;
+			half _FadeHorizontalValue;
+			half _RenderingCat;
+			half _PerspectiveCat;
+			half _TranslucencyShadowValue;
+			half _RenderZWrite;
+			half _RenderPriority;
+			half _GlobalCat;
+			half _MotionCat;
+			half _MainCat;
+			float _SubsurfaceDiffusion;
+			half _RenderDecals;
+			half _VertexVariationMode;
+			half _RenderMode;
+			half _RenderClip;
+			half _TranslucencyNormalValue;
+			half _VariationGlobalsMessage;
+			half _TranslucencyAmbientValue;
+			half _RenderCull;
+			half _IsVersion;
+			half _FadeVerticalValue;
+			#ifdef _TRANSMISSION_ASE
+				float _TransmissionShadow;
+			#endif
+			#ifdef _TRANSLUCENCY_ASE
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef TESSELLATION_ON
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+			TEXTURE2D(_MainTex);
+			SAMPLER(sampler_MainTex);
+			TEXTURE2D(_BumpMap);
+			SAMPLER(sampler_BumpMap);
+			float4 TVE_MotionTweaks;
+			half4 TVE_MotionParams;
+			TEXTURE2D_ARRAY(TVE_MotionTex);
+			half4 TVE_MotionCoord;
+			SAMPLER(samplerTVE_MotionTex);
+			float TVE_MotionUsage[9];
+			TEXTURE2D(TVE_NoiseTex);
+			half4 TVE_NoiseParams;
+			SAMPLER(samplerTVE_NoiseTex);
+			half4 TVE_ReactParams;
+			TEXTURE2D_ARRAY(TVE_ReactTex);
+			half4 TVE_ReactCoord;
+			SAMPLER(samplerTVE_ReactTex);
+			float TVE_ReactUsage[9];
+			TEXTURE3D(TVE_ScreenTex3D);
+			half TVE_ScreenTexCoord;
+			SAMPLER(samplerTVE_ScreenTex3D);
+			TEXTURE2D(_MainAlbedoTex);
+			SAMPLER(sampler_MainAlbedoTex);
+
+
+			
+			VertexOutput VertexFunction( VertexInput v  )
+			{
+				VertexOutput o = (VertexOutput)0;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 VertexPosition3588_g55655 = v.vertex.xyz;
+				half3 Mesh_PivotsOS2291_g55655 = half3(0,0,0);
+				float3 temp_output_2283_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				half3 VertexPos40_g55681 = temp_output_2283_0_g55655;
+				float3 appendResult74_g55681 = (float3(VertexPos40_g55681.x , 0.0 , 0.0));
+				half3 VertexPosRotationAxis50_g55681 = appendResult74_g55681;
+				float3 break84_g55681 = VertexPos40_g55681;
+				float3 appendResult81_g55681 = (float3(0.0 , break84_g55681.y , break84_g55681.z));
+				half3 VertexPosOtherAxis82_g55681 = appendResult81_g55681;
+				half ObjectData20_g55710 = 3.14;
+				float Bounds_Height374_g55655 = _MaxBoundsInfo.y;
+				half WorldData19_g55710 = ( Bounds_Height374_g55655 * 3.14 );
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float staticSwitch14_g55710 = WorldData19_g55710;
+				#else
+				float staticSwitch14_g55710 = ObjectData20_g55710;
+				#endif
+				float Motion_Max_Bending1133_g55655 = staticSwitch14_g55710;
+				float4x4 break19_g55686 = GetObjectToWorldMatrix();
+				float3 appendResult20_g55686 = (float3(break19_g55686[ 0 ][ 3 ] , break19_g55686[ 1 ][ 3 ] , break19_g55686[ 2 ][ 3 ]));
+				half3 ObjectData20_g55687 = appendResult20_g55686;
+				float3 ase_worldPos = mul(GetObjectToWorldMatrix(), v.vertex).xyz;
+				half3 WorldData19_g55687 = ase_worldPos;
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float3 staticSwitch14_g55687 = WorldData19_g55687;
+				#else
+				float3 staticSwitch14_g55687 = ObjectData20_g55687;
+				#endif
+				float3 temp_output_114_0_g55686 = staticSwitch14_g55687;
+				float3 vertexToFrag4224_g55655 = temp_output_114_0_g55686;
+				half3 ObjectData20_g55705 = vertexToFrag4224_g55655;
+				float3 vertexToFrag3890_g55655 = ase_worldPos;
+				half3 WorldData19_g55705 = vertexToFrag3890_g55655;
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float3 staticSwitch14_g55705 = WorldData19_g55705;
+				#else
+				float3 staticSwitch14_g55705 = ObjectData20_g55705;
+				#endif
+				float3 ObjectPosition4223_g55655 = staticSwitch14_g55705;
+				float3 Position83_g55714 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55714 = _LayerMotionValue;
+				float4 lerpResult87_g55714 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55714).xz ) ),temp_output_84_0_g55714, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55714]);
+				half4 Global_Motion_Params3909_g55655 = lerpResult87_g55714;
+				float4 break322_g55720 = Global_Motion_Params3909_g55655;
+				half Wind_Power369_g55720 = break322_g55720.z;
+				float lerpResult376_g55720 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55720);
+				half Wind_Power_103106_g55655 = lerpResult376_g55720;
+				float2 panner73_g55658 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g55655).xz * TVE_NoiseParams.z ));
+				float4 tex2DNode75_g55658 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55658, 0.0 );
+				float4 saferPower77_g55658 = max( abs( tex2DNode75_g55658 ) , 0.0001 );
+				half Wind_Power2223_g55655 = Wind_Power369_g55720;
+				float temp_output_167_0_g55658 = Wind_Power2223_g55655;
+				float lerpResult168_g55658 = lerp( 1.4 , 0.2 , temp_output_167_0_g55658);
+				float4 temp_cast_3 = (lerpResult168_g55658).xxxx;
+				float4 break174_g55658 = pow( saferPower77_g55658 , temp_cast_3 );
+				half Global_NoiseTex_R34_g55655 = break174_g55658.r;
+				float3 appendResult397_g55720 = (float3(break322_g55720.x , 0.0 , break322_g55720.y));
+				float3 temp_output_398_0_g55720 = (appendResult397_g55720*2.0 + -1.0);
+				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
+				float3 temp_output_339_0_g55720 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55720 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Wind_DirectionOS39_g55655 = (temp_output_339_0_g55720).xz;
+				half Input_Speed62_g55680 = _MotionSpeed_10;
+				float mulTime373_g55680 = _TimeParameters.x * Input_Speed62_g55680;
+				float3 break111_g55703 = ObjectPosition4223_g55655;
+				half Variation_Complex102_g55703 = frac( ( v.ase_color.r + ( break111_g55703.x + break111_g55703.z ) ) );
+				half ObjectData20_g55704 = Variation_Complex102_g55703;
+				half Variation_Simple105_g55703 = v.ase_color.r;
+				half WorldData19_g55704 = Variation_Simple105_g55703;
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float staticSwitch14_g55704 = WorldData19_g55704;
+				#else
+				float staticSwitch14_g55704 = ObjectData20_g55704;
+				#endif
+				half Motion_Variation3073_g55655 = staticSwitch14_g55704;
+				half Motion_Variation284_g55680 = ( _MotionVariation_10 * Motion_Variation3073_g55655 );
+				float Motion_Scale287_g55680 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
+				half Sine_MinusOneToOne281_g55680 = sin( ( mulTime373_g55680 + Motion_Variation284_g55680 + Motion_Scale287_g55680 ) );
+				half Wind_Squash4479_g55655 = TVE_MotionTweaks.w;
+				half Input_WindSquash419_g55680 = Wind_Squash4479_g55655;
+				half Input_WindPower327_g55680 = Wind_Power_103106_g55655;
+				float lerpResult321_g55680 = lerp( Sine_MinusOneToOne281_g55680 , (Sine_MinusOneToOne281_g55680*Input_WindSquash419_g55680 + 1.0) , Input_WindPower327_g55680);
+				half Mesh_Motion_1082_g55655 = v.ase_texcoord3.x;
+				half2 Motion_10_Bending2258_g55655 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g55655 ) * Wind_Power_103106_g55655 * Global_NoiseTex_R34_g55655 * Wind_DirectionOS39_g55655 * lerpResult321_g55680 * Mesh_Motion_1082_g55655 );
+				half Interaction_Amplitude4137_g55655 = _InteractionAmplitude;
+				float3 Position83_g55679 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55679 = _LayerReactValue;
+				float4 lerpResult87_g55679 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55679).xz ) ),temp_output_84_0_g55679, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55679]);
+				half4 Global_React_Params4173_g55655 = lerpResult87_g55679;
+				float4 break322_g55659 = Global_React_Params4173_g55655;
+				half Interaction_Mask66_g55655 = break322_g55659.z;
+				float3 appendResult397_g55659 = (float3(break322_g55659.x , 0.0 , break322_g55659.y));
+				float3 temp_output_398_0_g55659 = (appendResult397_g55659*2.0 + -1.0);
+				float3 temp_output_339_0_g55659 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55659 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Interaction_DirectionOS4158_g55655 = (temp_output_339_0_g55659).xz;
+				float lerpResult4494_g55655 = lerp( 1.0 , Mesh_Motion_1082_g55655 , _InteractionMaskValue);
+				half2 Motion_10_Interaction53_g55655 = ( Interaction_Amplitude4137_g55655 * Motion_Max_Bending1133_g55655 * Interaction_Mask66_g55655 * Interaction_Mask66_g55655 * Interaction_DirectionOS4158_g55655 * lerpResult4494_g55655 );
+				float2 lerpResult109_g55655 = lerp( Motion_10_Bending2258_g55655 , Motion_10_Interaction53_g55655 , ( Interaction_Mask66_g55655 * saturate( Interaction_Amplitude4137_g55655 ) ));
+				float2 break143_g55655 = lerpResult109_g55655;
+				half Motion_10_ZAxis190_g55655 = break143_g55655.y;
+				half Angle44_g55681 = Motion_10_ZAxis190_g55655;
+				half3 VertexPos40_g55690 = ( VertexPosRotationAxis50_g55681 + ( VertexPosOtherAxis82_g55681 * cos( Angle44_g55681 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55681 ) * sin( Angle44_g55681 ) ) );
+				float3 appendResult74_g55690 = (float3(0.0 , 0.0 , VertexPos40_g55690.z));
+				half3 VertexPosRotationAxis50_g55690 = appendResult74_g55690;
+				float3 break84_g55690 = VertexPos40_g55690;
+				float3 appendResult81_g55690 = (float3(break84_g55690.x , break84_g55690.y , 0.0));
+				half3 VertexPosOtherAxis82_g55690 = appendResult81_g55690;
+				half Motion_10_XAxis216_g55655 = break143_g55655.x;
+				half Angle44_g55690 = -Motion_10_XAxis216_g55655;
+				float3 Vertex_Motion_Object833_g55655 = ( VertexPosRotationAxis50_g55690 + ( VertexPosOtherAxis82_g55690 * cos( Angle44_g55690 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55690 ) * sin( Angle44_g55690 ) ) );
+				float3 temp_output_3474_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				float3 appendResult2043_g55655 = (float3(Motion_10_XAxis216_g55655 , 0.0 , Motion_10_ZAxis190_g55655));
+				float3 Vertex_Motion_World1118_g55655 = ( temp_output_3474_0_g55655 + appendResult2043_g55655 );
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float3 staticSwitch3312_g55655 = Vertex_Motion_World1118_g55655;
+				#else
+				float3 staticSwitch3312_g55655 = ( Vertex_Motion_Object833_g55655 + ( 0.0 * _VertexDataMode ) );
+				#endif
+				half Global_Vertex_Size174_g55655 = break322_g55659.w;
+				float lerpResult346_g55655 = lerp( 1.0 , Global_Vertex_Size174_g55655 , _GlobalSize);
+				float3 appendResult3480_g55655 = (float3(lerpResult346_g55655 , lerpResult346_g55655 , lerpResult346_g55655));
+				half3 ObjectData20_g55719 = appendResult3480_g55655;
+				half3 _Vector11 = half3(1,1,1);
+				half3 WorldData19_g55719 = _Vector11;
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float3 staticSwitch14_g55719 = WorldData19_g55719;
+				#else
+				float3 staticSwitch14_g55719 = ObjectData20_g55719;
+				#endif
+				half3 Vertex_Size1741_g55655 = staticSwitch14_g55719;
+				half3 _Vector5 = half3(1,1,1);
+				float3 Vertex_SizeFade1740_g55655 = _Vector5;
+				half3 Grass_Coverage2661_g55655 = half3(0,0,0);
+				float3 Final_VertexPosition890_g55655 = ( ( staticSwitch3312_g55655 * Vertex_Size1741_g55655 * Vertex_SizeFade1740_g55655 ) + Mesh_PivotsOS2291_g55655 + Grass_Coverage2661_g55655 );
+				
+				o.ase_texcoord3.xyz = vertexToFrag3890_g55655;
+				float2 vertexToFrag11_g55666 = ( ( v.ase_texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
+				o.ase_texcoord4.xy = vertexToFrag11_g55666;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord3.w = 0;
+				o.ase_texcoord4.zw = 0;
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.vertex.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+				float3 vertexValue = Final_VertexPosition890_g55655;
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.vertex.xyz = vertexValue;
+				#else
+					v.vertex.xyz += vertexValue;
+				#endif
+
+				v.ase_normal = v.ase_normal;
+				float3 positionWS = TransformObjectToWorld( v.vertex.xyz );
+				float3 normalWS = TransformObjectToWorldNormal( v.ase_normal );
+				float4 positionCS = TransformWorldToHClip( positionWS );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+				o.worldPos = positionWS;
+				#endif
+
+				o.worldNormal = normalWS;
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					VertexPositionInputs vertexInput = (VertexPositionInputs)0;
+					vertexInput.positionWS = positionWS;
+					vertexInput.positionCS = positionCS;
+					o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+				o.clipPos = positionCS;
+				return o;
+			}
+
+			#if defined(TESSELLATION_ON)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 ase_normal : NORMAL;
+				float4 ase_color : COLOR;
+				float4 ase_texcoord3 : TEXCOORD3;
+				float4 ase_texcoord : TEXCOORD0;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.vertex;
+				o.ase_normal = v.ase_normal;
+				o.ase_color = v.ase_color;
+				o.ase_texcoord3 = v.ase_texcoord3;
+				o.ase_texcoord = v.ase_texcoord;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+			   return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord3 = patch[0].ase_texcoord3 * bary.x + patch[1].ase_texcoord3 * bary.y + patch[2].ase_texcoord3 * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.vertex.xyz - patch[i].ase_normal * (dot(o.vertex.xyz, patch[i].ase_normal) - dot(patch[i].vertex.xyz, patch[i].ase_normal));
+				float phongStrength = _TessPhongStrength;
+				o.vertex.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.vertex.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE)
+				#define ASE_SV_DEPTH SV_DepthLessEqual  
+			#else
+				#define ASE_SV_DEPTH SV_Depth
+			#endif
+			half4 frag(	VertexOutput IN 
+						#ifdef ASE_DEPTH_WRITE_ON
+						,out float outputDepth : ASE_SV_DEPTH
+						#endif
+						 ) : SV_TARGET
+			{
+				UNITY_SETUP_INSTANCE_ID(IN);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX( IN );
+
+				#if defined(ASE_NEEDS_FRAG_WORLD_POSITION)
+				float3 WorldPosition = IN.worldPos;
+				#endif
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+
+				#if defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
+					#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+						ShadowCoords = IN.shadowCoord;
+					#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+						ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+					#endif
+				#endif
+
+				float localCustomAlphaClip3735_g55655 = ( 0.0 );
+				float3 ase_worldViewDir = ( _WorldSpaceCameraPos.xyz - WorldPosition );
+				ase_worldViewDir = normalize(ase_worldViewDir);
+				float3 normalizeResult2169_g55655 = normalize( ase_worldViewDir );
+				float3 ViewDir_Normalized3963_g55655 = normalizeResult2169_g55655;
+				float3 normalizeResult3971_g55655 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float3 NormalsWS_Derivates3972_g55655 = normalizeResult3971_g55655;
+				float dotResult2161_g55655 = dot( ViewDir_Normalized3963_g55655 , NormalsWS_Derivates3972_g55655 );
+				float dotResult2212_g55655 = dot( ViewDir_Normalized3963_g55655 , float3(0,1,0) );
+				half Mask_HView2656_g55655 = dotResult2212_g55655;
+				float lerpResult2221_g55655 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g55655);
+				float lerpResult3992_g55655 = lerp( 1.0 , abs( dotResult2161_g55655 ) , lerpResult2221_g55655);
+				half Fade_Billboard2175_g55655 = lerpResult3992_g55655;
+				half Final_AlphaFade3727_g55655 = ( 1.0 * Fade_Billboard2175_g55655 );
+				float temp_output_41_0_g55692 = Final_AlphaFade3727_g55655;
+				float3 vertexToFrag3890_g55655 = IN.ase_texcoord3.xyz;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float2 vertexToFrag11_g55666 = IN.ase_texcoord4.xy;
+				half2 Main_UVs15_g55655 = vertexToFrag11_g55666;
+				float4 tex2DNode29_g55655 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				float Main_Alpha316_g55655 = ( _MainColor.a * tex2DNode29_g55655.a );
+				half AlphaTreshold2132_g55655 = _Cutoff;
+				#ifdef TVE_ALPHA_CLIP
+				float staticSwitch3792_g55655 = ( Main_Alpha316_g55655 - ( AlphaTreshold2132_g55655 - 0.5 ) );
+				#else
+				float staticSwitch3792_g55655 = Main_Alpha316_g55655;
+				#endif
+				half Final_Alpha3754_g55655 = staticSwitch3792_g55655;
+				float temp_output_661_0_g55655 = ( saturate( ( temp_output_41_0_g55692 + ( temp_output_41_0_g55692 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g55655 ) ).r ) ) ) * Final_Alpha3754_g55655 );
+				float Alpha3735_g55655 = temp_output_661_0_g55655;
+				float Treshold3735_g55655 = 0.5;
+				{
+				#if TVE_ALPHA_CLIP
+				clip(Alpha3735_g55655 - Treshold3735_g55655);
+				#endif
+				}
+				half Final_Clip914_g55655 = saturate( Alpha3735_g55655 );
+				
+				float Alpha = Final_Clip914_g55655;
+				float AlphaClipThreshold = 0.5;
+				#ifdef ASE_DEPTH_WRITE_ON
+				float DepthValue = 0;
+				#endif
+
+				#ifdef _ALPHATEST_ON
+					clip(Alpha - AlphaClipThreshold);
+				#endif
+
+				#ifdef LOD_FADE_CROSSFADE
+					LODDitheringTransition( IN.clipPos.xyz, unity_LODFade.x );
+				#endif
+				
+				#ifdef ASE_DEPTH_WRITE_ON
+				outputDepth = DepthValue;
+				#endif
+				
+				return float4(PackNormalOctRectEncode(TransformWorldToViewDir(IN.worldNormal, true)), 0.0, 0.0);
+			}
+			ENDHLSL
+		}
+
+		
+		Pass
+		{
+			
+			Name "GBuffer"
+			Tags { "LightMode"="UniversalGBuffer" }
+			
+			Blend [_render_src] [_render_dst], One Zero
+			ZWrite [_render_zw]
+			ZTest LEqual
+			Offset 0,0
+			ColorMask RGBA
+			
+
+			HLSLPROGRAM
+			#define _SPECULAR_SETUP 1
+			#define _NORMAL_DROPOFF_TS 1
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_fog
+			#define ASE_FOG 1
+			#pragma multi_compile _ DOTS_INSTANCING_ON
+			#define ASE_ABSOLUTE_VERTEX_POS 1
+			#define _EMISSION
+			#define _NORMALMAP 1
+			#define ASE_SRP_VERSION 100202
+			#define ASE_USING_SAMPLING_MACROS 1
+
+			#pragma prefer_hlslcc gles
+			#pragma exclude_renderers d3d11_9x
+
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+			#pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+			#pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
+			#pragma multi_compile _ _SHADOWS_SOFT
+			#pragma multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE
+			#pragma multi_compile _ _GBUFFER_NORMALS_OCT
+			
+			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
+			#pragma multi_compile _ LIGHTMAP_ON
+
+			#pragma vertex vert
+			#pragma fragment frag
+
+			#define SHADERPASS SHADERPASS_GBUFFER
+
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
+			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/UnityInstancing.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityGBuffer.hlsl"
+
+			#if ASE_SRP_VERSION <= 70108
+			#define REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR
+			#endif
+
+			#if defined(UNITY_INSTANCING_ENABLED) && defined(_TERRAIN_INSTANCED_PERPIXEL_NORMAL)
+			    #define ENABLE_TERRAIN_PERPIXEL_NORMAL
+			#endif
+
+			#define ASE_NEEDS_VERT_POSITION
+			#define ASE_NEEDS_FRAG_WORLD_VIEW_DIR
+			#define ASE_NEEDS_FRAG_WORLD_POSITION
+			#pragma shader_feature_local TVE_ALPHA_CLIP
+			#pragma shader_feature_local TVE_VERTEX_DATA_BATCHED
+			//TVE Shader Type Defines
+			#define TVE_IS_VEGETATION_SHADER
+			//TVE Pipeline Defines
+			#define THE_VEGETATION_ENGINE
+			#define TVE_IS_UNIVERSAL_PIPELINE
+			//TVE Injection Defines
+			//SHADER INJECTION POINT BEGIN
+           //Nature Renderer (Procedural Instancing)
+           #include "Assets/Visual Design Cafe/Nature Shaders/Common/Nodes/Integrations/Nature Renderer.cginc"
+           #pragma instancing_options procedural:SetupNatureRenderer
+			//SHADER INJECTION POINT END
+
+
+			struct VertexInput
+			{
+				float4 vertex : POSITION;
+				float3 ase_normal : NORMAL;
+				float4 ase_tangent : TANGENT;
+				float4 texcoord1 : TEXCOORD1;
+				float4 texcoord : TEXCOORD0;
+				float4 ase_color : COLOR;
+				float4 ase_texcoord3 : TEXCOORD3;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct VertexOutput
+			{
+				float4 clipPos : SV_POSITION;
+				float4 lightmapUVOrVertexSH : TEXCOORD0;
+				half4 fogFactorAndVertexLight : TEXCOORD1;
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+				float4 shadowCoord : TEXCOORD2;
+				#endif
+				float4 tSpace0 : TEXCOORD3;
+				float4 tSpace1 : TEXCOORD4;
+				float4 tSpace2 : TEXCOORD5;
+				#if defined(ASE_NEEDS_FRAG_SCREEN_POSITION)
+				float4 screenPos : TEXCOORD6;
+				#endif
+				float4 ase_texcoord7 : TEXCOORD7;
+				float4 ase_texcoord8 : TEXCOORD8;
+				float4 ase_texcoord9 : TEXCOORD9;
+				float4 ase_texcoord10 : TEXCOORD10;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
+			};
+
+			CBUFFER_START(UnityPerMaterial)
+			float4 _SubsurfaceDiffusion_asset;
+			half4 _SubsurfaceMaskRemap;
+			half4 _DetailBlendRemap;
+			half4 _SubsurfaceColor;
+			half4 _VertexOcclusionRemap;
+			half4 _MainColor;
+			half4 _ColorsMaskRemap;
+			float4 _NoiseMaskRemap;
+			float4 _GradientMaskRemap;
+			float4 _Color;
+			half4 _GradientColorTwo;
+			float4 _SubsurfaceDiffusion_Asset;
+			half4 _EmissiveColor;
+			float4 _EmissiveIntensityParams;
+			half4 _EmissiveUVs;
+			half4 _OverlayMaskRemap;
+			half4 _NoiseColorTwo;
+			half4 _NoiseColorOne;
+			float4 _MaxBoundsInfo;
+			half4 _MainUVs;
+			half4 _GradientColorOne;
+			half3 _render_normals_options;
+			half _GradientMinValue;
+			half _GradientMaxValue;
+			half _InteractionMaskValue;
+			half _VertexDataMode;
+			half _LayerReactValue;
+			half _InteractionAmplitude;
+			float _MotionScale_10;
+			half _MotionVariation_10;
+			float _MotionSpeed_10;
+			half _LayerMotionValue;
+			half _MotionAmplitude_10;
+			half _GlobalSize;
+			half _NoiseScaleValue;
+			half _IsStandardShader;
+			half _NoiseMaxValue;
+			half _MainOcclusionValue;
+			half _GlobalWetness;
+			half _MainSmoothnessValue;
+			half _RenderSpecular;
+			half _GlobalEmissive;
+			half _MainNormalValue;
+			half _OverlayMaskMaxValue;
+			half _OverlayMaskMinValue;
+			half _LayerExtrasValue;
+			half _NoiseMinValue;
+			half _GlobalOverlay;
+			half _MainLightAngleValue;
+			half _SubsurfaceMaskMaxValue;
+			half _SubsurfaceMaskMinValue;
+			half _SubsurfaceValue;
+			half _ColorsMaskMaxValue;
+			half _ColorsMaskMinValue;
+			half _TranslucencyScatteringValue;
+			half _GlobalColors;
+			half _LayerColorsValue;
+			half _MainLightScatteringValue;
+			half _TranslucencyDirectValue;
+			half _SizeFadeMessage;
+			half _DetailTypeMode;
+			half _VertexMasksMode;
+			half _NoiseCat;
+			half _SizeFadeCat;
+			half _VariationMotionMessage;
+			half _RenderNormals;
+			half _TranslucencyIntensityValue;
+			half _IsTVEShader;
+			half _DetailMode;
+			half _DetailCat;
+			half _SubsurfaceCat;
+			half _EmissiveFlagMode;
+			half _EmissiveCat;
+			half _Cutoff;
+			half _GradientCat;
+			half _OcclusionCat;
+			half _render_src;
+			half _render_cull;
+			half _render_dst;
+			half _render_zw;
+			half _IsCrossShader;
+			half _MotionSpace;
+			half _TranslucencyHDMessage;
+			half _FadeSpace;
+			half _LayersSpace;
+			half _RenderSSR;
+			half _DetailBlendMode;
+			half _ReceiveSpace;
+			half _FadeHorizontalValue;
+			half _RenderingCat;
+			half _PerspectiveCat;
+			half _TranslucencyShadowValue;
+			half _RenderZWrite;
+			half _RenderPriority;
+			half _GlobalCat;
+			half _MotionCat;
+			half _MainCat;
+			float _SubsurfaceDiffusion;
+			half _RenderDecals;
+			half _VertexVariationMode;
+			half _RenderMode;
+			half _RenderClip;
+			half _TranslucencyNormalValue;
+			half _VariationGlobalsMessage;
+			half _TranslucencyAmbientValue;
+			half _RenderCull;
+			half _IsVersion;
+			half _FadeVerticalValue;
+			#ifdef _TRANSMISSION_ASE
+				float _TransmissionShadow;
+			#endif
+			#ifdef _TRANSLUCENCY_ASE
+				float _TransStrength;
+				float _TransNormal;
+				float _TransScattering;
+				float _TransDirect;
+				float _TransAmbient;
+				float _TransShadow;
+			#endif
+			#ifdef TESSELLATION_ON
+				float _TessPhongStrength;
+				float _TessValue;
+				float _TessMin;
+				float _TessMax;
+				float _TessEdgeLength;
+				float _TessMaxDisp;
+			#endif
+			CBUFFER_END
+			TEXTURE2D(_MainTex);
+			SAMPLER(sampler_MainTex);
+			TEXTURE2D(_BumpMap);
+			SAMPLER(sampler_BumpMap);
+			float4 TVE_MotionTweaks;
+			half4 TVE_MotionParams;
+			TEXTURE2D_ARRAY(TVE_MotionTex);
+			half4 TVE_MotionCoord;
+			SAMPLER(samplerTVE_MotionTex);
+			float TVE_MotionUsage[9];
+			TEXTURE2D(TVE_NoiseTex);
+			half4 TVE_NoiseParams;
+			SAMPLER(samplerTVE_NoiseTex);
+			half4 TVE_ReactParams;
+			TEXTURE2D_ARRAY(TVE_ReactTex);
+			half4 TVE_ReactCoord;
+			SAMPLER(samplerTVE_ReactTex);
+			float TVE_ReactUsage[9];
+			TEXTURE3D(TVE_WorldTex3D);
+			SAMPLER(samplerTVE_WorldTex3D);
+			TEXTURE2D(_MainAlbedoTex);
+			SAMPLER(sampler_MainAlbedoTex);
+			half4 TVE_ColorsParams;
+			TEXTURE2D_ARRAY(TVE_ColorsTex);
+			half4 TVE_ColorsCoord;
+			SAMPLER(samplerTVE_ColorsTex);
+			float TVE_ColorsUsage[9];
+			TEXTURE2D(_MainMaskTex);
+			half4 TVE_MainLightParams;
+			half3 TVE_MainLightDirection;
+			half4 TVE_OverlayColor;
+			half4 TVE_ExtrasParams;
+			TEXTURE2D_ARRAY(TVE_ExtrasTex);
+			half4 TVE_ExtrasCoord;
+			SAMPLER(samplerTVE_ExtrasTex);
+			float TVE_ExtrasUsage[9];
+			TEXTURE2D(_EmissiveTex);
+			SAMPLER(sampler_EmissiveTex);
+			half TVE_OverlaySmoothness;
+			TEXTURE3D(TVE_ScreenTex3D);
+			half TVE_ScreenTexCoord;
+			SAMPLER(samplerTVE_ScreenTex3D);
+
+
+			
+			VertexOutput VertexFunction( VertexInput v  )
+			{
+				VertexOutput o = (VertexOutput)0;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
+				float3 VertexPosition3588_g55655 = v.vertex.xyz;
+				half3 Mesh_PivotsOS2291_g55655 = half3(0,0,0);
+				float3 temp_output_2283_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				half3 VertexPos40_g55681 = temp_output_2283_0_g55655;
+				float3 appendResult74_g55681 = (float3(VertexPos40_g55681.x , 0.0 , 0.0));
+				half3 VertexPosRotationAxis50_g55681 = appendResult74_g55681;
+				float3 break84_g55681 = VertexPos40_g55681;
+				float3 appendResult81_g55681 = (float3(0.0 , break84_g55681.y , break84_g55681.z));
+				half3 VertexPosOtherAxis82_g55681 = appendResult81_g55681;
+				half ObjectData20_g55710 = 3.14;
+				float Bounds_Height374_g55655 = _MaxBoundsInfo.y;
+				half WorldData19_g55710 = ( Bounds_Height374_g55655 * 3.14 );
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float staticSwitch14_g55710 = WorldData19_g55710;
+				#else
+				float staticSwitch14_g55710 = ObjectData20_g55710;
+				#endif
+				float Motion_Max_Bending1133_g55655 = staticSwitch14_g55710;
+				float4x4 break19_g55686 = GetObjectToWorldMatrix();
+				float3 appendResult20_g55686 = (float3(break19_g55686[ 0 ][ 3 ] , break19_g55686[ 1 ][ 3 ] , break19_g55686[ 2 ][ 3 ]));
+				half3 ObjectData20_g55687 = appendResult20_g55686;
+				float3 ase_worldPos = mul(GetObjectToWorldMatrix(), v.vertex).xyz;
+				half3 WorldData19_g55687 = ase_worldPos;
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float3 staticSwitch14_g55687 = WorldData19_g55687;
+				#else
+				float3 staticSwitch14_g55687 = ObjectData20_g55687;
+				#endif
+				float3 temp_output_114_0_g55686 = staticSwitch14_g55687;
+				float3 vertexToFrag4224_g55655 = temp_output_114_0_g55686;
+				half3 ObjectData20_g55705 = vertexToFrag4224_g55655;
+				float3 vertexToFrag3890_g55655 = ase_worldPos;
+				half3 WorldData19_g55705 = vertexToFrag3890_g55655;
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float3 staticSwitch14_g55705 = WorldData19_g55705;
+				#else
+				float3 staticSwitch14_g55705 = ObjectData20_g55705;
+				#endif
+				float3 ObjectPosition4223_g55655 = staticSwitch14_g55705;
+				float3 Position83_g55714 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55714 = _LayerMotionValue;
+				float4 lerpResult87_g55714 = lerp( TVE_MotionParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_MotionTex, samplerTVE_MotionTex, ( (TVE_MotionCoord).zw + ( (TVE_MotionCoord).xy * (Position83_g55714).xz ) ),temp_output_84_0_g55714, 0.0 ) , TVE_MotionUsage[(int)temp_output_84_0_g55714]);
+				half4 Global_Motion_Params3909_g55655 = lerpResult87_g55714;
+				float4 break322_g55720 = Global_Motion_Params3909_g55655;
+				half Wind_Power369_g55720 = break322_g55720.z;
+				float lerpResult376_g55720 = lerp( TVE_MotionTweaks.x , 1.0 , Wind_Power369_g55720);
+				half Wind_Power_103106_g55655 = lerpResult376_g55720;
+				float2 panner73_g55658 = ( _TimeParameters.x * (TVE_NoiseParams).xy + ( (ObjectPosition4223_g55655).xz * TVE_NoiseParams.z ));
+				float4 tex2DNode75_g55658 = SAMPLE_TEXTURE2D_LOD( TVE_NoiseTex, samplerTVE_NoiseTex, panner73_g55658, 0.0 );
+				float4 saferPower77_g55658 = max( abs( tex2DNode75_g55658 ) , 0.0001 );
+				half Wind_Power2223_g55655 = Wind_Power369_g55720;
+				float temp_output_167_0_g55658 = Wind_Power2223_g55655;
+				float lerpResult168_g55658 = lerp( 1.4 , 0.2 , temp_output_167_0_g55658);
+				float4 temp_cast_3 = (lerpResult168_g55658).xxxx;
+				float4 break174_g55658 = pow( saferPower77_g55658 , temp_cast_3 );
+				half Global_NoiseTex_R34_g55655 = break174_g55658.r;
+				float3 appendResult397_g55720 = (float3(break322_g55720.x , 0.0 , break322_g55720.y));
+				float3 temp_output_398_0_g55720 = (appendResult397_g55720*2.0 + -1.0);
+				float3 ase_parentObjectScale = ( 1.0 / float3( length( GetWorldToObjectMatrix()[ 0 ].xyz ), length( GetWorldToObjectMatrix()[ 1 ].xyz ), length( GetWorldToObjectMatrix()[ 2 ].xyz ) ) );
+				float3 temp_output_339_0_g55720 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55720 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Wind_DirectionOS39_g55655 = (temp_output_339_0_g55720).xz;
+				half Input_Speed62_g55680 = _MotionSpeed_10;
+				float mulTime373_g55680 = _TimeParameters.x * Input_Speed62_g55680;
+				float3 break111_g55703 = ObjectPosition4223_g55655;
+				half Variation_Complex102_g55703 = frac( ( v.ase_color.r + ( break111_g55703.x + break111_g55703.z ) ) );
+				half ObjectData20_g55704 = Variation_Complex102_g55703;
+				half Variation_Simple105_g55703 = v.ase_color.r;
+				half WorldData19_g55704 = Variation_Simple105_g55703;
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float staticSwitch14_g55704 = WorldData19_g55704;
+				#else
+				float staticSwitch14_g55704 = ObjectData20_g55704;
+				#endif
+				half Motion_Variation3073_g55655 = staticSwitch14_g55704;
+				half Motion_Variation284_g55680 = ( _MotionVariation_10 * Motion_Variation3073_g55655 );
+				float Motion_Scale287_g55680 = ( _MotionScale_10 * ( ase_worldPos.x + ase_worldPos.y + ase_worldPos.z ) );
+				half Sine_MinusOneToOne281_g55680 = sin( ( mulTime373_g55680 + Motion_Variation284_g55680 + Motion_Scale287_g55680 ) );
+				half Wind_Squash4479_g55655 = TVE_MotionTweaks.w;
+				half Input_WindSquash419_g55680 = Wind_Squash4479_g55655;
+				half Input_WindPower327_g55680 = Wind_Power_103106_g55655;
+				float lerpResult321_g55680 = lerp( Sine_MinusOneToOne281_g55680 , (Sine_MinusOneToOne281_g55680*Input_WindSquash419_g55680 + 1.0) , Input_WindPower327_g55680);
+				half Mesh_Motion_1082_g55655 = v.ase_texcoord3.x;
+				half2 Motion_10_Bending2258_g55655 = ( ( _MotionAmplitude_10 * Motion_Max_Bending1133_g55655 ) * Wind_Power_103106_g55655 * Global_NoiseTex_R34_g55655 * Wind_DirectionOS39_g55655 * lerpResult321_g55680 * Mesh_Motion_1082_g55655 );
+				half Interaction_Amplitude4137_g55655 = _InteractionAmplitude;
+				float3 Position83_g55679 = ObjectPosition4223_g55655;
+				float temp_output_84_0_g55679 = _LayerReactValue;
+				float4 lerpResult87_g55679 = lerp( TVE_ReactParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ReactTex, samplerTVE_ReactTex, ( (TVE_ReactCoord).zw + ( (TVE_ReactCoord).xy * (Position83_g55679).xz ) ),temp_output_84_0_g55679, 0.0 ) , TVE_ReactUsage[(int)temp_output_84_0_g55679]);
+				half4 Global_React_Params4173_g55655 = lerpResult87_g55679;
+				float4 break322_g55659 = Global_React_Params4173_g55655;
+				half Interaction_Mask66_g55655 = break322_g55659.z;
+				float3 appendResult397_g55659 = (float3(break322_g55659.x , 0.0 , break322_g55659.y));
+				float3 temp_output_398_0_g55659 = (appendResult397_g55659*2.0 + -1.0);
+				float3 temp_output_339_0_g55659 = ( mul( GetWorldToObjectMatrix(), float4( temp_output_398_0_g55659 , 0.0 ) ).xyz * ase_parentObjectScale );
+				half2 Interaction_DirectionOS4158_g55655 = (temp_output_339_0_g55659).xz;
+				float lerpResult4494_g55655 = lerp( 1.0 , Mesh_Motion_1082_g55655 , _InteractionMaskValue);
+				half2 Motion_10_Interaction53_g55655 = ( Interaction_Amplitude4137_g55655 * Motion_Max_Bending1133_g55655 * Interaction_Mask66_g55655 * Interaction_Mask66_g55655 * Interaction_DirectionOS4158_g55655 * lerpResult4494_g55655 );
+				float2 lerpResult109_g55655 = lerp( Motion_10_Bending2258_g55655 , Motion_10_Interaction53_g55655 , ( Interaction_Mask66_g55655 * saturate( Interaction_Amplitude4137_g55655 ) ));
+				float2 break143_g55655 = lerpResult109_g55655;
+				half Motion_10_ZAxis190_g55655 = break143_g55655.y;
+				half Angle44_g55681 = Motion_10_ZAxis190_g55655;
+				half3 VertexPos40_g55690 = ( VertexPosRotationAxis50_g55681 + ( VertexPosOtherAxis82_g55681 * cos( Angle44_g55681 ) ) + ( cross( float3(1,0,0) , VertexPosOtherAxis82_g55681 ) * sin( Angle44_g55681 ) ) );
+				float3 appendResult74_g55690 = (float3(0.0 , 0.0 , VertexPos40_g55690.z));
+				half3 VertexPosRotationAxis50_g55690 = appendResult74_g55690;
+				float3 break84_g55690 = VertexPos40_g55690;
+				float3 appendResult81_g55690 = (float3(break84_g55690.x , break84_g55690.y , 0.0));
+				half3 VertexPosOtherAxis82_g55690 = appendResult81_g55690;
+				half Motion_10_XAxis216_g55655 = break143_g55655.x;
+				half Angle44_g55690 = -Motion_10_XAxis216_g55655;
+				float3 Vertex_Motion_Object833_g55655 = ( VertexPosRotationAxis50_g55690 + ( VertexPosOtherAxis82_g55690 * cos( Angle44_g55690 ) ) + ( cross( float3(0,0,1) , VertexPosOtherAxis82_g55690 ) * sin( Angle44_g55690 ) ) );
+				float3 temp_output_3474_0_g55655 = ( VertexPosition3588_g55655 - Mesh_PivotsOS2291_g55655 );
+				float3 appendResult2043_g55655 = (float3(Motion_10_XAxis216_g55655 , 0.0 , Motion_10_ZAxis190_g55655));
+				float3 Vertex_Motion_World1118_g55655 = ( temp_output_3474_0_g55655 + appendResult2043_g55655 );
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float3 staticSwitch3312_g55655 = Vertex_Motion_World1118_g55655;
+				#else
+				float3 staticSwitch3312_g55655 = ( Vertex_Motion_Object833_g55655 + ( 0.0 * _VertexDataMode ) );
+				#endif
+				half Global_Vertex_Size174_g55655 = break322_g55659.w;
+				float lerpResult346_g55655 = lerp( 1.0 , Global_Vertex_Size174_g55655 , _GlobalSize);
+				float3 appendResult3480_g55655 = (float3(lerpResult346_g55655 , lerpResult346_g55655 , lerpResult346_g55655));
+				half3 ObjectData20_g55719 = appendResult3480_g55655;
+				half3 _Vector11 = half3(1,1,1);
+				half3 WorldData19_g55719 = _Vector11;
+				#ifdef TVE_VERTEX_DATA_BATCHED
+				float3 staticSwitch14_g55719 = WorldData19_g55719;
+				#else
+				float3 staticSwitch14_g55719 = ObjectData20_g55719;
+				#endif
+				half3 Vertex_Size1741_g55655 = staticSwitch14_g55719;
+				half3 _Vector5 = half3(1,1,1);
+				float3 Vertex_SizeFade1740_g55655 = _Vector5;
+				half3 Grass_Coverage2661_g55655 = half3(0,0,0);
+				float3 Final_VertexPosition890_g55655 = ( ( staticSwitch3312_g55655 * Vertex_Size1741_g55655 * Vertex_SizeFade1740_g55655 ) + Mesh_PivotsOS2291_g55655 + Grass_Coverage2661_g55655 );
+				
+				float temp_output_7_0_g55684 = _GradientMinValue;
+				float4 lerpResult2779_g55655 = lerp( _GradientColorTwo , _GradientColorOne , saturate( ( ( v.ase_color.a - temp_output_7_0_g55684 ) / ( _GradientMaxValue - temp_output_7_0_g55684 ) ) ));
+				half3 Gradient_Tint2784_g55655 = (lerpResult2779_g55655).rgb;
+				float3 vertexToFrag11_g55667 = Gradient_Tint2784_g55655;
+				o.ase_texcoord7.xyz = vertexToFrag11_g55667;
+				float3 temp_cast_11 = (_NoiseScaleValue).xxx;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float temp_output_7_0_g55693 = _NoiseMinValue;
+				half Noise_Mask3162_g55655 = saturate( ( ( SAMPLE_TEXTURE3D_LOD( TVE_WorldTex3D, samplerTVE_WorldTex3D, ( temp_cast_11 * WorldPosition3905_g55655 * 0.1 ), 0.0 ).r - temp_output_7_0_g55693 ) / ( _NoiseMaxValue - temp_output_7_0_g55693 ) ) );
+				float4 lerpResult2800_g55655 = lerp( _NoiseColorTwo , _NoiseColorOne , Noise_Mask3162_g55655);
+				half3 Noise_Tint2802_g55655 = (lerpResult2800_g55655).rgb;
+				float3 vertexToFrag11_g55669 = Noise_Tint2802_g55655;
+				o.ase_texcoord8.xyz = vertexToFrag11_g55669;
+				float2 vertexToFrag11_g55666 = ( ( v.texcoord.xy * (_MainUVs).xy ) + (_MainUVs).zw );
+				o.ase_texcoord9.xy = vertexToFrag11_g55666;
+				float3 Position58_g55656 = WorldPosition3905_g55655;
+				float temp_output_82_0_g55656 = _LayerColorsValue;
+				float4 lerpResult88_g55656 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY_LOD( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55656).xz ) ),temp_output_82_0_g55656, 0.0 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55656]);
+				half Global_ColorsTex_A1701_g55655 = (lerpResult88_g55656).a;
+				float vertexToFrag11_g55671 = Global_ColorsTex_A1701_g55655;
+				o.ase_texcoord7.w = vertexToFrag11_g55671;
+				o.ase_texcoord10.xyz = vertexToFrag3890_g55655;
+				
+				float2 vertexToFrag11_g55707 = ( ( v.texcoord.xy * (_EmissiveUVs).xy ) + (_EmissiveUVs).zw );
+				o.ase_texcoord9.zw = vertexToFrag11_g55707;
+				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord8.w = 0;
+				o.ase_texcoord10.w = 0;
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					float3 defaultVertexValue = v.vertex.xyz;
+				#else
+					float3 defaultVertexValue = float3(0, 0, 0);
+				#endif
+				float3 vertexValue = Final_VertexPosition890_g55655;
+				#ifdef ASE_ABSOLUTE_VERTEX_POS
+					v.vertex.xyz = vertexValue;
+				#else
+					v.vertex.xyz += vertexValue;
+				#endif
+				v.ase_normal = v.ase_normal;
+
+				float3 positionWS = TransformObjectToWorld( v.vertex.xyz );
+				float3 positionVS = TransformWorldToView( positionWS );
+				float4 positionCS = TransformWorldToHClip( positionWS );
+
+				VertexNormalInputs normalInput = GetVertexNormalInputs( v.ase_normal, v.ase_tangent );
+
+				o.tSpace0 = float4( normalInput.normalWS, positionWS.x);
+				o.tSpace1 = float4( normalInput.tangentWS, positionWS.y);
+				o.tSpace2 = float4( normalInput.bitangentWS, positionWS.z);
+
+				OUTPUT_LIGHTMAP_UV( v.texcoord1, unity_LightmapST, o.lightmapUVOrVertexSH.xy );
+				OUTPUT_SH( normalInput.normalWS.xyz, o.lightmapUVOrVertexSH.xyz );
+
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					o.lightmapUVOrVertexSH.zw = v.texcoord;
+					o.lightmapUVOrVertexSH.xy = v.texcoord * unity_LightmapST.xy + unity_LightmapST.zw;
+				#endif
+
+				half3 vertexLight = VertexLighting( positionWS, normalInput.normalWS );
+				#ifdef ASE_FOG
+					half fogFactor = ComputeFogFactor( positionCS.z );
+				#else
+					half fogFactor = 0;
+				#endif
+				o.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+				
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+				VertexPositionInputs vertexInput = (VertexPositionInputs)0;
+				vertexInput.positionWS = positionWS;
+				vertexInput.positionCS = positionCS;
+				o.shadowCoord = GetShadowCoord( vertexInput );
+				#endif
+				
+				o.clipPos = positionCS;
+				#if defined(ASE_NEEDS_FRAG_SCREEN_POSITION)
+				o.screenPos = ComputeScreenPos(positionCS);
+				#endif
+				return o;
+			}
+			
+			#if defined(TESSELLATION_ON)
+			struct VertexControl
+			{
+				float4 vertex : INTERNALTESSPOS;
+				float3 ase_normal : NORMAL;
+				float4 ase_tangent : TANGENT;
+				float4 texcoord : TEXCOORD0;
+				float4 texcoord1 : TEXCOORD1;
+				float4 ase_color : COLOR;
+				float4 ase_texcoord3 : TEXCOORD3;
+
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+			};
+
+			struct TessellationFactors
+			{
+				float edge[3] : SV_TessFactor;
+				float inside : SV_InsideTessFactor;
+			};
+
+			VertexControl vert ( VertexInput v )
+			{
+				VertexControl o;
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_TRANSFER_INSTANCE_ID(v, o);
+				o.vertex = v.vertex;
+				o.ase_normal = v.ase_normal;
+				o.ase_tangent = v.ase_tangent;
+				o.texcoord = v.texcoord;
+				o.texcoord1 = v.texcoord1;
+				o.texcoord = v.texcoord;
+				o.ase_color = v.ase_color;
+				o.ase_texcoord3 = v.ase_texcoord3;
+				return o;
+			}
+
+			TessellationFactors TessellationFunction (InputPatch<VertexControl,3> v)
+			{
+				TessellationFactors o;
+				float4 tf = 1;
+				float tessValue = _TessValue; float tessMin = _TessMin; float tessMax = _TessMax;
+				float edgeLength = _TessEdgeLength; float tessMaxDisp = _TessMaxDisp;
+				#if defined(ASE_FIXED_TESSELLATION)
+				tf = FixedTess( tessValue );
+				#elif defined(ASE_DISTANCE_TESSELLATION)
+				tf = DistanceBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, tessValue, tessMin, tessMax, GetObjectToWorldMatrix(), _WorldSpaceCameraPos );
+				#elif defined(ASE_LENGTH_TESSELLATION)
+				tf = EdgeLengthBasedTess(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams );
+				#elif defined(ASE_LENGTH_CULL_TESSELLATION)
+				tf = EdgeLengthBasedTessCull(v[0].vertex, v[1].vertex, v[2].vertex, edgeLength, tessMaxDisp, GetObjectToWorldMatrix(), _WorldSpaceCameraPos, _ScreenParams, unity_CameraWorldClipPlanes );
+				#endif
+				o.edge[0] = tf.x; o.edge[1] = tf.y; o.edge[2] = tf.z; o.inside = tf.w;
+				return o;
+			}
+
+			[domain("tri")]
+			[partitioning("fractional_odd")]
+			[outputtopology("triangle_cw")]
+			[patchconstantfunc("TessellationFunction")]
+			[outputcontrolpoints(3)]
+			VertexControl HullFunction(InputPatch<VertexControl, 3> patch, uint id : SV_OutputControlPointID)
+			{
+			   return patch[id];
+			}
+
+			[domain("tri")]
+			VertexOutput DomainFunction(TessellationFactors factors, OutputPatch<VertexControl, 3> patch, float3 bary : SV_DomainLocation)
+			{
+				VertexInput o = (VertexInput) 0;
+				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
+				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
+				o.ase_tangent = patch[0].ase_tangent * bary.x + patch[1].ase_tangent * bary.y + patch[2].ase_tangent * bary.z;
+				o.texcoord = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
+				o.texcoord1 = patch[0].texcoord1 * bary.x + patch[1].texcoord1 * bary.y + patch[2].texcoord1 * bary.z;
+				o.texcoord = patch[0].texcoord * bary.x + patch[1].texcoord * bary.y + patch[2].texcoord * bary.z;
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord3 = patch[0].ase_texcoord3 * bary.x + patch[1].ase_texcoord3 * bary.y + patch[2].ase_texcoord3 * bary.z;
+				#if defined(ASE_PHONG_TESSELLATION)
+				float3 pp[3];
+				for (int i = 0; i < 3; ++i)
+					pp[i] = o.vertex.xyz - patch[i].ase_normal * (dot(o.vertex.xyz, patch[i].ase_normal) - dot(patch[i].vertex.xyz, patch[i].ase_normal));
+				float phongStrength = _TessPhongStrength;
+				o.vertex.xyz = phongStrength * (pp[0]*bary.x + pp[1]*bary.y + pp[2]*bary.z) + (1.0f-phongStrength) * o.vertex.xyz;
+				#endif
+				UNITY_TRANSFER_INSTANCE_ID(patch[0], o);
+				return VertexFunction(o);
+			}
+			#else
+			VertexOutput vert ( VertexInput v )
+			{
+				return VertexFunction( v );
+			}
+			#endif
+
+			#if defined(ASE_EARLY_Z_DEPTH_OPTIMIZE)
+				#define ASE_SV_DEPTH SV_DepthLessEqual  
+			#else
+				#define ASE_SV_DEPTH SV_Depth
+			#endif
+			FragmentOutput frag ( VertexOutput IN 
+								#ifdef ASE_DEPTH_WRITE_ON
+								,out float outputDepth : ASE_SV_DEPTH
+								#endif
+								 )
+			{
+				UNITY_SETUP_INSTANCE_ID(IN);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
+
+				#ifdef LOD_FADE_CROSSFADE
+					LODDitheringTransition( IN.clipPos.xyz, unity_LODFade.x );
+				#endif
+
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					float2 sampleCoords = (IN.lightmapUVOrVertexSH.zw / _TerrainHeightmapRecipSize.zw + 0.5f) * _TerrainHeightmapRecipSize.xy;
+					float3 WorldNormal = TransformObjectToWorldNormal(normalize(SAMPLE_TEXTURE2D(_TerrainNormalmapTexture, sampler_TerrainNormalmapTexture, sampleCoords).rgb * 2 - 1));
+					float3 WorldTangent = -cross(GetObjectToWorldMatrix()._13_23_33, WorldNormal);
+					float3 WorldBiTangent = cross(WorldNormal, -WorldTangent);
+				#else
+					float3 WorldNormal = normalize( IN.tSpace0.xyz );
+					float3 WorldTangent = IN.tSpace1.xyz;
+					float3 WorldBiTangent = IN.tSpace2.xyz;
+				#endif
+				float3 WorldPosition = float3(IN.tSpace0.w,IN.tSpace1.w,IN.tSpace2.w);
+				float3 WorldViewDirection = _WorldSpaceCameraPos.xyz  - WorldPosition;
+				float4 ShadowCoords = float4( 0, 0, 0, 0 );
+				#if defined(ASE_NEEDS_FRAG_SCREEN_POSITION)
+				float4 ScreenPos = IN.screenPos;
+				#endif
+
+				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
+					ShadowCoords = IN.shadowCoord;
+				#elif defined(MAIN_LIGHT_CALCULATE_SHADOWS)
+					ShadowCoords = TransformWorldToShadowCoord( WorldPosition );
+				#endif
+	
+				WorldViewDirection = SafeNormalize( WorldViewDirection );
+
+				float3 vertexToFrag11_g55667 = IN.ase_texcoord7.xyz;
+				float3 vertexToFrag11_g55669 = IN.ase_texcoord8.xyz;
+				float2 vertexToFrag11_g55666 = IN.ase_texcoord9.xy;
+				half2 Main_UVs15_g55655 = vertexToFrag11_g55666;
+				float4 tex2DNode29_g55655 = SAMPLE_TEXTURE2D( _MainAlbedoTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				float3 temp_output_51_0_g55655 = ( (_MainColor).rgb * (tex2DNode29_g55655).rgb );
+				half3 Main_Albedo99_g55655 = temp_output_51_0_g55655;
+				half3 Blend_Albedo265_g55655 = Main_Albedo99_g55655;
+				half3 Blend_AlbedoTinted2808_g55655 = ( vertexToFrag11_g55667 * vertexToFrag11_g55669 * float3(1,1,1) * Blend_Albedo265_g55655 );
+				float dotResult3616_g55655 = dot( Blend_AlbedoTinted2808_g55655 , float3(0.2126,0.7152,0.0722) );
+				float3 temp_cast_0 = (dotResult3616_g55655).xxx;
+				float vertexToFrag11_g55671 = IN.ase_texcoord7.w;
+				half Global_Colors_Influence3668_g55655 = vertexToFrag11_g55671;
+				float3 lerpResult3618_g55655 = lerp( Blend_AlbedoTinted2808_g55655 , temp_cast_0 , Global_Colors_Influence3668_g55655);
+				float3 vertexToFrag3890_g55655 = IN.ase_texcoord10.xyz;
+				float3 WorldPosition3905_g55655 = vertexToFrag3890_g55655;
+				float3 Position58_g55656 = WorldPosition3905_g55655;
+				float temp_output_82_0_g55656 = _LayerColorsValue;
+				float4 lerpResult88_g55656 = lerp( TVE_ColorsParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ColorsTex, samplerTVE_ColorsTex, ( (TVE_ColorsCoord).zw + ( (TVE_ColorsCoord).xy * (Position58_g55656).xz ) ),temp_output_82_0_g55656 ) , TVE_ColorsUsage[(int)temp_output_82_0_g55656]);
+				half3 Global_ColorsTex_RGB1700_g55655 = (lerpResult88_g55656).rgb;
+				#ifdef UNITY_COLORSPACE_GAMMA
+				float staticSwitch1_g55701 = 2.0;
+				#else
+				float staticSwitch1_g55701 = 4.594794;
+				#endif
+				half3 Global_Colors1954_g55655 = ( Global_ColorsTex_RGB1700_g55655 * staticSwitch1_g55701 );
+				half Global_Colors_Value3650_g55655 = _GlobalColors;
+				float4 tex2DNode35_g55655 = SAMPLE_TEXTURE2D( _MainMaskTex, sampler_MainAlbedoTex, Main_UVs15_g55655 );
+				half Main_Mask57_g55655 = tex2DNode35_g55655.b;
+				float temp_output_7_0_g55702 = _ColorsMaskMinValue;
+				half Global_Colors_Mask3692_g55655 = saturate( ( ( Main_Mask57_g55655 - temp_output_7_0_g55702 ) / ( _ColorsMaskMaxValue - temp_output_7_0_g55702 ) ) );
+				float3 lerpResult3628_g55655 = lerp( Blend_AlbedoTinted2808_g55655 , ( lerpResult3618_g55655 * Global_Colors1954_g55655 ) , ( Global_Colors_Value3650_g55655 * Global_Colors_Mask3692_g55655 ));
+				half3 Blend_AlbedoColored863_g55655 = lerpResult3628_g55655;
+				float3 temp_output_799_0_g55655 = (_SubsurfaceColor).rgb;
+				float dotResult3930_g55655 = dot( temp_output_799_0_g55655 , float3(0.2126,0.7152,0.0722) );
+				float3 temp_cast_3 = (dotResult3930_g55655).xxx;
+				float3 lerpResult3932_g55655 = lerp( temp_output_799_0_g55655 , temp_cast_3 , Global_Colors_Influence3668_g55655);
+				float3 lerpResult3942_g55655 = lerp( temp_output_799_0_g55655 , ( lerpResult3932_g55655 * Global_Colors1954_g55655 ) , ( Global_Colors_Value3650_g55655 * Global_Colors_Mask3692_g55655 ));
+				half3 Subsurface_Color1722_g55655 = lerpResult3942_g55655;
+				half MainLight_Subsurface4041_g55655 = TVE_MainLightParams.a;
+				half Subsurface_Intensity1752_g55655 = ( _SubsurfaceValue * MainLight_Subsurface4041_g55655 );
+				float temp_output_7_0_g55689 = _SubsurfaceMaskMinValue;
+				half Subsurface_Mask1557_g55655 = saturate( ( ( Main_Mask57_g55655 - temp_output_7_0_g55689 ) / ( _SubsurfaceMaskMaxValue - temp_output_7_0_g55689 ) ) );
+				half3 Subsurface_Transmission884_g55655 = ( Subsurface_Color1722_g55655 * Subsurface_Intensity1752_g55655 * Subsurface_Mask1557_g55655 );
+				half3 MainLight_Direction3926_g55655 = TVE_MainLightDirection;
+				float3 normalizeResult2169_g55655 = normalize( WorldViewDirection );
+				float3 ViewDir_Normalized3963_g55655 = normalizeResult2169_g55655;
+				float dotResult785_g55655 = dot( -MainLight_Direction3926_g55655 , ViewDir_Normalized3963_g55655 );
+				float saferPower1624_g55655 = max( (dotResult785_g55655*0.5 + 0.5) , 0.0001 );
+				#ifdef UNITY_PASS_FORWARDADD
+				float staticSwitch1602_g55655 = 0.0;
+				#else
+				float staticSwitch1602_g55655 = ( pow( saferPower1624_g55655 , _MainLightAngleValue ) * _MainLightScatteringValue );
+				#endif
+				half Mask_Subsurface_View782_g55655 = staticSwitch1602_g55655;
+				half3 Subsurface_Scattering1693_g55655 = ( Subsurface_Transmission884_g55655 * Blend_AlbedoColored863_g55655 * Mask_Subsurface_View782_g55655 );
+				half3 Blend_AlbedoAndSubsurface149_g55655 = ( Blend_AlbedoColored863_g55655 + Subsurface_Scattering1693_g55655 );
+				half3 Global_OverlayColor1758_g55655 = (TVE_OverlayColor).rgb;
+				half Main_AlbedoTex_G3526_g55655 = tex2DNode29_g55655.g;
+				float3 Position82_g55713 = WorldPosition3905_g55655;
+				float temp_output_84_0_g55713 = _LayerExtrasValue;
+				float4 lerpResult88_g55713 = lerp( TVE_ExtrasParams , SAMPLE_TEXTURE2D_ARRAY( TVE_ExtrasTex, samplerTVE_ExtrasTex, ( (TVE_ExtrasCoord).zw + ( (TVE_ExtrasCoord).xy * (Position82_g55713).xz ) ),temp_output_84_0_g55713 ) , TVE_ExtrasUsage[(int)temp_output_84_0_g55713]);
+				float4 break89_g55713 = lerpResult88_g55713;
+				half Global_Extras_Overlay156_g55655 = break89_g55713.b;
+				float temp_output_1025_0_g55655 = ( _GlobalOverlay * Global_Extras_Overlay156_g55655 );
+				half Overlay_Commons1365_g55655 = temp_output_1025_0_g55655;
+				float temp_output_7_0_g55673 = _OverlayMaskMinValue;
+				half Overlay_Mask269_g55655 = saturate( ( ( ( ( 0.5 + Main_AlbedoTex_G3526_g55655 ) * Overlay_Commons1365_g55655 ) - temp_output_7_0_g55673 ) / ( _OverlayMaskMaxValue - temp_output_7_0_g55673 ) ) );
+				float3 lerpResult336_g55655 = lerp( Blend_AlbedoAndSubsurface149_g55655 , Global_OverlayColor1758_g55655 , Overlay_Mask269_g55655);
+				half3 Final_Albedo359_g55655 = lerpResult336_g55655;
+				
+				float4 temp_output_4214_0_g55655 = ( _EmissiveColor * _EmissiveIntensityParams.x );
+				float2 vertexToFrag11_g55707 = IN.ase_texcoord9.zw;
+				half2 Emissive_UVs2468_g55655 = vertexToFrag11_g55707;
+				half Global_Extras_Emissive4203_g55655 = break89_g55713.r;
+				float lerpResult4206_g55655 = lerp( 1.0 , Global_Extras_Emissive4203_g55655 , _GlobalEmissive);
+				half3 Final_Emissive2476_g55655 = ( (( temp_output_4214_0_g55655 * SAMPLE_TEXTURE2D( _EmissiveTex, sampler_EmissiveTex, Emissive_UVs2468_g55655 ) )).rgb * lerpResult4206_g55655 );
+				
+				float3 temp_cast_6 = (( 0.04 * _RenderSpecular )).xxx;
+				
+				half Main_Smoothness227_g55655 = ( tex2DNode35_g55655.a * _MainSmoothnessValue );
+				half Blend_Smoothness314_g55655 = Main_Smoothness227_g55655;
+				half Global_OverlaySmoothness311_g55655 = TVE_OverlaySmoothness;
+				float lerpResult343_g55655 = lerp( Blend_Smoothness314_g55655 , Global_OverlaySmoothness311_g55655 , Overlay_Mask269_g55655);
+				half Final_Smoothness371_g55655 = lerpResult343_g55655;
+				half Global_Extras_Wetness305_g55655 = break89_g55713.g;
+				float lerpResult3673_g55655 = lerp( 0.0 , Global_Extras_Wetness305_g55655 , _GlobalWetness);
+				half Final_SmoothnessAndWetness4130_g55655 = saturate( ( Final_Smoothness371_g55655 + lerpResult3673_g55655 ) );
+				
+				float lerpResult240_g55655 = lerp( 1.0 , tex2DNode35_g55655.g , _MainOcclusionValue);
+				half Main_Occlusion247_g55655 = lerpResult240_g55655;
+				half Blend_Occlusion323_g55655 = Main_Occlusion247_g55655;
+				
+				float localCustomAlphaClip3735_g55655 = ( 0.0 );
+				float3 normalizeResult3971_g55655 = normalize( cross( ddy( WorldPosition ) , ddx( WorldPosition ) ) );
+				float3 NormalsWS_Derivates3972_g55655 = normalizeResult3971_g55655;
+				float dotResult2161_g55655 = dot( ViewDir_Normalized3963_g55655 , NormalsWS_Derivates3972_g55655 );
+				float dotResult2212_g55655 = dot( ViewDir_Normalized3963_g55655 , float3(0,1,0) );
+				half Mask_HView2656_g55655 = dotResult2212_g55655;
+				float lerpResult2221_g55655 = lerp( _FadeHorizontalValue , _FadeVerticalValue , Mask_HView2656_g55655);
+				float lerpResult3992_g55655 = lerp( 1.0 , abs( dotResult2161_g55655 ) , lerpResult2221_g55655);
+				half Fade_Billboard2175_g55655 = lerpResult3992_g55655;
+				half Final_AlphaFade3727_g55655 = ( 1.0 * Fade_Billboard2175_g55655 );
+				float temp_output_41_0_g55692 = Final_AlphaFade3727_g55655;
+				float Main_Alpha316_g55655 = ( _MainColor.a * tex2DNode29_g55655.a );
+				half AlphaTreshold2132_g55655 = _Cutoff;
+				#ifdef TVE_ALPHA_CLIP
+				float staticSwitch3792_g55655 = ( Main_Alpha316_g55655 - ( AlphaTreshold2132_g55655 - 0.5 ) );
+				#else
+				float staticSwitch3792_g55655 = Main_Alpha316_g55655;
+				#endif
+				half Final_Alpha3754_g55655 = staticSwitch3792_g55655;
+				float temp_output_661_0_g55655 = ( saturate( ( temp_output_41_0_g55692 + ( temp_output_41_0_g55692 * SAMPLE_TEXTURE3D( TVE_ScreenTex3D, samplerTVE_ScreenTex3D, ( TVE_ScreenTexCoord * WorldPosition3905_g55655 ) ).r ) ) ) * Final_Alpha3754_g55655 );
+				float Alpha3735_g55655 = temp_output_661_0_g55655;
+				float Treshold3735_g55655 = 0.5;
+				{
+				#if TVE_ALPHA_CLIP
+				clip(Alpha3735_g55655 - Treshold3735_g55655);
+				#endif
+				}
+				half Final_Clip914_g55655 = saturate( Alpha3735_g55655 );
+				
+				float3 Albedo = Final_Albedo359_g55655;
+				float3 Normal = float3(0, 0, 1);
+				float3 Emission = Final_Emissive2476_g55655;
+				float3 Specular = temp_cast_6;
+				float Metallic = 0;
+				float Smoothness = Final_SmoothnessAndWetness4130_g55655;
+				float Occlusion = Blend_Occlusion323_g55655;
+				float Alpha = Final_Clip914_g55655;
+				float AlphaClipThreshold = 0.5;
+				float AlphaClipThresholdShadow = 0.5;
+				float3 BakedGI = 0;
+				float3 RefractionColor = 1;
+				float RefractionIndex = 1;
+				float3 Transmission = 1;
+				float3 Translucency = 1;
+				#ifdef ASE_DEPTH_WRITE_ON
+				float DepthValue = 0;
+				#endif
+
+				#ifdef _ALPHATEST_ON
+					clip(Alpha - AlphaClipThreshold);
+				#endif
+
+				InputData inputData;
+				inputData.positionWS = WorldPosition;
+				inputData.viewDirectionWS = WorldViewDirection;
+				inputData.shadowCoord = ShadowCoords;
+
+				#ifdef _NORMALMAP
+					#if _NORMAL_DROPOFF_TS
+					inputData.normalWS = TransformTangentToWorld(Normal, half3x3( WorldTangent, WorldBiTangent, WorldNormal ));
+					#elif _NORMAL_DROPOFF_OS
+					inputData.normalWS = TransformObjectToWorldNormal(Normal);
+					#elif _NORMAL_DROPOFF_WS
+					inputData.normalWS = Normal;
+					#endif
+					inputData.normalWS = NormalizeNormalPerPixel(inputData.normalWS);
+				#else
+					inputData.normalWS = WorldNormal;
+				#endif
+
+				#ifdef ASE_FOG
+					inputData.fogCoord = IN.fogFactorAndVertexLight.x;
+				#endif
+
+				inputData.vertexLighting = IN.fogFactorAndVertexLight.yzw;
+				#if defined(ENABLE_TERRAIN_PERPIXEL_NORMAL)
+					float3 SH = SampleSH(inputData.normalWS.xyz);
+				#else
+					float3 SH = IN.lightmapUVOrVertexSH.xyz;
+				#endif
+
+				inputData.bakedGI = SAMPLE_GI( IN.lightmapUVOrVertexSH.xy, SH, inputData.normalWS );
+				#ifdef _ASE_BAKEDGI
+					inputData.bakedGI = BakedGI;
+				#endif
+
+				BRDFData brdfData;
+				InitializeBRDFData( Albedo, Metallic, Specular, Smoothness, Alpha, brdfData);
+				half4 color;
+				color.rgb = GlobalIllumination( brdfData, inputData.bakedGI, Occlusion, inputData.normalWS, inputData.viewDirectionWS);
+				color.a = Alpha;
+			
+				#ifdef ASE_FINAL_COLOR_ALPHA_MULTIPLY
+					color.rgb *= color.a;
+				#endif
+				
+				#ifdef ASE_FOG
+					#ifdef TERRAIN_SPLAT_ADDPASS
+						color.rgb = MixFogColor(color.rgb, half3( 0, 0, 0 ), IN.fogFactorAndVertexLight.x );
+					#else
+						color.rgb = MixFog(color.rgb, IN.fogFactorAndVertexLight.x);
+					#endif
+				#endif
+				
+				#ifdef ASE_DEPTH_WRITE_ON
+					outputDepth = DepthValue;
+				#endif
+				
+				return BRDFDataToGbuffer(brdfData, inputData, Smoothness, Emission + color.rgb);
+			}
+
+			ENDHLSL
+		}
 		
 	}
 	/*ase_lod*/
@@ -3761,27 +5220,29 @@ Shader "BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit"
 }
 /*ASEBEGIN
 Version=18910
-1920;0;1920;1029;2918.353;330.004;1;True;False
+1920;0;1920;1029;2920.989;754.2749;1;True;False
 Node;AmplifyShaderEditor.FunctionNode;274;-2176,384;Inherit;False;Define SHADER VEGETATION;-1;;47862;b458122dd75182d488380bd0f592b9e6;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;314;-1536,-896;Inherit;False;Compile Core;-1;;55700;634b02fd1f32e6a4c875d8fc2c450956;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;312;-1856,384;Inherit;False;Define FEATURES UNIVERSAL;-1;;55654;71dc7add32e5f6247b1fb74ecceddd3e;0;0;1;FLOAT;529
+Node;AmplifyShaderEditor.RangedFloatNode;20;-1984,-768;Half;False;Property;_render_src;_render_src;199;1;[HideInInspector];Create;True;0;0;0;True;0;False;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;10;-2176,-768;Half;False;Property;_render_cull;_render_cull;198;1;[HideInInspector];Create;True;0;3;Both;0;Back;1;Front;2;0;True;0;False;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;7;-1792,-768;Half;False;Property;_render_dst;_render_dst;200;1;[HideInInspector];Create;True;0;2;Opaque;0;Transparent;1;0;True;0;False;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;313;-1344,-896;Inherit;False;Compile All Shaders;-1;;55699;e67c8238031dbf04ab79a5d4d63d1b4f;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;17;-1600,-768;Half;False;Property;_render_zw;_render_zw;201;1;[HideInInspector];Create;True;0;2;Opaque;0;Transparent;1;0;True;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;287;-2176,-384;Inherit;False;Base Shader;0;;55655;856f7164d1c579d43a5cf4968a75ca43;80,3880,1,3882,1,3957,1,4028,1,4029,1,3900,1,3904,1,3903,1,4204,1,3908,1,4172,1,1300,1,1298,1,4179,1,3586,0,3658,1,1708,1,3509,1,1712,2,3873,0,1717,1,1718,1,1715,1,1714,1,916,0,1762,0,1763,0,3568,0,1949,1,1776,0,3475,1,4210,1,893,0,1745,1,3479,0,3501,1,3221,2,1646,1,1757,0,1271,0,3889,1,2807,1,3886,0,2953,1,3887,0,3243,0,3888,0,3728,0,3949,0,2172,0,3883,1,2658,0,1742,0,3484,0,3575,0,1735,0,1734,0,1733,0,1737,0,1736,0,878,0,1550,0,4069,0,4072,0,4068,0,4070,0,4067,0,860,1,3544,1,2261,1,2260,1,2054,0,2032,0,2039,0,2062,0,4177,1,4217,1,3592,1,2750,0,4242,0;0;19;FLOAT3;0;FLOAT3;528;FLOAT3;2489;FLOAT;531;FLOAT;4135;FLOAT;529;FLOAT;3678;FLOAT;530;FLOAT;4127;FLOAT;4122;FLOAT;4134;FLOAT;1235;FLOAT3;1230;FLOAT;1461;FLOAT;1290;FLOAT;721;FLOAT;532;FLOAT;629;FLOAT3;534
 Node;AmplifyShaderEditor.RangedFloatNode;81;-2176,-896;Half;False;Property;_IsCrossShader;_IsCrossShader;197;1;[HideInInspector];Create;True;0;0;0;True;0;False;1;0;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;129;-1968,-896;Half;False;Property;_IsStandardShader;_IsStandardShader;196;1;[HideInInspector];Create;True;0;0;0;True;0;False;1;0;1;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;312;-1856,384;Inherit;False;Define FEATURES UNIVERSAL;-1;;55698;71dc7add32e5f6247b1fb74ecceddd3e;0;0;1;FLOAT;529
-Node;AmplifyShaderEditor.FunctionNode;287;-2176,-384;Inherit;False;Base Shader;0;;54597;856f7164d1c579d43a5cf4968a75ca43;80,3880,1,3882,1,3957,1,4028,1,4029,1,3900,1,3904,1,3903,1,4204,1,3908,1,4172,1,1300,1,1298,1,4179,1,3586,0,3658,1,1708,1,3509,1,1712,2,3873,0,1717,1,1718,1,1715,1,1714,1,916,0,1762,0,1763,0,3568,0,1949,1,1776,0,3475,1,4210,1,893,0,1745,1,3479,0,3501,1,3221,2,1646,1,1757,0,1271,0,3889,1,2807,1,3886,0,2953,1,3887,0,3243,0,3888,0,3728,0,3949,0,2172,0,3883,1,2658,0,1742,0,3484,0,3575,0,1735,0,1734,0,1733,0,1737,0,1736,0,878,0,1550,0,4069,0,4072,0,4068,0,4070,0,4067,0,860,1,3544,1,2261,1,2260,1,2054,0,2032,0,2039,0,2062,0,4177,1,4217,1,3592,1,2750,0,4242,0;0;19;FLOAT3;0;FLOAT3;528;FLOAT3;2489;FLOAT;531;FLOAT;4135;FLOAT;529;FLOAT;3678;FLOAT;530;FLOAT;4127;FLOAT;4122;FLOAT;4134;FLOAT;1235;FLOAT3;1230;FLOAT;1461;FLOAT;1290;FLOAT;721;FLOAT;532;FLOAT;629;FLOAT3;534
-Node;AmplifyShaderEditor.RangedFloatNode;20;-1984,-768;Half;False;Property;_render_src;_render_src;199;1;[HideInInspector];Create;True;0;0;0;True;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;313;-1344,-896;Inherit;False;Compile All Shaders;-1;;55653;e67c8238031dbf04ab79a5d4d63d1b4f;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;314;-1536,-896;Inherit;False;Compile Core;-1;;55652;634b02fd1f32e6a4c875d8fc2c450956;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;17;-1600,-768;Half;False;Property;_render_zw;_render_zw;201;1;[HideInInspector];Create;True;0;2;Opaque;0;Transparent;1;0;True;0;False;1;1;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;304;-1376,-384;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;308;-1376,-384;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;305;-1376,-384;Float;False;True;-1;2;TVEShaderCoreGUI;0;18;BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit;28cd5599e02859647ae1798e4fcaef6c;True;Forward;0;1;Forward;18;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;True;True;2;True;10;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;4;0;True;True;1;1;True;20;0;True;7;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;True;1;True;17;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;1;LightMode=UniversalForward;False;0;Hidden/BOXOPHOBIC/The Vegetation Engine/Fallback;0;0;Standard;38;Workflow;0;Surface;0;  Refraction Model;0;  Blend;0;Two Sided;0;Fragment Normal Space,InvertActionOnDeselection;0;Transmission;0;  Transmission Shadow;0.5,True,1013;Translucency;0;  Translucency Strength;1,False,-1;  Normal Distortion;0.5,False,-1;  Scattering;2,False,-1;  Direct;0.9,False,-1;  Ambient;0.1,False,-1;  Shadow;0.5,False,-1;Cast Shadows;1;  Use Shadow Threshold;0;Receive Shadows;1;GPU Instancing;1;LOD CrossFade;1;Built-in Fog;1;_FinalColorxAlpha;0;Meta Pass;1;Override Baked GI;0;Extra Pre Pass;0;DOTS Instancing;1;Tessellation;0;  Phong;0;  Strength;0.5,False,-1;  Type;0;  Tess;16,False,-1;  Min;10,False,-1;  Max;25,False,-1;  Edge Length;16,False,-1;  Max Displacement;25,False,-1;Write Depth;0;  Early Z;0;Vertex Position,InvertActionOnDeselection;0;0;8;False;True;True;True;True;True;True;True;False;;True;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;316;-1376,-384;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;GBuffer;0;7;GBuffer;1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;True;1;1;True;20;0;True;7;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;True;17;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;1;LightMode=UniversalGBuffer;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;315;-1376,-47;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;DepthNormals;0;6;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=DepthNormals;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;309;-1376,-384;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;Universal2D;0;5;Universal2D;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;True;1;1;True;20;0;True;7;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;True;17;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;1;LightMode=Universal2D;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;307;-1376,-384;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;DepthOnly;0;3;DepthOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;True;False;False;False;False;0;False;-1;False;False;False;False;False;False;False;False;False;True;1;False;-1;False;False;True;1;LightMode=DepthOnly;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;306;-1376,-384;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;-1;True;3;False;-1;False;True;1;LightMode=ShadowCaster;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;304;-1376,-384;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;True;1;1;False;-1;0;False;-1;0;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;False;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;0;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;308;-1376,-384;Float;False;False;-1;2;UnityEditor.ShaderGraph.PBRMasterGUI;0;1;New Amplify Shader;28cd5599e02859647ae1798e4fcaef6c;True;Meta;0;4;Meta;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;False;True;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;0;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Meta;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;305;-1376,-384;Float;False;True;-1;2;TVEShaderCoreGUI;0;14;BOXOPHOBIC/The Vegetation Engine/Vegetation/Cross Standard Lit;28cd5599e02859647ae1798e4fcaef6c;True;Forward;0;1;Forward;18;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;-1;True;True;2;True;10;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;4;0;True;True;1;1;True;20;0;True;7;1;1;False;-1;0;False;-1;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;-1;False;False;False;False;False;False;False;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;True;1;True;17;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;1;LightMode=UniversalForward;False;0;Hidden/BOXOPHOBIC/The Vegetation Engine/Fallback;0;0;Standard;38;Workflow;0;Surface;0;  Refraction Model;0;  Blend;0;Two Sided;0;Fragment Normal Space,InvertActionOnDeselection;0;Transmission;0;  Transmission Shadow;0.5,True,1013;Translucency;0;  Translucency Strength;1,False,-1;  Normal Distortion;0.5,False,-1;  Scattering;2,False,-1;  Direct;0.9,False,-1;  Ambient;0.1,False,-1;  Shadow;0.5,False,-1;Cast Shadows;1;  Use Shadow Threshold;0;Receive Shadows;1;GPU Instancing;1;LOD CrossFade;1;Built-in Fog;1;_FinalColorxAlpha;0;Meta Pass;1;Override Baked GI;0;Extra Pre Pass;0;DOTS Instancing;1;Tessellation;0;  Phong;0;  Strength;0.5,False,-1;  Type;0;  Tess;16,False,-1;  Min;10,False,-1;  Max;25,False,-1;  Edge Length;16,False,-1;  Max Displacement;25,False,-1;Write Depth;0;  Early Z;0;Vertex Position,InvertActionOnDeselection;0;0;6;False;True;True;True;True;True;False;;True;0
-Node;AmplifyShaderEditor.CommentaryNode;33;-2176,-512;Inherit;False;1024.392;100;Final;0;;0,1,0.5,1;0;0
-Node;AmplifyShaderEditor.CommentaryNode;37;-2176,-1024;Inherit;False;1023.392;100;Internal;0;;1,0.252,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;266;-2176,256;Inherit;False;1026.438;100;Features;0;;0,1,0.5,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;37;-2176,-1024;Inherit;False;1023.392;100;Internal;0;;1,0.252,0,1;0;0
+Node;AmplifyShaderEditor.CommentaryNode;33;-2176,-512;Inherit;False;1024.392;100;Final;0;;0,1,0.5,1;0;0
 WireConnection;305;0;287;0
 WireConnection;305;1;287;528
 WireConnection;305;2;287;2489
@@ -3791,4 +5252,4 @@ WireConnection;305;5;287;531
 WireConnection;305;6;287;532
 WireConnection;305;8;287;534
 ASEEND*/
-//CHKSM=203C87953F7653C110273CD6E03A23E7637E31A8
+//CHKSM=38BEFF8B3D705B5521E11BA993CDCB7DF1B6EF07

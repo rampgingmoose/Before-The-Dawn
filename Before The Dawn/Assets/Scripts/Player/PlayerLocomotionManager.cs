@@ -200,6 +200,7 @@ namespace ST
                 if(inputHandler.moveAmount > 0)
                 {
                     playerAnimatorManager.PlayTargetAnimation("Rolling", true);
+                    playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
                     Quaternion rollRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = rollRotation;
@@ -208,6 +209,7 @@ namespace ST
                 else
                 {
                     playerAnimatorManager.PlayTargetAnimation("Backstep", true);
+                    playerAnimatorManager.EraseHandIKForWeapon();
                     playerStats.TakeStaminaDamage(dodgeStaminaCost);
                 }
             }
@@ -320,6 +322,7 @@ namespace ST
                     moveDirection = cameraObject.forward * inputHandler.vertical;
                     moveDirection += cameraObject.right * inputHandler.horizontal;
                     playerAnimatorManager.PlayTargetAnimation("Jump", true);
+                    playerAnimatorManager.EraseHandIKForWeapon();
                     moveDirection.y = 0;
                     Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = jumpRotation;

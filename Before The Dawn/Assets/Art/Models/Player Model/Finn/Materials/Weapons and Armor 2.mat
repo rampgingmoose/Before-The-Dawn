@@ -80,6 +80,18 @@ Material:
         m_Texture: {fileID: 2800000, guid: 0d3f2c3587e8a444c99ceb250d06f1e2, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
     - Vector1_8BF1E72F: 2
     - Vector1_E447F031: -1
@@ -90,8 +102,11 @@ Material:
     - _CelExtraEnabled: 1
     - _CelNumSteps: 3
     - _CelPrimaryMode: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
@@ -159,7 +174,7 @@ Material:
     - _ColorDimExtra: {r: 0.4716981, g: 0.43342826, b: 0.43342826, a: 1}
     - _ColorDimSteps: {r: 1, g: 1, b: 1, a: 1}
     - _ColorGradient: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 1, g: 0.7226891, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 0.48098168, b: 0, a: 1}
     - _FlatRimColor: {r: 3.2490096, g: 3.2490096, b: 3.2490096, a: 1}
     - _FlatSpecularColor: {r: 1.0592737, g: 1.0592737, b: 1.0592737, a: 1}
     - _L1_color: {r: 1, g: 1, b: 1, a: 0}
@@ -181,4 +196,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 2
+  version: 4

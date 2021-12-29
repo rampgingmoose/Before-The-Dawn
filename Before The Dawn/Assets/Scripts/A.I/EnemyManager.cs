@@ -33,8 +33,9 @@ namespace ST
         public bool isPhaseShifting;
         public float comboLikelyHood;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             enemyAnimatorHandler = GetComponent<EnemyAnimatorManager>();
             enemyStatsManager = GetComponent<EnemyStatsManager>();
             enemyLocomotionManager = GetComponent<EnemyLocomotionManager>();
@@ -55,6 +56,8 @@ namespace ST
             HandleRecoveryTimer();
             HandleStateMachine();
 
+            isUsingLeftHand = enemyAnimatorHandler.animator.GetBool("isUsingLeftHand");
+            isUsingRightHand = enemyAnimatorHandler.animator.GetBool("isUsingRightHand");
             isRotatingWithRootMotion = enemyAnimatorHandler.animator.GetBool("isRotatingWithRootMotion");
             isInteracting = enemyAnimatorHandler.animator.GetBool("isInteracting");
             isPhaseShifting = enemyAnimatorHandler.animator.GetBool("isPhaseShifting");
@@ -64,8 +67,9 @@ namespace ST
             enemyAnimatorHandler.animator.SetBool("isDead", enemyStatsManager.isDead);
         }
 
-        public void FixedUpdate()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             enemyFXManager.HandleAllBuildUpEffects();
         }
 

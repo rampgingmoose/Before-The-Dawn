@@ -97,12 +97,21 @@ namespace BoingKit
       RotationReactionUp = p.FindPropertyRelative("RotationReactionUp");
     }
 
-    public override void OnInspectorGUI()
+    protected void DrawVersion()
     {
-      serializedObject.Update();
-
       Header("Boing Kit Version " + BoingKit.Version);
       Space();
+    }
+
+    public override void OnInspectorGUI()
+    {
+      DrawVersion();
+      DrawContent();
+    }
+
+    protected virtual void DrawContent()
+    {
+      serializedObject.Update();
 
       bool useSharedParams = (SharedParams.objectReferenceValue != null);
 

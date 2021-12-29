@@ -67,7 +67,7 @@ namespace BoingKit
       base.OnEnable();
     }
 
-    public override void OnInspectorGUI()
+    protected override void DrawContent()
     {
       serializedObject.Update();
 
@@ -168,7 +168,7 @@ namespace BoingKit
       serializedObject.ApplyModifiedProperties();
 
 
-      base.OnInspectorGUI();
+      base.DrawContent();
 
 
       serializedObject.Update();

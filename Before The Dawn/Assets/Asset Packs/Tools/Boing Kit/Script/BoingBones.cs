@@ -382,6 +382,13 @@ namespace BoingKit
       Reboot();
     }
 
+    public override void OnDisable()
+    {
+      base.OnDisable();
+
+      Restore();
+    }
+
     public void RescanBoneChains()
     {
       if (BoneChains == null)
@@ -575,6 +582,8 @@ namespace BoingKit
         bone.CachedRotationLs = bone.Transform.localRotation;
         bone.CachedScaleLs = bone.Transform.localScale;
       }
+
+      CachedTransformValid = true;
     }
 
     private float m_minScale = 1.0f;
@@ -582,7 +591,7 @@ namespace BoingKit
     public override void PrepareExecute()
     {
       base.PrepareExecute();
-  
+
       // repurpose rotation effect flag for bone rotation delta back-propagation
       Params.Bits.SetBit(BoingWork.ReactorFlags.EnableRotationEffect, false);
 
@@ -606,8 +615,15 @@ namespace BoingKit
         float maxLengthFromRoot = 0.0f;
         foreach (var bone in aBone)
         {
+          // root?
           if (bone.ParentIndex < 0)
           {
+            if (!chain.LooseRoot)
+            {
+              bone.Instance.PositionSpring.Reset(bone.Transform.position);
+              bone.Instance.RotationSpring.Reset(bone.Transform.rotation);
+            }
+
             bone.LengthFromRoot = 0.0f;
             continue;
           }
@@ -733,7 +749,7 @@ namespace BoingKit
       }
     }
 
-    public void AccumulateTarget(ref BoingEffector.Params effector)
+    public void AccumulateTarget(ref BoingEffector.Params effector, float dt)
     {
       for (int iChain = 0; iChain < BoneData.Length; ++iChain)
       {
@@ -750,13 +766,13 @@ namespace BoingKit
         {
           if (chain.ParamsOverride == null)
           {
-            bone.Instance.AccumulateTarget(ref Params, ref effector);
+            bone.Instance.AccumulateTarget(ref Params, ref effector, dt);
           }
           else
           {
             Bits32 bits = chain.ParamsOverride.Params.Bits;
             chain.ParamsOverride.Params.Bits = Params.Bits;
-            bone.Instance.AccumulateTarget(ref chain.ParamsOverride.Params, ref effector);
+            bone.Instance.AccumulateTarget(ref chain.ParamsOverride.Params, ref effector, dt);
             chain.ParamsOverride.Params.Bits = bits;
           }
         }
@@ -787,8 +803,13 @@ namespace BoingKit
       }
     }
 
-    public new void Restore()
+    public override void Restore()
     {
+      //base.Restore();
+
+      if (!CachedTransformValid)
+        return;
+
       for (int iChain = 0; iChain < BoneData.Length; ++iChain)
       {
         var chain = BoneChains[iChain];

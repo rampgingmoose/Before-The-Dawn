@@ -9,6 +9,7 @@ namespace ST
         public BoxCollider blockingCollider;
 
         public float blockingPhysicalDamageAbsorption;
+        public float blockingFireDamageAbsorption;
 
         private void Awake()
         {
@@ -19,7 +20,8 @@ namespace ST
         {
             if (weapon != null)
             {
-                blockingPhysicalDamageAbsorption = weapon.physicalDamageAbsoption;
+                blockingPhysicalDamageAbsorption = weapon.physicalDamageAbsorption;
+                blockingFireDamageAbsorption = weapon.fireDamageAbsorption;
             }
         }
 

@@ -21,8 +21,8 @@ namespace BoingKit
     {
       EditorGUILayout.LabelField
       (
-        new GUIContent() { text = label }, 
-        new GUIStyle() { fontStyle = FontStyle.Bold }
+        new GUIContent() { text = label },
+        new GUIStyle("label") { fontStyle = FontStyle.Bold }
       );
     }
 

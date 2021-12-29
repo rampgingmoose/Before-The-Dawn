@@ -6,6 +6,10 @@ namespace ST
 {
     public class CharacterStatsManager : MonoBehaviour
     {
+        AnimatorManager animatorManager;
+        [Header("Team I.D")]
+        public int teamIDNumber = 0;
+
         public int healthLevel = 10;
         public int maxHealth;
         public int currentHealth;
@@ -23,13 +27,18 @@ namespace ST
         public int soulsAwardedOnDeath = 50;
 
         [Header("Poise")]
-        public float totalPoiseDefense; //The TOTAL poise that will be calculated after you've taken damage
+        public float totalPoiseDefense; //The TOTAL poise that will be calculated after you've taken physicalDamage
         public float offensivePoiseBonus; //The poise you GAIN during any an attack with a weapon
         public float armorPoiseBonus; //The poise you GAIN from wearing what ever armor you have equipped
         public float totalPoiseResetTime = 15;
         public float poiseResetTimer = 0;
 
         public bool isDead;
+
+        protected virtual void Awake()
+        {
+            animatorManager = GetComponent<AnimatorManager>();
+        }
 
         protected virtual void Update()
         {
@@ -41,14 +50,32 @@ namespace ST
             totalPoiseDefense = armorPoiseBonus;
         }
 
-        public virtual void TakeDamage(int damage, string damageAnimation = "Damage_01")
+        public virtual void TakeDamage(int physicalDamage, int fireDamage, string damageAnimation = "Damage_01")
         {
-            currentHealth = currentHealth - damage;
+            if (isDead)
+                return;
+
+            animatorManager.EraseHandIKForWeapon();
+
+            float finalDamage = physicalDamage + fireDamage;
+
+            currentHealth = Mathf.RoundToInt(currentHealth - finalDamage);
+
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                isDead = true;
+            }
         }
 
-        public virtual void TakeDamageNoAnimation(int damage)
+        public virtual void TakeDamageNoAnimation(int physicalDamage, int fireDamage)
         {
-            currentHealth = currentHealth - damage;
+            if (isDead)
+                return;
+
+            float finalDamage = physicalDamage + fireDamage;
+
+            currentHealth = Mathf.RoundToInt(currentHealth - finalDamage);
 
             if (currentHealth <= 0)
             {
