@@ -66,7 +66,7 @@ namespace UnityEditor
       public static string forwardText = "Forward Rendering Options";
       public static string renderingMode = "Rendering Mode";
       public static string advancedText = "Advanced Options";
-      public static GUIContent emissiveWarning = new GUIContent("Emissive value is animated but the material has not been configured to support emissive. Please make sure the material itself has some amount of emissive.");
+      public static GUIContent emissiveWarning = new GUIContent("Emissive value is animated but the Mat has not been configured to support emissive. Please make sure the Mat itself has some amount of emissive.");
       public static readonly string[] blendNames = Enum.GetNames(typeof(BlendMode));
     }
 
@@ -150,7 +150,7 @@ namespace UnityEditor
       Material material = materialEditor.target as Material;
 
       // Make sure that needed setup (ie keywords/renderqueue) are set up if we're switching some existing
-      // material to a standard shader.
+      // Mat to a standard shader.
       // Do this before any GUI code has been issued to prevent layout issues in subsequent GUILayout statements (case 780071)
       if (m_FirstTimeApply)
       {
@@ -166,7 +166,7 @@ namespace UnityEditor
       // Use default labelWidth
       EditorGUIUtility.labelWidth = 0f;
 
-      // Detect any changes to the material
+      // Detect any changes to the Mat
       EditorGUI.BeginChangeCheck();
       {
         BlendModePopup();
@@ -226,7 +226,7 @@ namespace UnityEditor
 
     public override void AssignNewShaderToMaterial(Material material, Shader oldShader, Shader newShader)
     {
-      // _Emission property is lost after assigning Standard shader to the material
+      // _Emission property is lost after assigning Standard shader to the Mat
       // thus transfer it before assigning the new shader
       if (material.HasProperty("_Emission"))
       {
@@ -395,8 +395,8 @@ namespace UnityEditor
 
     static void SetMaterialKeywords(Material material, WorkflowMode workflowMode)
     {
-      // Note: keywords must be based on Material value not on MaterialProperty due to multi-edit & material animation
-      // (MaterialProperty value might come from renderer material property block)
+      // Note: keywords must be based on Material value not on MaterialProperty due to multi-edit & Mat animation
+      // (MaterialProperty value might come from renderer Mat property block)
       SetKeyword(material, "_NORMALMAP", material.GetTexture("_BumpMap") || material.GetTexture("_DetailNormalMap"));
       if (workflowMode == WorkflowMode.Specular)
         SetKeyword(material, "_SPECGLOSSMAP", material.GetTexture("_SpecGlossMap"));
@@ -405,9 +405,9 @@ namespace UnityEditor
       SetKeyword(material, "_PARALLAXMAP", material.GetTexture("_ParallaxMap"));
       SetKeyword(material, "_DETAIL_MULX2", material.GetTexture("_DetailAlbedoMap") || material.GetTexture("_DetailNormalMap"));
 
-      // A material's GI flag internally keeps track of whether emission is enabled at all, it's enabled but has no effect
+      // A Mat's GI flag internally keeps track of whether emission is enabled at all, it's enabled but has no effect
       // or is enabled and may be modified at runtime. This state depends on the values of the current flag and emissive color.
-      // The fixup routine makes sure that the material is in the correct state if/when changes are made to the mode or color.
+      // The fixup routine makes sure that the Mat is in the correct state if/when changes are made to the mode or color.
       MaterialEditor.FixupEmissiveFlag(material);
       bool shouldEmissionBeEnabled = (material.globalIlluminationFlags & MaterialGlobalIlluminationFlags.EmissiveIsBlack) == 0;
       SetKeyword(material, "_EMISSION", shouldEmissionBeEnabled);

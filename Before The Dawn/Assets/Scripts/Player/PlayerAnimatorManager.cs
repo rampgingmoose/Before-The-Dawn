@@ -90,12 +90,12 @@ namespace ST
 
         public void isAttacking()
         {
-            characterManager.isAttacking = true;
+            characterStatsManager.isAttacking = true;
         }
 
         public void DisableIsAttacking()
         {
-            characterManager.isAttacking = false;
+            characterStatsManager.isAttacking = false;
         }
 
         public void DisableCollision()

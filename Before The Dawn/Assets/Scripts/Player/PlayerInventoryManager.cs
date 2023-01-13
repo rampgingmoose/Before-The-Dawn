@@ -70,5 +70,35 @@ namespace ST
                 characterWeaponSlotManager.LoadWeaponOnSlot(characterWeaponSlotManager.unarmedWeapon, true);
             }
         }
+
+        public void ChangeConsumableItem()
+        {
+            currentConsumableItemIndex = currentConsumableItemIndex + 1;
+
+            if (currentConsumableItemIndex == 0 && weaponsInLeftHandSlots[0] != null)
+            {
+                currentConsumableItem = consumableItemsInQuickSlots[currentConsumableItemIndex];
+                characterWeaponSlotManager.LoadConsumableItemOnQuickSlot(consumableItemsInQuickSlots[currentConsumableItemIndex]);
+            }
+            else if (currentConsumableItemIndex == 0 && consumableItemsInQuickSlots[0] == null)
+            {
+                currentConsumableItemIndex = currentConsumableItemIndex + 1;
+            }
+            else if (currentConsumableItemIndex == 1 && consumableItemsInQuickSlots[1] != null)
+            {
+                currentConsumableItem = consumableItemsInQuickSlots[currentConsumableItemIndex];
+                characterWeaponSlotManager.LoadConsumableItemOnQuickSlot(consumableItemsInQuickSlots[currentConsumableItemIndex]);
+            }
+            else
+            {
+                currentConsumableItemIndex = currentConsumableItemIndex + 1;
+            }
+
+            if (currentConsumableItemIndex > consumableItemsInQuickSlots.Length - 1)
+            {
+                currentConsumableItemIndex = -1;
+                characterWeaponSlotManager.LoadConsumableItemOnQuickSlot(consumableItemsInQuickSlots[currentConsumableItemIndex]);
+            }
+        }
     }
 }

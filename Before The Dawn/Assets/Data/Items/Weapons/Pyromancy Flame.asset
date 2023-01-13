@@ -16,11 +16,11 @@ MonoBehaviour:
   itemName: Pyromancy Flame
   modelPrefab: {fileID: 5803906018583723761, guid: ad41d31e28d94fb4d91321e89bbcde42, type: 3}
   isUnarmed: 0
-  weaponController: {fileID: 0}
+  weaponController: {fileID: 22100000, guid: 7616aca7e29c9cb448b42e68a68000e5, type: 2}
   offHandIdleAnimation: Left_Arm_Idle_01
   weaponType: 0
-  physicalDamage: 25
-  fireDamage: 0
+  physicalDamage: 0
+  fireDamage: 25
   CriticalDamageMultiplier: 4
   poiseBreak: 0
   offensivePoiseBonus: 0

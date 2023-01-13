@@ -45,7 +45,7 @@ namespace ST
             isFiringSpell = animator.GetBool("isFiringSpell");
             animator.SetBool("isTwoHanding", isTwoHanding);
             animator.SetBool("isBlocking", isBlocking);
-            animator.SetBool("isAttacking", isAttacking);
+            animator.SetBool("isAttacking", playerStatsManager.isAttacking);
             animator.SetBool("isInAir", isInAir);
             animator.SetBool("isDead", playerStatsManager.isDead);            
 
@@ -95,8 +95,6 @@ namespace ST
                 playerLocomotion.inAirTimer = playerLocomotion.inAirTimer + Time.deltaTime;
             }
         }
-
-        #region Player Interactions
 
         public void CheckForInteractableObject()
         {
@@ -153,8 +151,6 @@ namespace ST
 
             playerAnimatorManager.PlayTargetAnimation("Pass Through Fog", true);
         }
-
-        #endregion
     }
 }
 

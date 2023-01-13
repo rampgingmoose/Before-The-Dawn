@@ -19,7 +19,7 @@ namespace ST
         public int baseDamage = 200;
         public int explosiveDamage = 50;
 
-        public override void Start()
+        public override void Awake()
         {
             currentItemAmount = maxItemAmount;
         }

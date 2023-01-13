@@ -70,6 +70,11 @@ namespace ST
             {
                 enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             }
+
+            if (currentHealth <= 0)
+            {
+                HandleDeath();
+            }
         }
 
         public override void TakePoisonDamage(int damage)
@@ -99,7 +104,7 @@ namespace ST
             enemyAnimatorHandler.PlayTargetAnimation("Guard Break", true);
         }
 
-        public override void TakeDamage(int physicalDamage, int fireDamage, string damageAnimation = "Damage_01")
+        public override void TakeDamage(int physicalDamage, int fireDamage, string currentDamageAnimation)
         {
             if (isDead)
                 return;
@@ -110,7 +115,7 @@ namespace ST
             }
             else
             {
-                base.TakeDamage(physicalDamage, fireDamage, damageAnimation = "Damage_01");
+                base.TakeDamage(physicalDamage, fireDamage, currentDamageAnimation);
                 attackIsInterrupted = true;
             }
 
@@ -123,7 +128,7 @@ namespace ST
                 enemyBossManager.UpdateBossHealthBar(currentHealth, maxHealth);
             }
 
-            enemyAnimatorHandler.PlayTargetAnimation(damageAnimation, true);
+            enemyAnimatorHandler.PlayTargetAnimation(currentDamageAnimation, true);
 
             if(currentHealth <= 0)
             {

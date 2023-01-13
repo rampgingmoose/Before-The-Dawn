@@ -6,6 +6,8 @@ namespace ST
 {
     public class ConsumableItem : Item
     {
+        public ConsumableItem currentItem;
+
         [Header("Item Quantity")]
         public int maxItemAmount = 10;
         public int currentItemAmount;
@@ -19,7 +21,7 @@ namespace ST
         public string consumeAnimation;
         public bool isInteracting;
 
-        public virtual void Start()
+        public virtual void Awake()
         {
             currentItemAmount = maxItemAmount;
         }

@@ -28,7 +28,6 @@ namespace ST
         public bool isParrying;
         public bool canBeParried;
         public bool isBlocking;
-        public bool isAttacking;
         public bool isInvulnerable;
 
         [Header("Movement Flags")]

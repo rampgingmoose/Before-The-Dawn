@@ -38,7 +38,7 @@ namespace ST
                 {
                     if (character.teamIDNumber != teamIDNumber)
                     {
-                        character.TakeDamage(0, explosionContactDamage);
+                        character.TakeDamage(0, explosionContactDamage, currentDamageAnimation);
                     }
                 }
 
@@ -59,7 +59,7 @@ namespace ST
                 {
                     if (character.teamIDNumber != teamIDNumber)
                     {
-                        character.TakeDamage(0, explosionSplashDamage);
+                        character.TakeDamage(0, explosionSplashDamage, currentDamageAnimation);
                     }
                 }
             }

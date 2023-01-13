@@ -268,7 +268,7 @@ Transform:
   m_GameObject: {fileID: 2429290977662227251}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
   m_Children:
   - {fileID: 3303609966690340792}
   - {fileID: 9215892335664862934}
@@ -502,9 +502,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterManager: {fileID: 0}
   enabledDamageColliderOnStartUp: 0
+  teamIDNumber: 0
   poiseBreak: 0
   offensivePoiseBonus: 0
-  currentWeaponDamage: 25
+  physicalDamage: 0
+  fireDamage: 0
+  magicDamage: 0
+  lightningDamage: 0
+  darkDamage: 0
 --- !u!1 &5561753730967196743
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,7 +534,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5561753730967196743}
   m_LocalRotation: {x: -0.7303177, y: -0.38547346, z: 0.41065258, w: -0.38653678}
-  m_LocalPosition: {x: -1.238, y: 0.749, z: -0.133}
+  m_LocalPosition: {x: -0.61, y: 0.322, z: -0.081}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3097706788471835017}

@@ -8,6 +8,7 @@ namespace ST
     {
         public CombatStanceState combatStanceState;
         public RotateTowardsTargetState rotateTowardsTargetState;
+        public IdleState idleState;
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
@@ -22,6 +23,11 @@ namespace ST
 
             if (enemyManager.isInteracting)
                 return this;
+
+            if (enemyManager.currentTarget.isDead)
+            {
+                return idleState;
+            }
 
             if (enemyManager.isPerformingAction)
             {

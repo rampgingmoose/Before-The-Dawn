@@ -20,6 +20,7 @@ namespace ST
         private void Awake()
         {
             rigidBody = GetComponent<Rigidbody>();
+            spellTarget = GetComponent<CharacterStatsManager>();
         }
 
         public void Start()
@@ -43,7 +44,7 @@ namespace ST
 
                 if (spellTarget != null && spellTarget.teamIDNumber != teamIDNumber)
                 {
-                    spellTarget.TakeDamage(0, fireDamage);
+                    spellTarget.TakeDamage(0, fireDamage, currentDamageAnimation);
                 }
 
                 hasCollided = true;

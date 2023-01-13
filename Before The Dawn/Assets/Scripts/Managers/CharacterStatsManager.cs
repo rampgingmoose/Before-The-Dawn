@@ -26,6 +26,8 @@ namespace ST
 
         public int soulsAwardedOnDeath = 50;
 
+        public bool isAttacking;
+
         [Header("Poise")]
         public float totalPoiseDefense; //The TOTAL poise that will be calculated after you've taken physicalDamage
         public float offensivePoiseBonus; //The poise you GAIN during any an attack with a weapon
@@ -50,7 +52,7 @@ namespace ST
             totalPoiseDefense = armorPoiseBonus;
         }
 
-        public virtual void TakeDamage(int physicalDamage, int fireDamage, string damageAnimation = "Damage_01")
+        public virtual void TakeDamage(int physicalDamage, int fireDamage, string currentDamageAnimation)
         {
             if (isDead)
                 return;

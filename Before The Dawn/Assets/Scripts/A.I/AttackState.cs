@@ -60,6 +60,9 @@ namespace ST
 
         private void AttackTargetWithCombo(EnemyAnimatorManager enemyAnimatorManager, EnemyManager enemyManager)
         {
+            if (enemyManager.canBeRiposted)
+                return;
+
             enemyAnimatorManager.animator.SetBool("isUsingRightHand", currentAttack.isRightHandedAction);
             enemyAnimatorManager.animator.SetBool("isUsingLeftHand", !currentAttack.isRightHandedAction);
             willDoComboOnNextAttack = false;
@@ -105,5 +108,6 @@ namespace ST
                 }
             }
         }
+
     }
 }

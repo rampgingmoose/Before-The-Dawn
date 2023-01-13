@@ -2,7 +2,7 @@
 
 namespace FlatKit {
 public class Buoyancy : MonoBehaviour {
-    [Tooltip("The object that contains a Water material.")]
+    [Tooltip("The object that contains a Water Mat.")]
     public Transform water;
 
     [Space][Tooltip("Range of probing wave height for buoyancy rotation.")]
@@ -11,7 +11,7 @@ public class Buoyancy : MonoBehaviour {
     [Tooltip("Max height of buoyancy going up and down.")]
     public float amplitude = 1f;
 
-    [Space, Tooltip("Optionally provide a separate material to get the wave parameters.")]
+    [Space, Tooltip("Optionally provide a separate Mat to get the wave parameters.")]
     public Material overrideWaterMaterial;
 
     private Material _material;

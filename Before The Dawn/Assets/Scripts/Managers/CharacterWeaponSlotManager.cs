@@ -11,7 +11,9 @@ namespace ST
         protected CharacterStatsManager characterStatsManager;
         protected CharacterFXManager characterFXManager;
         protected AnimatorManager animatorManager;
-        
+
+        [Header("Consumable Item")]
+        public ConsumableItem quickSlot;
 
         [Header("Unarmed Weapon")]
         public WeaponItem unarmedWeapon;
@@ -138,6 +140,7 @@ namespace ST
         protected virtual void LoadRightWeaponDamageCollider()
         {
             rightHandDamageCollider = rightHandSlot.currentWeaponModel.GetComponentInChildren<DamageCollider>();
+            attackingWeapon = rightHandSlot.currentWeapon;
 
             rightHandDamageCollider.physicalDamage = characterInventoryManager.rightWeapon.physicalDamage;
             rightHandDamageCollider.fireDamage = characterInventoryManager.rightWeapon.fireDamage;
@@ -189,6 +192,14 @@ namespace ST
         public virtual void ResetWeaponAttackingPoiseBonus()
         {
             characterStatsManager.totalPoiseDefense = characterStatsManager.armorPoiseBonus;
+        }
+
+        public virtual void LoadConsumableItemOnQuickSlot(ConsumableItem consumableItem)
+        {
+            if (consumableItem != null)
+            {
+                quickSlot.currentItem = consumableItem;
+            }
         }
     }
 }

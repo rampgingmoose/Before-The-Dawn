@@ -73,14 +73,14 @@ namespace ST
             return maxFocus;
         }
 
-        public override void TakeDamage(int physicalDamage, int fireDamage, string damageAnimation = "Damage_01")
+        public override void TakeDamage(int physicalDamage, int fireDamage, string currentDamageAnimation)
         {
             if (playerManager.isInvulnerable)
                 return;
 
-            base.TakeDamage(physicalDamage, fireDamage);
+            base.TakeDamage(physicalDamage, fireDamage, currentDamageAnimation);
             healthBar.SetCurrentHealth(currentHealth);
-            playerAnimatorManager.PlayTargetAnimation(damageAnimation, true);
+            playerAnimatorManager.PlayTargetAnimation(currentDamageAnimation, true);
 
             if (currentHealth <= 0)
             {

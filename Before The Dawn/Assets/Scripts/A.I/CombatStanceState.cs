@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace ST
 {
@@ -9,10 +10,19 @@ namespace ST
         public AttackState attackState;
         public EnemyAttackAction[] enemyAttacks;
         public PursueTargetState pursueTargetState;
+        public IdleState idleState;
+
+        DamageCollider weaponCollider;
 
         protected bool randomDestinationSet = false;
         protected float verticalMovementValue = 0;
         protected float horizontalMovementValue = 0;
+        protected float rollTimer;
+
+        protected float MinDashDistance = 5f;
+        protected float MaxDashDistance = 12f;
+        protected float DashSpeed = 4f;
+        protected float dashAttackTimer;
 
         public override State Tick(EnemyManager enemyManager, EnemyStatsManager enemyStats, EnemyAnimatorManager enemyAnimatorManager)
         {
@@ -28,6 +38,11 @@ namespace ST
                 return this;
             }
 
+            if (enemyManager.currentTarget.isDead)
+            {
+                return idleState;
+            }
+
             if (distanceFromTarget > enemyManager.maximumAggroRadius)
             {
                 return pursueTargetState;
@@ -40,6 +55,21 @@ namespace ST
             }
 
             HandleRotateTowardsTarget(enemyManager);
+           
+            HandleDodgingAttack(enemyManager, enemyAnimatorManager);
+
+            //if (!enemyManager.isInteracting && distanceFromTarget >= MinDashDistance && distanceFromTarget <= MaxDashDistance)
+            //{
+            //    if (dashAttackTimer <= 0)
+            //    {
+            //        enemyAnimatorManager.PlayTargetAnimation("Start_Dash_Attack", true);
+            //        dashAttackTimer = 5f;
+            //    }
+            //    else
+            //    {
+            //        dashAttackTimer -= Time.deltaTime;
+            //    }
+            //}
 
             if (enemyManager.currentRecoveryTime <= 0 && attackState.currentAttack != null)
             {
@@ -53,6 +83,64 @@ namespace ST
 
             return this;
         }
+
+        protected void HandleDodgingAttack(EnemyManager enemyManager, EnemyAnimatorManager enemyAnimatorManager)
+        {
+            if (!enemyManager.isInteracting && enemyManager.currentTarget.isAttacking)
+            {
+                float dodgeChance = Random.Range(0, 100);
+
+                if (dodgeChance <= 20 && rollTimer <= 0)
+                {
+                    enemyAnimatorManager.PlayTargetAnimation("Backstep", true);
+                    rollTimer = 1f;
+                }
+                else
+                {
+                    rollTimer -= Time.deltaTime;
+                }
+            }
+        }
+
+
+        //protected IEnumerator DashAttack(EnemyManager enemyManager, EnemyAnimatorManager enemyAnimatorManager)
+        //{
+        //    enemyManager.navmeshAgent.enabled = false;
+        //    enemyManager.canRotate = false;
+
+        //    Vector3 startingPos = enemyManager.transform.position;
+
+        //    float waitTime = 1.4f;
+        //    enemyAnimatorManager.Anim.SetBool("isUsingAbility", true);
+
+        //    enemyAnimatorManager.PlayTargetAnimation("Start_Dash_Attack", true);
+
+        //    yield return new WaitForSeconds(waitTime);
+
+        //    for (float time = 0; time < 1; time += Time.deltaTime * DashSpeed)
+        //    {
+        //        enemyManager.GetComponentInChildren<DamageCollider>().EnableDamageCollider();
+        //        Vector3 enemyPosOffset = enemyManager.currentTarget.transform.position - new Vector3(0, 0, 1);
+
+        //        enemyManager.transform.position = Vector3.Lerp(startingPos, enemyPosOffset, time);
+        //        enemyManager.transform.rotation = Quaternion.Slerp(enemyManager.transform.rotation, Quaternion.LookRotation(enemyManager.currentTarget.transform.position - enemyManager.transform.position), time);
+
+        //        yield return null;
+        //    }
+
+        //    enemyAnimatorManager.Anim.SetBool("isUsingAbility", false);
+        //    enemyManager.navmeshAgent.enabled = true;
+        //    enemyManager.canRotate = true;
+        //    //enemyManager.GetComponentInChildren<DamageCollider>().DisableDamageCollider();
+
+        //    yield return new WaitForSeconds(waitTime);
+
+        //    if (NavMesh.SamplePosition(enemyManager.currentTarget.transform.position, out NavMeshHit hit, 1f, enemyManager.navmeshAgent.areaMask))
+        //    {
+        //        enemyManager.navmeshAgent.Warp(hit.position);
+        //        enemyManager.currentState = this;
+        //    }
+        //}
 
         protected void HandleRotateTowardsTarget(EnemyManager enemyManager)
         {

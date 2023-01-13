@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02467200fbaa20f4c891d05baac02945, type: 3}
   m_Name: FireBomb
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: a7e021264ad025741af896669fd82b92, type: 3}
   itemName: Fire Bomb
-  maxItemAmount: 100
-  currentItemAmount: 100
+  currentItem: {fileID: 0}
+  maxItemAmount: 10
+  currentItemAmount: 7
   itemModel: {fileID: 8436975254451734931, guid: 6e8c8b08dc1ac6d46b6164d4d76755d7, type: 3}
   isHealthPotion: 0
   isFocusPotion: 0

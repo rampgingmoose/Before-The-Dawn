@@ -34,6 +34,7 @@ namespace ST
         public LayerMask groundLayer;
         public float inAirTimer;
 
+
         [Header("Movement Stats")]
         [SerializeField]
         float movementSpeed = 5;
@@ -50,6 +51,12 @@ namespace ST
         [SerializeField]
         int dodgeStaminaCost = 15; //used for Roll and Backstep Animations
         int sprintStaminaCost = 1;
+
+        [Header("Jump Speeds")]
+        public float gravityIntensity = 15;
+        public float jumpHeight = 3;
+
+        private bool isJumping;
 
         private void Awake()
         {
@@ -271,7 +278,7 @@ namespace ST
                     playerManager.isGrounded = false;
                 }
 
-                if(playerManager.isInAir == false)
+                if (playerManager.isInAir == false && isJumping)
                 {
                     if(playerManager.isInteracting == false)
                     {
@@ -323,7 +330,10 @@ namespace ST
                     moveDirection += cameraObject.right * inputHandler.horizontal;
                     playerAnimatorManager.PlayTargetAnimation("Jump", true);
                     playerAnimatorManager.EraseHandIKForWeapon();
-                    moveDirection.y = 0;
+                    float jumpingVelocity = Mathf.Sqrt(-2 * gravityIntensity * jumpHeight);
+                    Vector3 playerVelocity = moveDirection;
+                    playerVelocity.y = jumpingVelocity;
+                    rigidBody.velocity = playerVelocity;
                     Quaternion jumpRotation = Quaternion.LookRotation(moveDirection);
                     myTransform.rotation = jumpRotation;
                 }

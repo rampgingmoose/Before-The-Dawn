@@ -15,9 +15,11 @@ namespace ST
 
         public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[1];
         public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[1];
+        public ConsumableItem[] consumableItemsInQuickSlots = new ConsumableItem[1];
 
         public int currentRightWeaponIndex = -1;
         public int currentLeftWeaponIndex = -1;
+        public int currentConsumableItemIndex = -1;
 
         private void Awake()
         {

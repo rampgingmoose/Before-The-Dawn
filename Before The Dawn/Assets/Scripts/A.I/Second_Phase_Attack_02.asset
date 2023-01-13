@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Second_Phase_Attack_02
   m_EditorClassIdentifier: 
   actionAnimation: OH_Heavy_Attack_02
+  isRightHandedAction: 1
+  isLeftHandedAction: 0
   canCombo: 0
   comboAction: {fileID: 0}
-  attackScore: 1
+  attackScore: 0
   recoveryTime: 3
   maximumAttackAngle: 35
   minimumAttackAngle: -35
   minimumDistanceNeededToAttack: 0.1
-  maximumDistanceNeededToAttack: 5
+  maximumDistanceNeededToAttack: 2

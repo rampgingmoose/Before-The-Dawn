@@ -20,7 +20,7 @@ MonoBehaviour:
   offHandIdleAnimation: Left_Arm_Idle_01
   weaponType: 3
   physicalDamage: 25
-  fireDamage: 25
+  fireDamage: 0
   CriticalDamageMultiplier: 4
   poiseBreak: 100
   offensivePoiseBonus: 100

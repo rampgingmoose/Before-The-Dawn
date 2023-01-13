@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5694d00c680da054b83fa48bcaddecdb, type: 3}
   m_Name: Fireball Spell
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 0}
-  itemName: 
+  itemIcon: {fileID: 21300000, guid: 51c9acee45c3dbd4cbba7ab8ae77fbfb, type: 3}
+  itemName: Fireball
   spellWarmUpFX: {fileID: 1207433386840518, guid: 9af958dc284d6b14d8fec3f6396edf9b, type: 3}
   spellCastFX: {fileID: 1639982146861332328, guid: 6930f315d6f92ed4f9f7a4fe7a0e6d72, type: 3}
   spellAnimation: Spell_Throw_Start

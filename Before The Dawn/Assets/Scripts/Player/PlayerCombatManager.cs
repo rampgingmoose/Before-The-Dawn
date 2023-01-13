@@ -15,6 +15,7 @@ namespace ST
         PlayerInventoryManager playerInventory;
         CameraHandler cameraHandler;
         PlayerFXManager playerFXManager;
+        WeaponHolderSlot weaponHolderSlot;
 
         [Header("Attack Animations")]
         string OH_Light_Attack_01 = "OH_Light_Attack_01";
@@ -52,6 +53,7 @@ namespace ST
             playerEquipmentManager = GetComponent<PlayerEquipmentManager>();
             cameraHandler = FindObjectOfType<CameraHandler>();
             playerFXManager = GetComponent<PlayerFXManager>();
+            weaponHolderSlot = GetComponentInChildren<WeaponHolderSlot>();
         }
 
         public void HandleWeaponCombo(WeaponItem weapon)
@@ -167,7 +169,7 @@ namespace ST
 
         //public void EndAttack()
         //{
-        //    playerAnimatorManager.animator.SetBool("isAttacking", false);
+        //    playerAnimatorManager.Anim.SetBool("isAttacking", false);
         //}
 
         public void HandleRBAction()

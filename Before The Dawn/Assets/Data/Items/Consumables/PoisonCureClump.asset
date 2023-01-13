@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 0}
   itemName: Purple Moss Clump
+  currentItem: {fileID: 11400000}
   maxItemAmount: 10
-  currentItemAmount: 10
+  currentItemAmount: 9
   itemModel: {fileID: 7701983352155731405, guid: c89a42924ea69af49b8e110da76c6378, type: 3}
   isHealthPotion: 0
   isFocusPotion: 0

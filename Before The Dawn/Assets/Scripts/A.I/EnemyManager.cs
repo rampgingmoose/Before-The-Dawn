@@ -65,6 +65,7 @@ namespace ST
             canDoCombo = enemyAnimatorHandler.animator.GetBool("canDoCombo");
             canRotate = enemyAnimatorHandler.animator.GetBool("canRotate");
             enemyAnimatorHandler.animator.SetBool("isDead", enemyStatsManager.isDead);
+            enemyAnimatorHandler.animator.GetBool("isUsingAbility");
         }
 
         protected override void FixedUpdate()

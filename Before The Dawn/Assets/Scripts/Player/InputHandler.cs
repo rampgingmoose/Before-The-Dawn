@@ -84,6 +84,7 @@ namespace ST
                 inputActions.PlayerActions.LB.performed += i => lb_Input = true;
                 inputActions.PlayerActions.LB.canceled += i => lb_Input = false;
                 inputActions.PlayerActions.LT.performed += i => lt_Input = true;
+                inputActions.QuickSlots.DPadUp.performed += i => d_Pad_Up = true;
                 inputActions.QuickSlots.DPadRight.performed += i => d_Pad_Right = true;
                 inputActions.QuickSlots.DPadLeft.performed += i => d_Pad_Left = true;
                 inputActions.PlayerActions.A.performed += i => a_Input = true;
@@ -213,12 +214,22 @@ namespace ST
 
         private void HandleQuickSlotsInput()
         {
-            if (d_Pad_Right)
+            if (d_Pad_Up)
             {
+                playerInventoryManager.ChangeConsumableItem();
+            }
+            else if (d_Pad_Right)
+            {
+                twoHandFlag = false;
+                playerManager.isTwoHanding = false;
+                weaponSlotManager.LoadTwoHandIKTargets(false);
                 playerInventoryManager.ChangeRightWeapon();
             }
             else if (d_Pad_Left)
             {
+                twoHandFlag = false;
+                playerManager.isTwoHanding = false;
+                weaponSlotManager.LoadTwoHandIKTargets(false);
                 playerInventoryManager.ChangeLeftWeapon();
             }
         }
@@ -288,6 +299,9 @@ namespace ST
 
         public void HandleTwoHandInput()
         {
+            if (weaponSlotManager.rightHandSlot.currentWeapon.weaponType == WeaponType.PyromancyCaster)
+                return;
+
             if (y_Input)
             {
                 y_Input = false;
